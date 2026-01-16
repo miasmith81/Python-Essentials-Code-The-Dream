@@ -126,6 +126,7 @@ Again, you create a markdown cell to describe this task, and a code cell contain
    - Display the sorted DataFrame.
 
 ### **Task 8: Renaming Columns**
+
 1. **Rename columns in `df1`:**
    - Rename 'Age' to 'Employee Age' and 'Salary' to 'Employee Salary'.  Do not use `inplace=True`, because then you wouldn't be able to do Task 9.
    - Display the DataFrame with the renamed columns.

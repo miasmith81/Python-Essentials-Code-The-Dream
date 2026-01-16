@@ -81,6 +81,7 @@ print(df.groupby('Age').agg({'Score': 'mean'}))
 ## Apply Prompts (Live Coding & Troubleshooting)
 
 ### Assignment Hotspots
+
 - Confusing `.loc[]` (label-based) with `.iloc[]` (position-based)
 - Forgetting parentheses around boolean conditions with `&` or `|`
 - Not understanding merge join types

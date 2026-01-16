@@ -1,9 +1,10 @@
 -- ═══════════════════════════════════════════════════════════════════════════════
--- 📊 Week 6: SQL & Databases - Test Database Schema
+-- 📊 Week 8: SQL & Databases - Test Database Schema (SQLite)
 -- Code the Dream - Python Essentials
 -- ═══════════════════════════════════════════════════════════════════════════════
 -- This SQL file creates a complete test database for learning SQL fundamentals.
 -- Topics covered: CREATE TABLE, INSERT, SELECT, WHERE, JOIN, GROUP BY, ORDER BY
+-- NOTE: This file uses SQLite syntax, not MSSQL.
 -- ═══════════════════════════════════════════════════════════════════════════════
 
 -- ═══════════════════════════════════════════════════════════════════════════════
@@ -242,7 +243,7 @@ INNER JOIN artists ON albums.artist_id = artists.artist_id
 WHERE artists.country = 'UK';
 
 -- Query 8: Multiple JOINs - Tracks with album and artist info
-SELECT TOP 10
+SELECT
     tracks.title AS track_title,
     albums.title AS album_title,
     artists.name AS artist_name,
@@ -250,7 +251,8 @@ SELECT TOP 10
 FROM tracks
 INNER JOIN albums ON tracks.album_id = albums.album_id
 INNER JOIN artists ON albums.artist_id = artists.artist_id
-ORDER BY tracks.duration_seconds DESC;
+ORDER BY tracks.duration_seconds DESC
+LIMIT 10;
 
 -- ═══════════════════════════════════════════════════════════════════════════════
 -- SECTION 9: Aggregation Queries (GROUP BY)
