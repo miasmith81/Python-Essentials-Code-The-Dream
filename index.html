@@ -423,6 +423,78 @@
             text-decoration: underline;
         }
 
+        /* Collapsible About Section */
+        .about-creators-collapse {
+            max-width: 900px;
+            margin: 3rem auto;
+            border: 1px solid var(--accent-magenta);
+            border-radius: 12px;
+            background: var(--bg-card);
+            overflow: hidden;
+        }
+
+        .about-creators-collapse summary {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            font-family: 'Space Mono', 'IBM Plex Mono', monospace;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--accent-magenta);
+            background: var(--bg-medium);
+            transition: all 0.3s ease;
+            list-style: none;
+        }
+
+        .about-creators-collapse summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .about-creators-collapse summary::before {
+            content: '▶';
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+
+        .about-creators-collapse[open] summary::before {
+            transform: rotate(90deg);
+        }
+
+        .about-creators-collapse summary:hover {
+            background: var(--bg-light);
+        }
+
+        .about-creators-collapse .about-content {
+            padding: 1.5rem 2rem 2rem;
+            text-align: center;
+        }
+
+        .about-creators-collapse .about-content p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 1.05rem;
+            margin: 0 auto;
+        }
+
+        .about-creators-collapse .about-content p + p {
+            margin-top: 1rem;
+        }
+
+        .about-creators-collapse .about-content a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .about-creators-collapse .about-content a:hover {
+            text-decoration: underline;
+            text-shadow: 0 0 8px var(--accent-cyan);
+        }
+
         /* Achievement Popup */
         .achievement-popup {
             position: fixed;
@@ -521,19 +593,6 @@
                 <strong>2. Practice in Notebooks:</strong> Download or open notebooks in Colab for hands-on coding.<br>
                 <strong>3. Group Activities:</strong> Complete session 2 notebooks with peers for collaborative learning.<br>
                 <strong>4. Track Progress:</strong> Mark weeks complete to unlock achievements and track your journey!
-            </p>
-        </div>
-
-        <div class="setup-section" id="about-creators">
-            <h2><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 8px;"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>About the Creators</h2>
-            <p style="color: var(--text-secondary); line-height: 2; max-width: 900px; margin: 0 auto; font-size: 1.1rem; text-align: center;">
-                This enhanced curriculum for the Returned Citizen community was created by 
-                <a href="https://www.straydog-syndications-llc.com/" target="_blank" rel="noopener" style="color: var(--accent-cyan); text-decoration: none; font-weight: 500; transition: all 0.3s;">StrayDog Syndications LLC</a> — 
-                <a href="https://github.com/StrayDogSyn" target="_blank" rel="noopener" style="color: var(--accent-cyan); text-decoration: none; font-weight: 500; transition: all 0.3s;">Eric 'Hunter' Petross</a> &amp; 
-                <a href="https://github.com/miasmith81" target="_blank" rel="noopener" style="color: var(--accent-cyan); text-decoration: none; font-weight: 500; transition: all 0.3s;">Mia 'Mausi' Smith‑Petross</a>.
-            </p>
-            <p style="color: var(--text-secondary); line-height: 2; max-width: 900px; margin: 1.5rem auto 0; font-size: 1.1rem; text-align: center;">
-                Our mission is to bridge the "Digital Cliff" for justice‑impacted learners through accessible, career‑aligned education.
             </p>
         </div>
 
@@ -843,6 +902,25 @@
                 </div>
             </div>
         </div>
+
+        <!-- About the Creators (Collapsible) -->
+        <details class="about-creators-collapse" id="about-creators">
+            <summary>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle;"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                About the Creators
+            </summary>
+            <div class="about-content">
+                <p>
+                    This enhanced curriculum for the Returned Citizen community was created by 
+                    <a href="https://www.straydog-syndications-llc.com/" target="_blank" rel="noopener">StrayDog Syndications LLC</a> — 
+                    <a href="https://github.com/StrayDogSyn" target="_blank" rel="noopener">Eric 'Hunter' Petross</a> &amp; 
+                    <a href="https://github.com/miasmith81" target="_blank" rel="noopener">Mia 'Mausi' Smith‑Petross</a>.
+                </p>
+                <p>
+                    Our mission is to bridge the "Digital Cliff" for justice‑impacted learners through accessible, career‑aligned education.
+                </p>
+            </div>
+        </details>
 
         <footer class="sd-footer">
             <div class="sd-credits">
