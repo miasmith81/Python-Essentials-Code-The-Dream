@@ -278,6 +278,47 @@ body.has-navbar {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════════
+   Colab Notebook Links - Premium Styling
+   ═══════════════════════════════════════════════════════════════════════════════ */
+.colab-link {
+    position: relative;
+    border-left: 3px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.colab-link:hover {
+    border-left-color: #f9ab00;
+    background: rgba(249, 171, 0, 0.1) !important;
+}
+
+.colab-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    background: linear-gradient(135deg, #f9ab00, #ff6f00);
+    color: #000;
+    font-size: 0.7rem;
+    font-weight: 700;
+    border-radius: 50%;
+    margin-right: 0.25rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(249, 171, 0, 0.3);
+}
+
+.colab-link:hover .colab-badge {
+    transform: scale(1.15);
+    box-shadow: 0 4px 15px rgba(249, 171, 0, 0.5);
+}
+
+/* Notebooks mega dropdown - wider for better UX */
+.nav-dropdown:has(.colab-link) .dropdown-menu {
+    min-width: 320px;
+    max-height: 500px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
    Mobile Menu Toggle
    ═══════════════════════════════════════════════════════════════════════════════ */
 .navbar-toggle {

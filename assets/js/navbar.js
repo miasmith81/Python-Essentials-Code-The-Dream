@@ -65,9 +65,52 @@
         },
         {
             label: 'Notebooks',
-            url: '#notebooks-section',
             icon: '📓',
-            scrollTo: true
+            dropdown: true,
+            items: [
+                { header: 'Week 1: Intro to Python' },
+                { label: 'Session 1 - Solo Practice', url: 'https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week1/session1_intro_to_python.ipynb', external: true, colab: true },
+                { label: 'Session 2 - Group Work', url: 'https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week1/session2_intro_to_python_group.ipynb', external: true, colab: true },
+                { divider: true },
+                { header: 'Week 2: Data Structures' },
+                { label: 'Session 1 - Solo Practice', url: 'https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week2/session1_data_structures.ipynb', external: true, colab: true },
+                { label: 'Session 2 - Group Work', url: 'https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week2/session2_data_structures_group.ipynb', external: true, colab: true },
+                { divider: true },
+                { header: 'Week 3: Python Skills' },
+                { label: 'Session 1 - Solo Practice', url: 'https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week3/session1_more_python_skills.ipynb', external: true, colab: true },
+                { label: 'Session 2 - Group Work', url: 'https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week3/session2_more_python_skills_group.ipynb', external: true, colab: true },
+                { divider: true },
+                { header: 'Week 4: Data Engineering' },
+                { label: 'Session 1 - Solo Practice', url: 'https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week4/session1_intro_to_data_engineering.ipynb', external: true, colab: true },
+                { label: 'Session 2 - Group Work', url: 'https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week4/session2_intro_to_data_engineering_group.ipynb', external: true, colab: true },
+                { divider: true },
+                { header: 'Week 5: Data Wrangling' },
+                { label: 'Session 1 - Solo Practice', url: 'https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week5/session1_data_wrangling_aggregation.ipynb', external: true, colab: true },
+                { label: 'Session 2 - Group Work', url: 'https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week5/session2_data_wrangling_aggregation_group.ipynb', external: true, colab: true },
+                { divider: true },
+                { header: 'Week 6: Data Cleaning' },
+                { label: 'Session 1 - Solo Practice', url: 'https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week6/session1_data_cleaning_validation.ipynb', external: true, colab: true },
+                { label: 'Session 2 - Group Work', url: 'https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week6/session2_data_cleaning_validation_group.ipynb', external: true, colab: true },
+                { divider: true },
+                { header: 'Week 7: Advanced Cleaning' },
+                { label: 'Session 1 - Solo Practice', url: 'https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week7/session1_advanced_data_cleaning.ipynb', external: true, colab: true },
+                { divider: true },
+                { header: 'Week 8: Databases & SQL' },
+                { label: 'Session 1 - Solo Practice', url: 'https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week8/session1_sql_databases.ipynb', external: true, colab: true },
+                { label: 'Session 2 - Group Work', url: 'https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week8/session2_sql_databases_group.ipynb', external: true, colab: true },
+                { divider: true },
+                { header: 'Week 9: Intro to ML' },
+                { label: 'Session 1 - Solo Practice', url: 'https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week9/session1_intro_to_ml.ipynb', external: true, colab: true },
+                { label: 'Session 2 - Group Work', url: 'https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week9/session2_intro_to_ml_group.ipynb', external: true, colab: true },
+                { divider: true },
+                { header: 'Week 10: Flask Web' },
+                { label: 'Session 1 - Solo Practice', url: 'https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week10/session1_flask_web.ipynb', external: true, colab: true },
+                { label: 'Session 2 - Group Work', url: 'https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week10/session2_flask_web_group.ipynb', external: true, colab: true },
+                { divider: true },
+                { header: 'Week 11: Deployment' },
+                { label: 'Session 1 - Solo Practice', url: 'https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week11/session1_deployment.ipynb', external: true, colab: true },
+                { label: 'Session 2 - Group Work', url: 'https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week11/session2_deployment_group.ipynb', external: true, colab: true }
+            ]
         }
     ];
 
@@ -184,13 +227,15 @@
         const isActive = isActivePage(item.url);
         const href = resolveUrl(item.url);
         const externalAttrs = item.external ? ' target="_blank" rel="noopener noreferrer"' : '';
+        const colabClass = item.colab ? ' colab-link' : '';
         
         return `
-            <a href="${href}" class="dropdown-item${isActive ? ' active' : ''}" role="menuitem"${externalAttrs}>
+            <a href="${href}" class="dropdown-item${isActive ? ' active' : ''}${colabClass}" role="menuitem"${externalAttrs}>
                 ${item.week ? `<span class="week-num">W${item.week}</span>` : ''}
                 ${item.supp ? '<span class="week-num" style="background: linear-gradient(135deg, #00ff41, #ffff00);">+</span>' : ''}
+                ${item.colab ? '<span class="colab-badge">▶</span>' : ''}
                 <span>${item.label}</span>
-                ${item.external ? '<span style="opacity: 0.5; font-size: 0.8em;">↗</span>' : ''}
+                ${item.external && !item.colab ? '<span style="opacity: 0.5; font-size: 0.8em;">↗</span>' : ''}
             </a>
         `;
     }
