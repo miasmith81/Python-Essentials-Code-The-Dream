@@ -1,0 +1,1925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 5: Data Wrangling & Aggregation | Interactive Lesson</title>
+    <meta name="description" content="Interactive Data Wrangling lesson covering data selection, aggregation, merging DataFrames, and pivot tables.">
+    <link rel="icon" type="image/png" href="../assets/brands/favicon-straydog.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&family=Orbitron:wght@700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* ═══════════════════════════════════════════════════════════════════
+           CSS CUSTOM PROPERTIES (Variables)
+           ═══════════════════════════════════════════════════════════════════ */
+        :root {
+            --bg-dark: #0a0e27;
+            --bg-medium: #1a1f3a;
+            --bg-light: #2a2f4a;
+            
+            --accent-cyan: #00f0ff;
+            --accent-magenta: #ff00ff;
+            --accent-yellow: #ffff00;
+            --accent-green: #00ff41;
+            --accent-orange: #ff6b35;
+            --accent-red: #ff3366;
+            --accent-blue: #4da6ff;
+            
+            --text-primary: #e0e0e0;
+            --text-secondary: #a0a0a0;
+            
+            --level-bad: #ff3366;        /* Red */
+            --level-novice: #ff9f43;     /* Orange */
+            --level-intermediate: #4da6ff; /* Blue */
+            --level-best: #00ff41;       /* Green */
+            
+            --shadow-glow: 0 0 20px rgba(0, 240, 255, 0.3);
+            --shadow-glow-green: 0 0 20px rgba(0, 255, 65, 0.3);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           RESET & BASE STYLES
+           ═══════════════════════════════════════════════════════════════════ */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Space Mono', monospace;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Scanline effect */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 240, 255, 0.03) 2px, rgba(0, 240, 255, 0.03) 4px);
+            pointer-events: none;
+            z-index: 1;
+            animation: scanlines 8s linear infinite;
+        }
+
+        @keyframes scanlines {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(4px); }
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           HEADER STYLES
+           ═══════════════════════════════════════════════════════════════════ */
+        header {
+            position: relative;
+            z-index: 10;
+            padding: 2rem;
+            text-align: center;
+            background: linear-gradient(135deg, var(--bg-medium) 0%, var(--bg-dark) 100%);
+            border-bottom: 3px solid var(--accent-cyan);
+            box-shadow: 0 4px 20px rgba(0, 240, 255, 0.2);
+        }
+
+        h1 {
+            font-family: 'Orbitron', monospace;
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--accent-cyan), var(--accent-magenta));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 5px var(--accent-cyan)); }
+            to { filter: drop-shadow(0 0 20px var(--accent-magenta)); }
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--accent-green);
+            font-weight: 600;
+        }
+
+        .week-badge {
+            display: inline-block;
+            background: var(--accent-magenta);
+            color: var(--bg-dark);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-top: 0.5rem;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           PROGRESS & XP BAR
+           ═══════════════════════════════════════════════════════════════════ */
+        .progress-container {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 4px;
+            background: var(--bg-medium);
+            z-index: 1000;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-magenta));
+            width: 0%;
+            transition: width 0.3s ease;
+            box-shadow: var(--shadow-glow);
+        }
+
+        .xp-bar {
+            position: fixed;
+            top: 20px; right: 20px;
+            background: var(--bg-medium);
+            padding: 1rem;
+            border-radius: 8px;
+            border: 2px solid var(--accent-cyan);
+            z-index: 100;
+            min-width: 220px;
+            box-shadow: var(--shadow-glow);
+        }
+
+        .xp-label {
+            font-size: 0.85rem;
+            color: var(--accent-yellow);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .xp-progress {
+            width: 100%; height: 20px;
+            background: var(--bg-dark);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .xp-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-green), var(--accent-cyan));
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .xp-text {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           LAYOUT
+           ═══════════════════════════════════════════════════════════════════ */
+        .container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .sidebar {
+            width: 300px;
+            position: sticky;
+            top: 20px;
+            height: calc(100vh - 40px);
+            padding: 2rem 1rem;
+            background: var(--bg-medium);
+            border-right: 2px solid var(--accent-cyan);
+            overflow-y: auto;
+        }
+
+        .nav-title {
+            font-size: 0.9rem;
+            color: var(--accent-yellow);
+            margin-bottom: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .nav-item {
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            border-left: 3px solid transparent;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            background: var(--bg-dark);
+            border-radius: 4px;
+        }
+
+        .nav-item:hover {
+            border-left-color: var(--accent-cyan);
+            background: var(--bg-light);
+            transform: translateX(5px);
+        }
+
+        .nav-item.active {
+            border-left-color: var(--accent-magenta);
+            background: var(--bg-light);
+            color: var(--accent-cyan);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .nav-item.completed::after {
+            content: ' ✓';
+            color: var(--accent-green);
+            float: right;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           TYPOGRAPHY
+           ═══════════════════════════════════════════════════════════════════ */
+        h2 {
+            font-family: 'Orbitron', monospace;
+            font-size: 2rem;
+            color: var(--accent-cyan);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        h3 {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.5rem;
+            color: var(--accent-magenta);
+            margin: 2rem 0 1rem 0;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           SKILL LEVEL TAB SYSTEM
+           ═══════════════════════════════════════════════════════════════════ */
+        .skill-progression {
+            margin: 2rem 0;
+            background: var(--bg-medium);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid var(--bg-light);
+        }
+
+        .skill-tabs {
+            display: flex;
+            background: var(--bg-dark);
+            border-bottom: 2px solid var(--bg-light);
+            flex-wrap: wrap;
+        }
+
+        .skill-tab {
+            flex: 1;
+            min-width: 120px;
+            padding: 1rem;
+            cursor: pointer;
+            text-align: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            font-family: 'Space Mono', monospace;
+            position: relative;
+        }
+
+        .skill-tab::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 100%; height: 3px;
+            background: transparent;
+            transition: background 0.3s ease;
+        }
+
+        .skill-tab:hover { background: var(--bg-light); }
+        .skill-tab.active { color: var(--text-primary); }
+
+        .skill-tab[data-level="bad"] { border-top: 3px solid var(--level-bad); }
+        .skill-tab[data-level="novice"] { border-top: 3px solid var(--level-novice); }
+        .skill-tab[data-level="intermediate"] { border-top: 3px solid var(--level-intermediate); }
+        .skill-tab[data-level="best"] { border-top: 3px solid var(--level-best); }
+
+        .skill-tab[data-level="bad"].active::after { background: var(--level-bad); }
+        .skill-tab[data-level="novice"].active::after { background: var(--level-novice); }
+        .skill-tab[data-level="intermediate"].active::after { background: var(--level-intermediate); }
+        .skill-tab[data-level="best"].active::after { background: var(--level-best); }
+
+        .skill-tab-icon {
+            display: block;
+            font-size: 1.2rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .skill-content {
+            display: none;
+            padding: 0;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .skill-content.active { display: block; }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           CODE CONTAINERS
+           ═══════════════════════════════════════════════════════════════════ */
+        .code-container {
+            background: var(--bg-dark);
+            border: 2px solid var(--accent-cyan);
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            overflow: hidden;
+            box-shadow: var(--shadow-glow);
+        }
+
+        .code-container.level-bad { border-color: var(--level-bad); box-shadow: 0 0 15px rgba(255, 51, 102, 0.2); }
+        .code-container.level-novice { border-color: var(--level-novice); box-shadow: 0 0 15px rgba(255, 159, 67, 0.2); }
+        .code-container.level-intermediate { border-color: var(--level-intermediate); box-shadow: 0 0 15px rgba(77, 166, 255, 0.2); }
+        .code-container.level-best { border-color: var(--level-best); box-shadow: var(--shadow-glow-green); }
+
+        .code-header {
+            background: var(--bg-medium);
+            padding: 0.75rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--accent-cyan);
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .code-header-left {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .code-label {
+            color: var(--accent-yellow);
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .level-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .level-badge.bad { background: var(--level-bad); color: white; }
+        .level-badge.novice { background: var(--level-novice); color: var(--bg-dark); }
+        .level-badge.intermediate { background: var(--level-intermediate); color: var(--bg-dark); }
+        .level-badge.best { background: var(--level-best); color: var(--bg-dark); }
+
+        .semantic-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            padding: 0.25rem 0.5rem;
+            background: var(--bg-dark);
+            border-radius: 4px;
+        }
+
+        pre {
+            padding: 1.5rem;
+            overflow-x: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.7;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        /* Syntax Highlighting */
+        .keyword { color: var(--accent-magenta); font-weight: 600; }
+        .string { color: var(--accent-green); }
+        .function { color: var(--accent-cyan); }
+        .comment { color: #6a9955; font-style: italic; }
+        .number { color: var(--accent-yellow); }
+        .class-name { color: var(--accent-orange); font-weight: bold; }
+        .builtin { color: var(--accent-blue); }
+        .decorator { color: var(--accent-yellow); }
+
+        /* Output Box */
+        .output {
+            background: #000;
+            color: var(--text-primary);
+            padding: 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            border-top: 1px solid var(--bg-light);
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .output.show {
+            padding: 1rem;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .output-label {
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .run-button {
+            background: var(--accent-green);
+            color: var(--bg-dark);
+            border: none;
+            padding: 0.4rem 1rem;
+            border-radius: 4px;
+            font-family: 'Space Mono', monospace;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.8rem;
+        }
+
+        .run-button:hover { transform: translateY(-2px); box-shadow: 0 0 10px var(--accent-green); }
+        .run-button:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           EDUCATIONAL COMPONENTS
+           ═══════════════════════════════════════════════════════════════════ */
+        .explanation-box {
+            background: var(--bg-medium);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-left: 4px solid var(--accent-blue);
+        }
+
+        .explanation-box.tip { border-left-color: var(--level-best); }
+        .explanation-box.warning { border-left-color: var(--level-bad); }
+        .explanation-box.info { border-left-color: var(--accent-cyan); }
+
+        .explanation-title {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .objectives-box {
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.1), var(--bg-medium));
+            border: 2px solid var(--accent-cyan);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .objectives-list li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        .objectives-list li::before {
+            content: '▸';
+            position: absolute; left: 0;
+            color: var(--accent-green);
+            font-weight: bold;
+        }
+
+        /* Playground */
+        .playground {
+            background: var(--bg-medium);
+            border: 2px solid var(--accent-yellow);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .playground-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .playground-title {
+            font-weight: 700;
+            color: var(--accent-yellow);
+        }
+
+        textarea {
+            width: 100%;
+            height: 150px;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            border: 1px solid var(--bg-light);
+            padding: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            border-radius: 4px;
+            resize: vertical;
+        }
+
+        /* Navigation Buttons */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--bg-light);
+        }
+
+        .nav-btn {
+            background: var(--bg-medium);
+            color: var(--text-primary);
+            border: 2px solid var(--accent-cyan);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Space Mono', monospace;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover { background: var(--accent-cyan); color: var(--bg-dark); }
+        .nav-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .complete-btn {
+            background: linear-gradient(135deg, var(--accent-green), var(--accent-cyan));
+            color: var(--bg-dark);
+            border: none;
+            width: 100%;
+            margin-top: 2rem;
+        }
+
+        /* Achievement Popup */
+        .achievement {
+            position: fixed;
+            bottom: 20px; right: 20px;
+            background: linear-gradient(135deg, var(--bg-medium), #000);
+            border: 2px solid var(--accent-yellow);
+            border-radius: 12px;
+            padding: 1.5rem;
+            width: 300px;
+            transform: translateY(150%);
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 2000;
+            box-shadow: 0 0 30px rgba(255, 255, 0, 0.3);
+            text-align: center;
+        }
+
+        .achievement.show { transform: translateY(0); }
+        .achievement-icon { font-size: 3rem; margin-bottom: 0.5rem; animation: bounce 1s infinite alternate; }
+        
+        @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-10px); } }
+
+        @media (max-width: 968px) {
+            .container { flex-direction: column; }
+            .sidebar { width: 100%; height: auto; position: relative; }
+            .xp-bar { position: relative; top: 0; right: 0; margin: 1rem; }
+        }
+    </style>
+</head>
+<body class="sd-watermark">
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <div class="xp-bar">
+        <div class="xp-label">📊 Progress</div>
+        <div class="xp-progress">
+            <div class="xp-fill" id="xpFill"></div>
+            <div class="xp-text" id="xpText">0 / 5 Topics</div>
+        </div>
+    </div>
+
+    <header>
+        <h1>� Data Wrangling & Aggregation</h1>
+        <p class="subtitle">Master Data Selection, Grouping, and Merging</p>
+        <span class="week-badge">WEEK 5</span>
+    </header>
+
+    <div class="container">
+        <aside class="sidebar">
+            <nav class="nav-section">
+                <div class="nav-title">📖 Topics</div>
+                <div class="nav-item active" data-section="intro">Introduction</div>
+                <div class="nav-item" data-section="data-selection">Data Selection</div>
+                <div class="nav-item" data-section="aggregation">Data Aggregation</div>
+                <div class="nav-item" data-section="merging">Merging DataFrames</div>
+                <div class="nav-item" data-section="transformation">Data Transformation</div>
+                <div class="nav-item" data-section="pivot-tables">Pivot Tables</div>
+                <div class="nav-item" data-section="supplemental">📚 Supplemental</div>
+                <div class="nav-item" data-section="cheatsheet">Cheat Sheet</div>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <!-- ═══════════════════════════════════════════════════════════════
+                 SECTION: INTRODUCTION
+                 ═══════════════════════════════════════════════════════════════ -->
+            <section id="intro" class="section active">
+                <h2>👋 Welcome to Week 5: Data Wrangling & Aggregation</h2>
+                
+                <p>This week you'll dive deep into Pandas data manipulation. Building on your Week 4 foundation, you'll learn to select specific data subsets, aggregate data by groups, merge multiple datasets, and transform columns for analysis.</p>
+
+                <!-- Learning Objectives Box -->
+                <div class="objectives-box">
+                    <div class="objectives-title">🎯 What You'll Learn Today</div>
+                    <ul class="objectives-list">
+                        <li><strong>Data Selection</strong> — Master .loc[], .iloc[], boolean filtering, and column selection</li>
+                        <li><strong>Aggregation</strong> — Use groupby(), agg(), sum, mean, count to summarize data</li>
+                        <li><strong>Merging</strong> — Combine DataFrames with merge() and different join types</li>
+                        <li><strong>Transformation</strong> — Create and modify columns using .map() and operators</li>
+                        <li><strong>Pivot Tables</strong> — Reorganize data for better analysis and presentation</li>
+                    </ul>
+                </div>
+
+                <!-- Key Vocabulary Section -->
+                <h3>📚 Key Terms to Know</h3>
+                <div class="vocab-list">
+                    <div class="vocab-item">
+                        <div class="vocab-term">Series</div>
+                        <div class="vocab-def">A one-dimensional labeled array. Like a column in a spreadsheet or a Python list with labels.</div>
+                    </div>
+                    <div class="vocab-item">
+                        <div class="vocab-term">DataFrame</div>
+                        <div class="vocab-def">A two-dimensional labeled table. Like a spreadsheet or SQL table in Python.</div>
+                    </div>
+                    <div class="vocab-item">
+                        <div class="vocab-term">Index</div>
+                        <div class="vocab-def">The row labels. Can be numbers (0, 1, 2...) or custom labels (dates, IDs, names).</div>
+                    </div>
+                    <div class="vocab-item">
+                        <div class="vocab-term">ETL</div>
+                        <div class="vocab-def">Extract, Transform, Load—the process of getting raw data, cleaning it, and preparing it for analysis.</div>
+                    </div>
+                    <div class="vocab-item">
+                        <div class="vocab-term">dtype</div>
+                        <div class="vocab-def">Data type of a column (int64, float64, object, bool, datetime64). Critical for memory and performance.</div>
+                    </div>
+                    <div class="vocab-item">
+                        <div class="vocab-term">Vectorization</div>
+                        <div class="vocab-def">Applying operations to entire columns at once instead of looping. Much faster than row-by-row iteration.</div>
+                    </div>
+                </div>
+
+                <!-- Topic Overview Cards -->
+                <h3>🗺️ Today's Topics</h3>
+                <p>Click any card below to jump directly to that section:</p>
+                
+                <div class="concept-grid">
+                    <div class="concept-card" onclick="navigateToSection('pandas-basics')">
+                        <div class="concept-icon">🐼</div>
+                        <div class="concept-title">Pandas Setup & Imports</div>
+                        <div class="concept-desc">Learn the standard way to import Pandas and verify your environment.</div>
+                    </div>
+                    <div class="concept-card" onclick="navigateToSection('series')">
+                        <div class="concept-icon">📊</div>
+                        <div class="concept-title">Series: 1D Labeled Data</div>
+                        <div class="concept-desc">Master the Series object—labeled arrays that power DataFrame columns.</div>
+                    </div>
+                    <div class="concept-card" onclick="navigateToSection('dataframes')">
+                        <div class="concept-icon">📋</div>
+                        <div class="concept-title">DataFrames: 2D Tables</div>
+                        <div class="concept-desc">Create and manipulate DataFrames—the heart of Pandas data analysis.</div>
+                    </div>
+                    <div class="concept-card" onclick="navigateToSection('loading-data')">
+                        <div class="concept-icon">📁</div>
+                        <div class="concept-title">Loading External Data</div>
+                        <div class="concept-desc">Read CSV, Excel, JSON files into DataFrames with proper error handling.</div>
+                    </div>
+                    <div class="concept-card" onclick="navigateToSection('inspection')">
+                        <div class="concept-icon">🔍</div>
+                        <div class="concept-title">Data Inspection & Exploration</div>
+                        <div class="concept-desc">Use head(), info(), describe() to understand datasets before analysis.</div>
+                    </div>
+                </div>
+
+                <!-- Analogy Box -->
+                <div class="analogy-box">
+                    <div class="analogy-title">💡 Think of Pandas Like Excel... But Supercharged</div>
+                    <p><strong>Series = Single Column:</strong> One column of data with a label for each row.</p>
+                    <p><strong>DataFrame = Entire Spreadsheet:</strong> Multiple columns of different types, all aligned by row.</p>
+                    <p><strong>Index = Row Numbers:</strong> But you can use dates, IDs, or any labels instead of just 0, 1, 2...</p>
+                    <p><strong>The Difference?</strong> Pandas handles millions of rows, does calculations instantly, and lets you write code to automate everything you'd click in Excel!</p>
+                </div>
+
+                <!-- Why Pandas Section -->
+                <div class="explanation-box info">
+                    <div class="explanation-title">🌍 Why Pandas Matters in the Real World</div>
+                    <p>Pandas is the foundation of data science in Python. Every data job you'll encounter uses it:</p>
+                    <p>• <strong>Data Analysis</strong> — Clean, filter, aggregate, and visualize datasets</p>
+                    <p>• <strong>Machine Learning</strong> — Prepare data for scikit-learn, TensorFlow, PyTorch</p>
+                    <p>• <strong>Business Intelligence</strong> — Generate reports, dashboards, and insights</p>
+                    <p>• <strong>ETL Pipelines</strong> — Extract data from APIs/databases, transform it, load to warehouses</p>
+                    <p>• <strong>Financial Analysis</strong> — Time series, stock data, portfolio optimization</p>
+                </div>
+
+                <!-- How to Use This Lesson -->
+                <div class="analogy-box">
+                    <div class="analogy-title">📖 How to Use This Lesson</div>
+                    <p><strong>Each topic shows the same problem solved 4 different ways:</strong></p>
+                    <p>🔴 <strong>Bad Practice</strong> — Code that works but has problems (inefficient, error-prone, unprofessional)</p>
+                    <p>🟠 <strong>Novice Solution</strong> — Basic working code that beginners write</p>
+                    <p>🔵 <strong>Intermediate Solution</strong> — Better code with improvements</p>
+                    <p>🟢 <strong>Best Practice</strong> — Professional, production-ready code</p>
+                    <p style="margin-top: 1rem; font-style: italic;">Focus on understanding <em>why</em> each level improves, not just memorizing syntax!</p>
+                </div>
+
+                <!-- Learning Strategy -->
+                <div class="explanation-box tip">
+                    <div class="explanation-title">📚 How to Approach This Lesson</div>
+                    <p><strong>1. Think in columns, not rows:</strong> Pandas is optimized for column operations. Avoid looping through rows whenever possible.</p>
+                    <p><strong>2. Check types early:</strong> Use <code>df.info()</code> and <code>df.dtypes</code> immediately. Wrong types cause bugs and slow performance.</p>
+                    <p><strong>3. Start small:</strong> Test operations on <code>df.head()</code> before running on the full dataset.</p>
+                    <p><strong>4. Read error messages:</strong> Pandas errors are detailed. They often tell you exactly what's wrong.</p>
+                    <p><strong>5. Practice with real data:</strong> Download a CSV from Kaggle or data.gov and explore it using these techniques.</p>
+                </div>
+
+                <div class="nav-buttons">
+                    <button class="nav-btn prev" disabled>◀ Prev</button>
+                    <button class="nav-btn next" onclick="navigateToSection('pandas-basics')">Start Learning: Pandas Basics ▶</button>
+                </div>
+            </section>
+
+            <!-- ═══════════════════════════════════════════════════════════════
+                 SECTION: PANDAS BASICS
+                 ═══════════════════════════════════════════════════════════════ -->
+            <section id="pandas-basics" class="section">
+                <h2>🐼 Pandas Basics & Setup</h2>
+                <p>Starting your data engineering journey begins with the right setup. How you import and initialize Pandas matters.</p>
+
+                <div class="skill-progression">
+                    <div class="skill-tabs">
+                        <button class="skill-tab active" data-level="bad" data-target="pd-basic-bad">
+                            <span class="skill-tab-icon">🔴</span> Bad
+                        </button>
+                        <button class="skill-tab" data-level="novice" data-target="pd-basic-novice">
+                            <span class="skill-tab-icon">🟠</span> Novice
+                        </button>
+                        <button class="skill-tab" data-level="intermediate" data-target="pd-basic-intermediate">
+                            <span class="skill-tab-icon">🔵</span> Intermediate
+                        </button>
+                        <button class="skill-tab" data-level="best" data-target="pd-basic-best">
+                            <span class="skill-tab-icon">🟢</span> Best Practice
+                        </button>
+                    </div>
+
+                    <!-- BAD -->
+                    <div class="skill-content active" id="pd-basic-bad">
+                        <div class="code-container level-bad">
+                            <div class="code-header">
+                                <div class="code-header-left">
+                                    <span class="code-label">Python</span>
+                                    <span class="level-badge bad">❌ Bad Practice</span>
+                                    <span class="semantic-label">Star Import</span>
+                                </div>
+                                <button class="run-button" data-output="Error: DataFrame is not defined (or namespace pollution)">Run ▶</button>
+                            </div>
+<pre><code><span class="comment"># ❌ BAD: Wildcard import or no alias</span>
+<span class="comment"># Problem 1: Imports ALL names from pandas (1000+ objects!)</span>
+<span class="comment"># Problem 2: Overwrites Python built-ins like sum(), min(), max()</span>
+<span class="comment"># Problem 3: Makes code impossible to debug - where did DataFrame come from?</span>
+<span class="keyword">from</span> pandas <span class="keyword">import</span> *
+
+<span class="comment"># Now these are in your namespace, but you can't tell where they're from:</span>
+df = DataFrame({<span class="string">'a'</span>: [<span class="number">1</span>, <span class="number">2</span>]})  <span class="comment"># ⚠️ Is this pandas.DataFrame? Hard to tell!</span>
+
+<span class="comment"># Even worse - pandas overwrote Python's built-in sum()!</span>
+<span class="comment"># sum([1, 2, 3])  # Might fail or give unexpected results</span>
+</code></pre>
+                            <div class="output"></div>
+                        </div>
+                        <div class="explanation-box warning">
+                            <div class="explanation-title">⚠️ Why This Is Bad</div>
+                            <p><strong>Namespace pollution:</strong> Pandas adds 1000+ names to your global scope, making name collisions likely.</p>
+                            <p><strong>Shadows built-ins:</strong> Pandas has its own <code>sum()</code>, <code>min()</code>, <code>max()</code> that override Python's built-in functions.</p>
+                            <p><strong>Unreadable:</strong> Other developers (and future you) can't tell where <code>DataFrame</code> came from without checking imports.</p>
+                            <p><strong>Tooling breaks:</strong> IDEs and linters can't provide accurate autocomplete or type checking.</p>
+                        </div>
+                    </div>
+
+                    <!-- NOVICE -->
+                    <div class="skill-content" id="pd-basic-novice">
+                        <div class="code-container level-novice">
+                            <div class="code-header">
+                                <div class="code-header-left">
+                                    <span class="code-label">Python</span>
+                                    <span class="level-badge novice">🔰 Novice</span>
+                                    <span class="semantic-label">Full Name Import</span>
+                                </div>
+                                <button class="run-button" data-output="   a\n0  1\n1  2">Run ▶</button>
+                            </div>
+<pre><code><span class="comment"># 🔰 NOVICE: Importing without alias</span>
+<span class="comment"># ✓ No namespace pollution</span>
+<span class="comment"># ✓ Clear where DataFrame comes from</span>
+<span class="comment"># ✗ Verbose - have to type 'pandas.' every time</span>
+<span class="keyword">import</span> pandas
+
+<span class="comment"># Now it's explicit - DataFrame comes from pandas</span>
+df = pandas.DataFrame({<span class="string">'a'</span>: [<span class="number">1</span>, <span class="number">2</span>]})
+<span class="keyword">print</span>(df)
+
+<span class="comment"># But typing 'pandas.' gets tedious in real projects...</span>
+series = pandas.Series([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])  <span class="comment"># Too much typing!</span>
+</code></pre>
+                            <div class="output"></div>
+                        </div>
+                        <div class="explanation-box tip">
+                            <div class="explanation-title">✅ What's Better</div>
+                            <p><strong>Safe:</strong> No namespace pollution or name conflicts.</p>
+                            <p><strong>Explicit:</strong> <code>pandas.DataFrame</code> clearly shows where the class comes from.</p>
+                            <p><strong>But:</strong> Writing <code>pandas.</code> hundreds of times in a data analysis script is tedious and hurts readability.</p>
+                        </div>
+                    </div>
+
+                    <!-- INTERMEDIATE -->
+                    <div class="skill-content" id="pd-basic-intermediate">
+                        <div class="code-container level-intermediate">
+                            <div class="code-header">
+                                <div class="code-header-left">
+                                    <span class="code-label">Python</span>
+                                    <span class="level-badge intermediate">📈 Intermediate</span>
+                                    <span class="semantic-label">Standard Alias</span>
+                                </div>
+                                <button class="run-button" data-output="   a\n0  1\n1  2">Run ▶</button>
+                            </div>
+<pre><code><span class="comment"># 📈 INTERMEDIATE: Standard 'pd' alias</span>
+<span class="comment"># ✓ The universal convention in data science</span>
+<span class="comment"># ✓ Every data scientist uses 'pd' - instantly recognizable</span>
+<span class="comment"># ✓ Short enough to not be tedious</span>
+<span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+
+<span class="comment"># Clean, concise, and standard</span>
+df = pd.DataFrame({<span class="string">'a'</span>: [<span class="number">1</span>, <span class="number">2</span>]})
+<span class="keyword">print</span>(df)
+
+<span class="comment"># 'pd' is so standard, you'll see it in:</span>
+<span class="comment"># - Every tutorial</span>
+<span class="comment"># - Every Kaggle notebook</span>
+<span class="comment"># - Every data science job</span>
+</code></pre>
+                            <div class="output"></div>
+                        </div>
+                        <div class="explanation-box tip">
+                            <div class="explanation-title">✅ What's Better</div>
+                            <p><strong>Universal standard:</strong> <code>pd</code> is recognized by every data scientist worldwide.</p>
+                            <p><strong>Concise:</strong> Short enough to not clutter code, but explicit enough to be clear.</p>
+                            <p><strong>Tool support:</strong> IDEs and linters are optimized for <code>import pandas as pd</code>.</p>
+                        </div>
+                    </div>
+
+                    <!-- BEST -->
+                    <div class="skill-content" id="pd-basic-best">
+                        <div class="code-container level-best">
+                            <div class="code-header">
+                                <div class="code-header-left">
+                                    <span class="code-label">Python</span>
+                                    <span class="level-badge best">⭐ Best Practice</span>
+                                    <span class="semantic-label">Full Setup</span>
+                                </div>
+                                <button class="run-button" data-output="Pandas version: 2.1.0\nNumpy version: 1.26.0\n   a\n0  1\n1  2">Run ▶</button>
+                            </div>
+<pre><code><span class="comment"># ⭐ BEST PRACTICE: Standard imports + version verification</span>
+<span class="comment"># ✓ Standard aliases everyone recognizes</span>
+<span class="comment"># ✓ Import both pandas and numpy (pandas is built on numpy)</span>
+<span class="comment"># ✓ Verify versions for reproducibility</span>
+<span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+<span class="keyword">import</span> numpy <span class="keyword">as</span> np
+
+<span class="comment"># CRITICAL in notebooks: Print versions for reproducibility</span>
+<span class="comment"># Different pandas versions can behave differently!</span>
+<span class="keyword">print</span>(<span class="string">f"Pandas version: {pd.__version__}"</span>)
+<span class="keyword">print</span>(<span class="string">f"Numpy version: {np.__version__}"</span>)
+
+<span class="comment"># Optional: Set display options for better readability</span>
+pd.set_option(<span class="string">'display.max_columns'</span>, <span class="number">None</span>)  <span class="comment"># Show all columns</span>
+pd.set_option(<span class="string">'display.precision'</span>, <span class="number">2</span>)      <span class="comment"># 2 decimal places</span>
+
+df = pd.DataFrame({<span class="string">'a'</span>: [<span class="number">1</span>, <span class="number">2</span>]})
+<span class="keyword">print</span>(df)
+</code></pre>
+                            <div class="output"></div>
+                        </div>
+                        <div class="explanation-box tip">
+                            <div class="explanation-title">⭐ Why This Is Best</div>
+                            <p><strong>Version checking:</strong> Pandas 2.x has breaking changes from 1.x. Always verify versions in production code.</p>
+                            <p><strong>Numpy included:</strong> Pandas is built on NumPy. You'll often need both, so import them together.</p>
+                            <p><strong>Display options:</strong> <code>pd.set_option()</code> makes DataFrames more readable in Jupyter notebooks.</p>
+                            <p><strong>Reproducibility:</strong> Anyone running your code knows exactly what versions you used.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Common Pitfalls -->
+                <div class="explanation-box warning">
+                    <div class="explanation-title">⚠️ Common Pandas Import Pitfalls</div>
+                    <p><strong>Using non-standard aliases:</strong> Don't use <code>import pandas as p</code> or <code>import pandas as panda</code>. Always use <code>pd</code>.</p>
+                    <p><strong>Forgetting numpy:</strong> Most Pandas operations need NumPy. Import both at the start.</p>
+                    <p><strong>Not checking versions:</strong> Pandas 1.x code might break in 2.x. Always verify versions in production.</p>
+                    <p><strong>Importing specific functions:</strong> Don't do <code>from pandas import DataFrame</code>. Always use the <code>pd.</code> prefix for clarity.</p>
+                </div>
+
+                <!-- Discussion Questions -->
+                <div class="analogy-box">
+                    <div class="analogy-title">💬 Group Discussion Questions</div>
+                    <p><strong>1.</strong> Why is using a standard alias like <code>pd</code> important for collaboration? How would non-standard aliases hurt a team project?</p>
+                    <p><strong>2.</strong> When would you need to check the pandas version? Have you ever encountered code that broke due to version differences?</p>
+                    <p><strong>3.</strong> What other libraries have universally-recognized aliases? (Hint: numpy → np, matplotlib.pyplot → plt...)</p>
+                    <p><strong>4.</strong> Why does <code>from pandas import *</code> break things, but <code>import pandas as pd</code> doesn't?</p>
+                </div>
+
+                <div class="explanation-box info" data-notebook="week4-basics">
+                    <div class="explanation-title">📓 Practice in Notebook</div>
+                    <p>Open <code>notebook-sessions/week4/session1_data_engineering.ipynb</code> and implement standard imports (<code>pd</code>, <code>np</code>), version checks, and display options. Add a cell explaining why version verification matters.</p>
+                </div>
+
+                <button class="nav-btn complete-btn" data-topic="pandas-basics">Mark Topic Complete ✓</button>
+                <div class="nav-buttons">
+                    <button class="nav-btn prev" onclick="navigateToSection('intro')">◀ Prev: Intro</button>
+                    <button class="nav-btn next" onclick="navigateToSection('series')">Next: Series ▶</button>
+                </div>
+            </section>
+
+            <!-- ═══════════════════════════════════════════════════════════════
+                 SECTION: SERIES
+                 ═══════════════════════════════════════════════════════════════ -->
+            <section id="series" class="section">
+                <h2>📊 Pandas Series: 1D Labeled Data</h2>
+                
+                <p>A Series is a one-dimensional labeled array capable of holding any data type. Think of it as a column in a spreadsheet or a Python list with labels instead of just positions.</p>
+
+                <!-- Series Vocabulary -->
+                <div class="explanation-box info">
+                    <div class="explanation-title">📖 Series Vocabulary</div>
+                    <p><code>Series</code> — A 1D array with labeled indices (like a single column)</p>
+                    <p><code>index</code> — The row labels (can be numbers, strings, dates, etc.)</p>
+                    <p><code>values</code> — The actual data as a NumPy array</p>
+                    <p><code>dtype</code> — The data type of the Series (int64, float64, object, etc.)</p>
+                    <p><code>name</code> — Optional label for the Series (becomes column name in DataFrame)</p>
+                </div>
+
+                <!-- Analogy -->
+                <div class="analogy-box">
+                    <div class="analogy-title">💡 Series vs Python Lists</div>
+                    <p><strong>Python List:</strong> <code>[1.2, 0.5, 3.0]</code> — Access by position: <code>prices[0]</code></p>
+                    <p><strong>Pandas Series:</strong> <code>{'Apple': 1.2, 'Banana': 0.5, 'Cherry': 3.0}</code> — Access by label: <code>prices['Apple']</code></p>
+                    <p><strong>Why use Series?</strong> Labeled indices, automatic alignment, vectorized operations, and missing data handling!</p>
+                </div>
+
+                <div class="skill-progression">
+                    <div class="skill-tabs">
+                        <button class="skill-tab active" data-level="bad" data-target="series-bad">
+                            <span class="skill-tab-icon">🔴</span> Bad
+                        </button>
+                        <button class="skill-tab" data-level="novice" data-target="series-novice">
+                            <span class="skill-tab-icon">🟠</span> Novice
+                        </button>
+                        <button class="skill-tab" data-level="intermediate" data-target="series-intermediate">
+                            <span class="skill-tab-icon">🔵</span> Intermediate
+                        </button>
+                        <button class="skill-tab" data-level="best" data-target="series-best">
+                            <span class="skill-tab-icon">🟢</span> Best Practice
+                        </button>
+                    </div>
+
+                    <!-- BAD -->
+                    <div class="skill-content active" id="series-bad">
+                        <div class="code-container level-bad">
+                            <div class="code-header">
+                                <div class="code-header-left">
+                                    <span class="code-label">Python</span>
+                                    <span class="level-badge bad">❌ Bad Practice</span>
+                                    <span class="semantic-label">Using Parallel Lists</span>
+                                </div>
+                                <button class="run-button" data-output="Price of Apple: 1.2">Run ▶</button>
+                            </div>
+<pre><code><span class="comment"># ❌ BAD: Using parallel lists for labeled data</span>
+products = [<span class="string">'Apple'</span>, <span class="string">'Banana'</span>, <span class="string">'Cherry'</span>]
+prices = [<span class="number">1.20</span>, <span class="number">0.50</span>, <span class="number">3.00</span>]
+
+<span class="comment"># Hard to maintain connection between product and price</span>
+idx = products.index(<span class="string">'Apple'</span>)
+<span class="keyword">print</span>(<span class="string">f"Price of {products[idx]}: {prices[idx]}"</span>)
+
+<span class="comment"># No built-in math operations</span>
+<span class="comment"># total = sum(prices) # Works, but slow for large data</span>
+</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- NOVICE -->
+                    <div class="skill-content" id="series-novice">
+                        <div class="code-container level-novice">
+                            <div class="code-header">
+                                <div class="code-header-left">
+                                    <span class="code-label">Python</span>
+                                    <span class="level-badge novice">🔰 Novice</span>
+                                    <span class="semantic-label">Basic Series</span>
+                                </div>
+                                <button class="run-button" data-output="0    1.2\n1    0.5\n2    3.0\ndtype: float64">Run ▶</button>
+                            </div>
+<pre><code><span class="comment"># 🔰 NOVICE: Creating a simple Series</span>
+<span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+
+prices = pd.Series([<span class="number">1.20</span>, <span class="number">0.50</span>, <span class="number">3.00</span>])
+
+<span class="comment"># Default integer index (0, 1, 2...)</span>
+<span class="keyword">print</span>(prices)
+</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- INTERMEDIATE -->
+                    <div class="skill-content" id="series-intermediate">
+                        <div class="code-container level-intermediate">
+                            <div class="code-header">
+                                <div class="code-header-left">
+                                    <span class="code-label">Python</span>
+                                    <span class="level-badge intermediate">📈 Intermediate</span>
+                                    <span class="semantic-label">Indexed Series</span>
+                                </div>
+                                <button class="run-button" data-output="Apple     1.2\nBanana    0.5\nCherry    3.0\ndtype: float64">Run ▶</button>
+                            </div>
+<pre><code><span class="comment"># 📈 INTERMEDIATE: Series with Index</span>
+<span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+
+<span class="comment"># Mapping labels to data</span>
+prices = pd.Series(
+    [<span class="number">1.20</span>, <span class="number">0.50</span>, <span class="number">3.00</span>],
+    index=[<span class="string">'Apple'</span>, <span class="string">'Banana'</span>, <span class="string">'Cherry'</span>]
+)
+
+<span class="keyword">print</span>(prices)
+<span class="keyword">print</span>(prices[<span class="string">'Apple'</span>])  <span class="comment"># Access by label!</span>
+</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- BEST -->
+                    <div class="skill-content" id="series-best">
+                        <div class="code-container level-best">
+                            <div class="code-header">
+                                <div class="code-header-left">
+                                    <span class="code-label">Python</span>
+                                    <span class="level-badge best">⭐ Best Practice</span>
+                                    <span class="semantic-label">Vectorized Operations</span>
+                                </div>
+                                <button class="run-button" data-output="Discounted Prices:\nApple     1.08\nBanana    0.45\nCherry    2.70\nName: Fruit Prices, dtype: float64">Run ▶</button>
+                            </div>
+<pre><code><span class="comment"># ⭐ BEST PRACTICE: Named Series & Vectorization</span>
+<span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+
+prices = pd.Series(
+    [<span class="number">1.20</span>, <span class="number">0.50</span>, <span class="number">3.00</span>],
+    index=[<span class="string">'Apple'</span>, <span class="string">'Banana'</span>, <span class="string">'Cherry'</span>],
+    name=<span class="string">'Fruit Prices'</span>
+)
+
+<span class="comment"># Vectorized operation: Apply discount to ALL items at once</span>
+<span class="comment"># No loop needed! Much faster than lists.</span>
+discounted = prices * <span class="number">0.9</span>
+
+<span class="keyword">print</span>(<span class="string">"Discounted Prices:"</span>)
+<span class="keyword">print</span>(discounted)
+</code></pre>
+                        </div>
+                        <div class="explanation-box tip">
+                            <div class="explanation-title">⭐ Pro Tip: Vectorization</div>
+                            <p>Never loop over a Series if you can avoid it! Operations like <code>series * 0.9</code> happen in C at lightning speed.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Playground -->
+                <div class="playground">
+                    <div class="playground-header">
+                        <div class="playground-title">🎮 Try It: Create a Series</div>
+                        <span class="playground-challenge">Challenge</span>
+                    </div>
+                    <p>Create a Series representing the population of 3 cities (NY, LA, Chicago) in millions. Then, calculate the population if it grows by 10%.</p>
+                    <textarea placeholder="# Your code here
+import pandas as pd
+
+# 1. Create Series with index
+population = ...
+
+# 2. Calculate growth (Vectorized!)
+future_pop = ...
+
+print(future_pop)"></textarea>
+                </div>
+
+                <div class="explanation-box info" data-notebook="week4-series">
+                    <div class="explanation-title">📓 Practice in Notebook</div>
+                    <p>Open <code>notebook-sessions/week4/session1_data_engineering.ipynb</code> and build a <code>Series</code> with labels. Practice vectorized operations (discounts, taxes) and label-based access with <code>.loc</code>.</p>
+                </div>
+
+                <!-- Common Pitfalls -->
+                <div class="explanation-box warning">
+                    <div class="explanation-title">⚠️ Common Series Pitfalls</div>
+                    <p><strong>Forgetting alignment:</strong> When you add two Series with different indices, pandas aligns them automatically—missing indices become NaN!</p>
+                    <p><strong>Confusing .loc vs []:</strong> <code>series[0]</code> gets by position (not label!). Use <code>series.iloc[0]</code> for position, <code>series.loc['label']</code> for labels.</p>
+                    <p><strong>Not checking dtype:</strong> A Series with mixed types becomes <code>object</code> dtype—very slow! Always use <code>series.dtype</code> to check.</p>
+                    <p><strong>Looping over Series:</strong> Never use <code>for item in series:</code> for calculations. Use vectorized operations instead!</p>
+                </div>
+
+                <!-- Discussion Questions -->
+                <div class="analogy-box">
+                    <div class="analogy-title">💬 Group Discussion Questions</div>
+                    <p><strong>1.</strong> When would you use a Series instead of a Python list? What advantages does it offer?</p>
+                    <p><strong>2.</strong> What happens when you perform arithmetic on two Series with different indices? Try it!</p>
+                    <p><strong>3.</strong> Why is labeled indexing more powerful than positional indexing? Give a real-world example.</p>
+                    <p><strong>4.</strong> How does a Series relate to a DataFrame? (Hint: Each DataFrame column IS a Series!)</p>
+                </div>
+
+                <button class="nav-btn complete-btn" data-topic="series">Mark Topic Complete ✓</button>
+                <div class="nav-buttons">
+                    <button class="nav-btn prev" onclick="navigateToSection('pandas-basics')">◀ Prev: Basics</button>
+                    <button class="nav-btn next" onclick="navigateToSection('dataframes')">Next: DataFrames ▶</button>
+                </div>
+            </section>
+
+            <!-- ═══════════════════════════════════════════════════════════════
+                 SECTION: DATAFRAMES
+                 ═══════════════════════════════════════════════════════════════ -->
+            <section id="dataframes" class="section">
+                <h2>📋 DataFrames: 2D Tables</h2>
+                <p>The DataFrame is the heart of Pandas. It's a table where columns can have different types.</p>
+
+                <div class="skill-progression">
+                    <div class="skill-tabs">
+                        <button class="skill-tab active" data-level="bad" data-target="df-bad">
+                            <span class="skill-tab-icon">🔴</span> Bad
+                        </button>
+                        <button class="skill-tab" data-level="novice" data-target="df-novice">
+                            <span class="skill-tab-icon">🟠</span> Novice
+                        </button>
+                        <button class="skill-tab" data-level="intermediate" data-target="df-intermediate">
+                            <span class="skill-tab-icon">🔵</span> Intermediate
+                        </button>
+                        <button class="skill-tab" data-level="best" data-target="df-best">
+                            <span class="skill-tab-icon">🟢</span> Best Practice
+                        </button>
+                    </div>
+
+                    <!-- BAD -->
+                    <div class="skill-content active" id="df-bad">
+                        <div class="code-container level-bad">
+                            <div class="code-header">
+                                <div class="code-header-left">
+                                    <span class="code-label">Python</span>
+                                    <span class="level-badge bad">❌ Bad Practice</span>
+                                    <span class="semantic-label">List of Lists</span>
+                                </div>
+                                <button class="run-button" data-output="Alice">Run ▶</button>
+                            </div>
+<pre><code><span class="comment"># ❌ BAD: List of lists (Matrix style)</span>
+data = [
+    [<span class="string">'Alice'</span>, <span class="number">25</span>, <span class="string">'Engineer'</span>],
+    [<span class="string">'Bob'</span>, <span class="number">30</span>, <span class="string">'Designer'</span>]
+]
+
+<span class="comment"># Must remember index 0 is name, 1 is age...</span>
+<span class="keyword">print</span>(data[<span class="number">0</span>][<span class="number">0</span>])  <span class="comment"># Alice</span>
+<span class="comment"># Error-prone and hard to read</span>
+</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- NOVICE -->
+                    <div class="skill-content" id="df-novice">
+                        <div class="code-container level-novice">
+                            <div class="code-header">
+                                <div class="code-header-left">
+                                    <span class="code-label">Python</span>
+                                    <span class="level-badge novice">🔰 Novice</span>
+                                    <span class="semantic-label">Dict to DataFrame</span>
+                                </div>
+                                <button class="run-button" data-output="    name  age       job\n0  Alice   25  Engineer\n1    Bob   30  Designer">Run ▶</button>
+                            </div>
+<pre><code><span class="comment"># 🔰 NOVICE: Dictionary to DataFrame</span>
+<span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+
+data = {
+    <span class="string">'name'</span>: [<span class="string">'Alice'</span>, <span class="string">'Bob'</span>],
+    <span class="string">'age'</span>: [<span class="number">25</span>, <span class="number">30</span>],
+    <span class="string">'job'</span>: [<span class="string">'Engineer'</span>, <span class="string">'Designer'</span>]
+}
+
+df = pd.DataFrame(data)
+<span class="keyword">print</span>(df)
+</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- INTERMEDIATE -->
+                    <div class="skill-content" id="df-intermediate">
+                        <div class="code-container level-intermediate">
+                            <div class="code-header">
+                                <div class="code-header-left">
+                                    <span class="code-label">Python</span>
+                                    <span class="level-badge intermediate">📈 Intermediate</span>
+                                    <span class="semantic-label">Setting Index</span>
+                                </div>
+                                <button class="run-button" data-output="      name  age       job\nid                       \n101  Alice   25  Engineer\n102    Bob   30  Designer">Run ▶</button>
+                            </div>
+<pre><code><span class="comment"># 📈 INTERMEDIATE: Specify Index</span>
+<span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+
+data = {
+    <span class="string">'name'</span>: [<span class="string">'Alice'</span>, <span class="string">'Bob'</span>],
+    <span class="string">'age'</span>: [<span class="number">25</span>, <span class="number">30</span>],
+    <span class="string">'job'</span>: [<span class="string">'Engineer'</span>, <span class="string">'Designer'</span>]
+}
+
+<span class="comment"># Use ID as index for fast lookups</span>
+df = pd.DataFrame(data, index=[<span class="number">101</span>, <span class="number">102</span>])
+df.index.name = <span class="string">'id'</span>
+
+<span class="keyword">print</span>(df)
+</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- BEST -->
+                    <div class="skill-content" id="df-best">
+                        <div class="code-container level-best">
+                            <div class="code-header">
+                                <div class="code-header-left">
+                                    <span class="code-label">Python</span>
+                                    <span class="level-badge best">⭐ Best Practice</span>
+                                    <span class="semantic-label">Robust Creation</span>
+                                </div>
+                                <button class="run-button" data-output="      name  age       job\nid                       \n101  Alice   25  Engineer\n102    Bob   30  Designer\n\nInfo:\n<class 'pandas.core.frame.DataFrame'>\nIndex: 2 entries, 101 to 102\nData columns (total 3 columns):\n #   Column  Non-Null Count  Dtype \n---  ------  --------------  -----\n 0   name    2 non-null      object\n 1   age     2 non-null      int64 \n 2   job     2 non-null      object">Run ▶</button>
+                            </div>
+<pre><code><span class="comment"># ⭐ BEST PRACTICE: Robust creation and inspection</span>
+<span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+
+<span class="comment"># List of dictionaries (row-oriented) is often cleaner for API data</span>
+rows = [
+    {<span class="string">'id'</span>: <span class="number">101</span>, <span class="string">'name'</span>: <span class="string">'Alice'</span>, <span class="string">'age'</span>: <span class="number">25</span>, <span class="string">'job'</span>: <span class="string">'Engineer'</span>},
+    {<span class="string">'id'</span>: <span class="number">102</span>, <span class="string">'name'</span>: <span class="string">'Bob'</span>, <span class="string">'age'</span>: <span class="number">30</span>, <span class="string">'job'</span>: <span class="string">'Designer'</span>}
+]
+
+df = pd.DataFrame(rows)
+df.set_index(<span class="string">'id'</span>, inplace=<span class="keyword">True</span>)
+
+<span class="keyword">print</span>(df)
+<span class="keyword">print</span>(<span class="string">"\nInfo:"</span>)
+df.info() <span class="comment"># Always verify types!</span>
+</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Common Pitfalls -->
+                <div class="explanation-box warning">
+                    <div class="explanation-title">⚠️ Common DataFrame Pitfalls</div>
+                    <p><strong>Modifying copies:</strong> <code>df[df['age'] > 25]['name'] = 'X'</code> might not work! Use <code>df.loc[df['age'] > 25, 'name'] = 'X'</code> instead.</p>
+                    <p><strong>Chained indexing:</strong> <code>df['col'][0] = value</code> causes SettingWithCopyWarning. Use <code>df.loc[0, 'col'] = value</code>.</p>
+                    <p><strong>Not using inplace carefully:</strong> <code>inplace=True</code> modifies the original DataFrame and returns None. Can cause bugs if you expect a return value!</p>
+                    <p><strong>Assuming order:</strong> DataFrames don't guarantee row order unless you explicitly sort. Always use proper indices or sorting.</p>
+                </div>
+
+                <!-- Practice Playground -->
+                <div class="playground">
+                    <div class="playground-header">
+                        <div class="playground-title">🎮 Try It: Build Your Own DataFrame</div>
+                        <span class="playground-challenge">Challenge</span>
+                    </div>
+                    <p>Create a DataFrame of at least 3 students with columns: name, grade, and favorite_subject. Set student IDs as the index.</p>
+                    <textarea placeholder="# Your code here!
+import pandas as pd
+
+students = [
+    {'student_id': 101, 'name': 'Alice', 'grade': 'A', 'favorite_subject': 'Math'},
+    # Add more students...
+]
+
+df = pd.DataFrame(students)
+# Set student_id as index
+# Print the result"></textarea>
+                    <div class="playground-hint">
+                        <strong>Hint:</strong> Use <code>df.set_index('student_id', inplace=True)</code> or create with <code>pd.DataFrame(students).set_index('student_id')</code>.
+                    </div>
+                </div>
+
+                <div class="explanation-box info" data-notebook="week4-dataframes">
+                    <div class="explanation-title">📓 Practice in Notebook</div>
+                    <p>Open <code>notebook-sessions/week4/session1_data_engineering.ipynb</code> and create DataFrames from dicts and rows (list of dicts). Set a meaningful index (e.g., <code>id</code>) and verify with <code>df.info()</code>.</p>
+                </div>
+
+                <!-- Discussion Questions -->
+                <div class="analogy-box">
+                    <div class="analogy-title">💬 Group Discussion Questions</div>
+                    <p><strong>1.</strong> Why is using <code>set_index()</code> better than relying on the default 0, 1, 2... indices? When would you use each?</p>
+                    <p><strong>2.</strong> What's the difference between creating a DataFrame from a dict of lists vs a list of dicts? Which is more intuitive for row-oriented data (like API responses)?</p>
+                    <p><strong>3.</strong> When should you call <code>df.info()</code>? Why is checking dtypes important before starting analysis?</p>
+                    <p><strong>4.</strong> How would you explain the relationship between Series and DataFrames to someone new to Pandas?</p>
+                </div>
+
+                <div class="explanation-box info" data-notebook="week4-loading">
+                    <div class="explanation-title">📓 Practice in Notebook</div>
+                    <p>Open <code>notebook-sessions/week4/session2_data_engineering_group.ipynb</code> and load sample CSV/JSON files. Use <code>parse_dates</code>, <code>dtype</code>, and <code>usecols</code>. Add error handling and print shape.</p>
+                </div>
+
+                <button class="nav-btn complete-btn" data-topic="dataframes">Mark Topic Complete ✓</button>
+                <div class="nav-buttons">
+                    <button class="nav-btn prev" onclick="navigateToSection('series')">◀ Prev: Series</button>
+                    <button class="nav-btn next" onclick="navigateToSection('loading-data')">Next: Loading Data ▶</button>
+                </div>
+            </section>
+
+            <!-- ═══════════════════════════════════════════════════════════════
+                 SECTION: LOADING DATA
+                 ═══════════════════════════════════════════════════════════════ -->
+            <section id="loading-data" class="section">
+                <h2>📂 Loading Data (ETL)</h2>
+                <p>Extracting data from files is the first step in any pipeline.</p>
+
+                <div class="skill-progression">
+                    <div class="skill-tabs">
+                        <button class="skill-tab active" data-level="bad" data-target="load-bad">
+                            <span class="skill-tab-icon">🔴</span> Bad
+                        </button>
+                        <button class="skill-tab" data-level="novice" data-target="load-novice">
+                            <span class="skill-tab-icon">🟠</span> Novice
+                        </button>
+                        <button class="skill-tab" data-level="intermediate" data-target="load-intermediate">
+                            <span class="skill-tab-icon">🔵</span> Intermediate
+                        </button>
+                        <button class="skill-tab" data-level="best" data-target="load-best">
+                            <span class="skill-tab-icon">🟢</span> Best Practice
+                        </button>
+                    </div>
+
+                    <!-- BAD -->
+                    <div class="skill-content active" id="load-bad">
+                        <div class="code-container level-bad">
+                            <div class="code-header">
+                                <div class="code-header-left">
+                                    <span class="code-label">Python</span>
+                                    <span class="level-badge bad">❌ Bad Practice</span>
+                                    <span class="semantic-label">Manual Parsing</span>
+                                </div>
+                                <button class="run-button" data-output="['date,value', '2023-01-01,100']">Run ▶</button>
+                            </div>
+<pre><code><span class="comment"># ❌ BAD: Manual file reading</span>
+<span class="keyword">with</span> <span class="builtin">open</span>(<span class="string">'data.csv'</span>, <span class="string">'r'</span>) <span class="keyword">as</span> f:
+    lines = f.readlines()
+    
+<span class="comment"># Nightmare to handle:</span>
+<span class="comment"># - Quoted strings with commas ("New York, NY")</span>
+<span class="comment"># - Missing values</span>
+<span class="comment"># - Type conversion (everything is a string)</span>
+<span class="keyword">print</span>(lines[:<span class="number">2</span>])
+</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- NOVICE -->
+                    <div class="skill-content" id="load-novice">
+                        <div class="code-container level-novice">
+                            <div class="code-header">
+                                <div class="code-header-left">
+                                    <span class="code-label">Python</span>
+                                    <span class="level-badge novice">🔰 Novice</span>
+                                    <span class="semantic-label">Basic read_csv</span>
+                                </div>
+                                <button class="run-button" data-output="         date  value\n0  2023-01-01    100">Run ▶</button>
+                            </div>
+<pre><code><span class="comment"># 🔰 NOVICE: Basic read_csv</span>
+<span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+
+<span class="comment"># Reads the file, but defaults usually aren't enough</span>
+df = pd.read_csv(<span class="string">'data.csv'</span>)
+
+<span class="comment"># Problem: Dates are read as strings (object)</span>
+<span class="keyword">print</span>(df.head(<span class="number">1</span>))
+</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- INTERMEDIATE -->
+                    <div class="skill-content" id="load-intermediate">
+                        <div class="code-container level-intermediate">
+                            <div class="code-header">
+                                <div class="code-header-left">
+                                    <span class="code-label">Python</span>
+                                    <span class="level-badge intermediate">📈 Intermediate</span>
+                                    <span class="semantic-label">Parse Dates</span>
+                                </div>
+                                <button class="run-button" data-output="            value\ndate             \n2023-01-01    100">Run ▶</button>
+                            </div>
+<pre><code><span class="comment"># 📈 INTERMEDIATE: Parsing dates and index</span>
+<span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+
+df = pd.read_csv(
+    <span class="string">'data.csv'</span>,
+    parse_dates=[<span class="string">'date'</span>],  <span class="comment"># Convert to datetime objects</span>
+    index_col=<span class="string">'date'</span>       <span class="comment"># Use date as index</span>
+)
+
+<span class="keyword">print</span>(df.head(<span class="number">1</span>))
+</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- BEST -->
+                    <div class="skill-content" id="load-best">
+                        <div class="code-container level-best">
+                            <div class="code-header">
+                                <div class="code-header-left">
+                                    <span class="code-label">Python</span>
+                                    <span class="level-badge best">⭐ Best Practice</span>
+                                    <span class="semantic-label">Robust ETL Loading</span>
+                                </div>
+                                <button class="run-button" data-output="Data loaded successfully. Shape: (1000, 5)">Run ▶</button>
+                            </div>
+<pre><code><span class="comment"># ⭐ BEST PRACTICE: Robust configuration</span>
+<span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+
+<span class="comment"># Define types explicitly to save memory and prevent errors</span>
+dtypes = {
+    <span class="string">'category'</span>: <span class="string">'category'</span>,  <span class="comment"># Efficient for repeated strings</span>
+    <span class="string">'id'</span>: <span class="string">'str'</span>,             <span class="comment"># IDs should be strings, not numbers</span>
+    <span class="string">'value'</span>: <span class="string">'float32'</span>       <span class="comment"># Use smaller float if precision allows</span>
+}
+
+<span class="keyword">try</span>:
+    df = pd.read_csv(
+        <span class="string">'data.csv'</span>,
+        dtype=dtypes,
+        parse_dates=[<span class="string">'timestamp'</span>],
+        na_values=[<span class="string">'n/a'</span>, <span class="string">'missing'</span>, <span class="string">'-'</span>],  <span class="comment"># Handle custom nulls</span>
+        usecols=[<span class="string">'id'</span>, <span class="string">'timestamp'</span>, <span class="string">'category'</span>, <span class="string">'value'</span>] <span class="comment"># Load only what you need</span>
+    )
+    <span class="keyword">print</span>(<span class="string">f"Data loaded successfully. Shape: {df.shape}"</span>)
+<span class="keyword">except</span> FileNotFoundError:
+    <span class="keyword">print</span>(<span class="string">"Error: File not found."</span>)
+</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Common Pitfalls -->
+                <div class="explanation-box warning">
+                    <div class="explanation-title">⚠️ Common Data Loading Pitfalls</div>
+                    <p><strong>Not handling errors:</strong> Always use try/except when loading files. Files can be missing, corrupted, or have wrong formats.</p>
+                    <p><strong>Wrong encoding:</strong> CSV files can have different encodings (utf-8, latin-1, cp1252). Use <code>encoding='utf-8'</code> or try different encodings if you see errors.</p>
+                    <p><strong>Not checking shape:</strong> Always check <code>df.shape</code> after loading. If you expect 1000 rows but get 10, something went wrong!</p>
+                    <p><strong>Ignoring parse dates:</strong> Dates load as strings by default. Use <code>parse_dates=['date_column']</code> to auto-convert them.</p>
+                </div>
+
+                <!-- Discussion Questions -->
+                <div class="analogy-box">
+                    <div class="analogy-title">💬 Group Discussion Questions</div>
+                    <p><strong>1.</strong> Why is error handling critical when loading external data? What could go wrong?</p>
+                    <p><strong>2.</strong> When would you use <code>usecols</code> to load only specific columns? How does this save memory?</p>
+                    <p><strong>3.</strong> What's the difference between <code>read_csv()</code> and <code>read_excel()</code>? Which is faster and why?</p>
+                    <p><strong>4.</strong> How would you handle a 10GB CSV file that doesn't fit in memory? (Hint: <code>chunksize</code> parameter!)</p>
+                </div>
+
+                <div class="explanation-box info" data-notebook="week4-inspection">
+                    <div class="explanation-title">📓 Practice in Notebook</div>
+                    <p>Open <code>notebook-sessions/week4/session2_data_engineering_group.ipynb</code> and perform the inspection trilogy on loaded data: <code>df.shape</code>, <code>df.info()</code>, <code>df.isna().sum()</code>, and <code>df.describe()</code>.</p>
+                </div>
+
+                <button class="nav-btn complete-btn" data-topic="loading-data">Mark Topic Complete ✓</button>
+                <div class="nav-buttons">
+                    <button class="nav-btn prev" onclick="navigateToSection('dataframes')">◀ Prev: DataFrames</button>
+                    <button class="nav-btn next" onclick="navigateToSection('inspection')">Next: Inspection ▶</button>
+                </div>
+            </section>
+
+            <!-- ═══════════════════════════════════════════════════════════════
+                 SECTION: INSPECTION
+                 ═══════════════════════════════════════════════════════════════ -->
+            <section id="inspection" class="section">
+                <h2>🔍 Data Inspection</h2>
+                <p>Trust but verify. Always inspect data immediately after loading.</p>
+
+                <div class="skill-progression">
+                    <div class="skill-tabs">
+                        <button class="skill-tab active" data-level="bad" data-target="inspect-bad">
+                            <span class="skill-tab-icon">🔴</span> Bad
+                        </button>
+                        <button class="skill-tab" data-level="novice" data-target="inspect-novice">
+                            <span class="skill-tab-icon">🟠</span> Novice
+                        </button>
+                        <button class="skill-tab" data-level="best" data-target="inspect-best">
+                            <span class="skill-tab-icon">🟢</span> Best Practice
+                        </button>
+                    </div>
+
+                    <!-- BAD -->
+                    <div class="skill-content active" id="inspect-bad">
+                        <div class="code-container level-bad">
+                            <div class="code-header">
+                                <div class="code-header-left">
+                                    <span class="code-label">Python</span>
+                                    <span class="level-badge bad">❌ Bad Practice</span>
+                                    <span class="semantic-label">Print Everything</span>
+                                </div>
+                                <button class="run-button" data-output="[10000 rows x 50 columns] ... (Console flooded)">Run ▶</button>
+                            </div>
+<pre><code><span class="comment"># ❌ BAD: Printing the whole dataframe</span>
+<span class="keyword">print</span>(df)
+
+<span class="comment"># Problems:</span>
+<span class="comment"># - Floods the console/notebook</span>
+<span class="comment"># - Slow for large datasets</span>
+<span class="comment"># - Doesn't show data types or nulls</span>
+</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- NOVICE -->
+                    <div class="skill-content" id="inspect-novice">
+                        <div class="code-container level-novice">
+                            <div class="code-header">
+                                <div class="code-header-left">
+                                    <span class="code-label">Python</span>
+                                    <span class="level-badge novice">🔰 Novice</span>
+                                    <span class="semantic-label">Using head()</span>
+                                </div>
+                                <button class="run-button" data-output="   id  value\n0   1    100\n1   2    200\n2   3    150">Run ▶</button>
+                            </div>
+<pre><code><span class="comment"># 🔰 NOVICE: Just checking the top</span>
+<span class="keyword">print</span>(df.head())
+
+<span class="comment"># Better, but misses hidden issues like:</span>
+<span class="comment"># - Wrong data types (numbers stored as strings)</span>
+<span class="comment"># - Null values further down</span>
+</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- BEST -->
+                    <div class="skill-content" id="inspect-best">
+                        <div class="code-container level-best">
+                            <div class="code-header">
+                                <div class="code-header-left">
+                                    <span class="code-label">Python</span>
+                                    <span class="level-badge best">⭐ Best Practice</span>
+                                    <span class="semantic-label">Comprehensive Audit</span>
+                                </div>
+                                <button class="run-button" data-output="SHAPE: (1000, 5)\n\nTYPES:\nid           object\nvalue       float64\ndtype: object\n\nMISSING:\nvalue    5\ndtype: int64">Run ▶</button>
+                            </div>
+<pre><code><span class="comment"># ⭐ BEST PRACTICE: The Inspection Trilogy</span>
+<span class="comment"># 1. Shape (Dimensions)</span>
+<span class="keyword">print</span>(<span class="string">f"SHAPE: {df.shape}"</span>)
+
+<span class="comment"># 2. Info (Types & Memory)</span>
+<span class="keyword">print</span>(<span class="string">"\nTYPES:"</span>)
+<span class="keyword">print</span>(df.dtypes)
+
+<span class="comment"># 3. Null Audit (Crucial!)</span>
+<span class="keyword">print</span>(<span class="string">"\nMISSING:"</span>)
+<span class="keyword">print</span>(df.isna().sum())
+
+<span class="comment"># 4. Statistics (Distribution)</span>
+<span class="comment"># print(df.describe())</span>
+</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="nav-btn complete-btn" data-topic="inspection">Mark Topic Complete ✓</button>
+                <div class="nav-buttons">
+                    <button class="nav-btn prev" onclick="navigateToSection('loading-data')">◀ Prev: Loading</button>
+                    <button class="nav-btn next" onclick="navigateToSection('cheatsheet')">Next: Cheat Sheet ▶</button>
+                <!-- Common Pitfalls -->
+                <div class="explanation-box warning">
+                    <div class="explanation-title">⚠️ Common Data Inspection Pitfalls</div>
+                    <p><strong>Only checking .head():</strong> The first 5 rows might look perfect, but row 1000 has corrupted data. Always check .tail(), sample(), and info().</p>
+                    <p><strong>Ignoring NaN counts:</strong> Use <code>df.isna().sum()</code> to find missing data. Some columns might be 90% NaN!</p>
+                    <p><strong>Not verifying dtypes:</strong> A date column as 'object' (string) is a red flag. Check with <code>df.dtypes</code> or <code>df.info()</code>.</p>
+                    <p><strong>Assuming clean data:</strong> Real-world data is NEVER clean. Always inspect, validate, and handle edge cases.</p>
+                </div>
+
+                <!-- Discussion Questions -->
+                <div class="analogy-box">
+                    <div class="analogy-title">💬 Group Discussion Questions</div>
+                    <p><strong>1.</strong> Why is <code>df.info()</code> more valuable than <code>df.head()</code> for understanding a new dataset?</p>
+                    <p><strong>2.</strong> What would you check first when handed a brand new CSV file? Create a checklist!</p>
+                    <p><strong>3.</strong> How do <code>describe()</code> statistics help you spot outliers or data quality issues?</p>
+                    <p><strong>4.</strong> When would you use <code>df.sample(10)</code> instead of <code>df.head(10)</code>?</p>
+                </div>
+
+                <button class="nav-btn complete-btn" data-topic="inspection">Mark Topic Complete ✓</button>
+                <div class="nav-buttons">
+                    <button class="nav-btn prev" onclick="navigateToSection('loading-data')">◀ Prev: Loading Data</button>
+                    <button class="nav-btn next" onclick="navigateToSection('supplemental')">Next: Supplemental ▶</button>
+                </div>
+            </section>
+
+            <!-- ═══════════════════════════════════════════════════════════════
+                 SECTION: SUPPLEMENTAL MATERIALS
+                 ═══════════════════════════════════════════════════════════════ -->
+            <section id="supplemental" class="section">
+                <h2>📚 Supplemental Materials: Data Visualization</h2>
+                <p>Enhance your data wrangling skills with visualization techniques. Seeing your aggregated data helps validate your transformations and communicate insights effectively.</p>
+
+                <div class="objectives-box">
+                    <div class="objectives-title">🎯 Advanced Topics</div>
+                    <ul class="objectives-list">
+                        <li><strong>Matplotlib Basics</strong> — Create line plots, bar charts, and scatter plots to visualize wrangled data</li>
+                        <li><strong>Seaborn Power</strong> — Statistical visualizations with built-in styling</li>
+                        <li><strong>Customization</strong> — Colors, labels, titles, and professional styling</li>
+                        <li><strong>Subplots</strong> — Create multi-panel figures for comparing different data views</li>
+                    </ul>
+                </div>
+
+                <div class="explanation-box info">
+                    <div class="explanation-title">📖 Extended Lesson: Data Visualization</div>
+                    <p>For a comprehensive introduction to data visualization with Matplotlib and Seaborn, explore the supplemental lesson materials:</p>
+                    <p style="margin-top: 1rem;">
+                        <a href="supplemental_data_visualization.html" class="nav-btn" style="text-decoration: none; display: inline-block;">
+                            📊 Open Data Visualization Lesson →
+                        </a>
+                    </p>
+                    <p style="margin-top: 0.75rem; color: var(--text-secondary); font-size: 0.9rem;">
+                        <strong>Topics covered:</strong> Matplotlib fundamentals, Seaborn statistical plots, customization techniques, creating subplots, and visualization best practices.
+                    </p>
+                </div>
+
+                <div class="analogy-box">
+                    <div class="analogy-title">💡 Why Visualization Matters for Data Wrangling</div>
+                    <p>Visualization isn't just for final reports—it's a critical part of data exploration:</p>
+                    <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
+                        <li>Verify your <code>groupby()</code> aggregations with bar charts</li>
+                        <li>Spot outliers visually before they skew your merge operations</li>
+                        <li>Confirm pivot table results with heatmaps</li>
+                        <li>Validate data transformations with before/after comparisons</li>
+                    </ul>
+                </div>
+
+                <div class="nav-buttons">
+                    <button class="nav-btn prev" onclick="navigateToSection('pivot-tables')">◀ Prev: Pivot Tables</button>
+                    <button class="nav-btn next" onclick="navigateToSection('cheatsheet')">Next: Cheat Sheet ▶</button>
+                </div>
+            </section>
+
+            <!-- ═══════════════════════════════════════════════════════════════
+                 SECTION: CHEAT SHEET
+                 ═══════════════════════════════════════════════════════════════ -->
+            <section id="cheatsheet" class="section">
+                <h2>📜 Data Engineering Cheat Sheet</h2>
+                <p>Quick reference for your daily ETL tasks with Pandas.</p>
+
+                <div class="explanation-box" data-quiz="week4-quiz">
+                    <div class="explanation-title">🧠 Quick Quiz: Week 4 Concepts</div>
+                    <form aria-label="Week 4 Quiz" style="color: var(--text-secondary);">
+                        <p>1) Which parameter converts a date column to datetime in <code>read_csv</code>?</p>
+                        <label><input type="radio" name="q1"> dtype</label>
+                        <label><input type="radio" name="q1" data-correct> parse_dates</label>
+                        <label><input type="radio" name="q1"> index_col</label>
+                        <p>2) Select by label vs by position:</p>
+                        <label><input type="radio" name="q2" data-correct> loc = by label, iloc = by position</label>
+                        <label><input type="radio" name="q2"> loc = by position, iloc = by label</label>
+                        <p>3) Which is MOST informative for types and nulls?</p>
+                        <label><input type="radio" name="q3"> head()</label>
+                        <label><input type="radio" name="q3" data-correct> info()</label>
+                        <label><input type="radio" name="q3"> shape</label>
+                        <div style="margin-top:0.75rem;">
+                            <button class="nav-btn" type="button" aria-label="Check quiz answers" onclick="(function(){var s=0;document.querySelectorAll('[data-quiz] input[data-correct]').forEach(function(el){if(el.checked)s++;});alert('Score: '+s+'/3');})();">Check Answers</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="code-container level-best">
+                    <div class="code-header">
+                        <span class="code-label">Pandas Patterns</span>
+                        <span class="level-badge best">Reference</span>
+                    </div>
+<pre><code><span class="comment"># ═══ IMPORTS ═══</span>
+<span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+<span class="keyword">import</span> numpy <span class="keyword">as</span> np
+
+<span class="comment"># ═══ CREATION ═══</span>
+df = pd.DataFrame(data)              <span class="comment"># From dict/list</span>
+s = pd.Series(data, name=<span class="string">'MyVar'</span>)  <span class="comment"># 1D Data</span>
+
+<span class="comment"># ═══ LOADING ═══</span>
+df = pd.read_csv(<span class="string">'file.csv'</span>, parse_dates=[<span class="string">'date'</span>])
+df = pd.read_json(<span class="string">'file.json'</span>)
+df = pd.read_sql(query, connection)
+
+<span class="comment"># ═══ INSPECTION ═══</span>
+df.head(<span class="number">5</span>)         <span class="comment"># First 5 rows</span>
+df.shape           <span class="comment"># (rows, cols)</span>
+df.info()          <span class="comment"># Types & memory</span>
+df.describe()      <span class="comment"># Stats</span>
+df.isna().sum()    <span class="comment"># Count nulls</span>
+
+<span class="comment"># ═══ SELECTION ═══</span>
+df[<span class="string">'col'</span>]          <span class="comment"># Select column</span>
+df[[<span class="string">'c1'</span>, <span class="string">'c2'</span>]]   <span class="comment"># Select multiple</span>
+df.loc[<span class="string">'id_5'</span>]     <span class="comment"># Select row by Label</span>
+df.iloc[<span class="number">0</span>]         <span class="comment"># Select row by Integer Position</span>
+</code></pre>
+                </div>
+
+                <!-- Key Takeaways -->
+                <div class="analogy-box">
+                    <div class="analogy-title">🎓 Key Takeaways from Week 4</div>
+                    <p><strong>Pandas Imports:</strong> Always use <code>import pandas as pd</code> and <code>import numpy as np</code>. Check versions for reproducibility.</p>
+                    <p><strong>Series vs DataFrame:</strong> Series = 1D labeled array (like a column). DataFrame = 2D table (like a spreadsheet). Each DataFrame column IS a Series.</p>
+                    <p><strong>Loading Data:</strong> Use <code>pd.read_csv()</code>, <code>pd.read_excel()</code>, <code>pd.read_json()</code>. Always handle errors with try/except.</p>
+                    <p><strong>Inspection First:</strong> Always run <code>df.info()</code>, <code>df.describe()</code>, <code>df.isna().sum()</code> before analysis. Check dtypes immediately!</p>
+                    <p><strong>Think Vectorized:</strong> Avoid loops. Use column operations. Pandas is optimized for vectorized operations on entire columns.</p>
+                </div>
+
+                <button class="nav-btn complete-btn" data-topic="cheatsheet">Mark Lesson Complete 🎉</button>
+                <div class="nav-buttons">
+                    <button class="nav-btn prev" onclick="navigateToSection('inspection')">◀ Prev: Inspection</button>
+                    <button class="nav-btn next" disabled>🏆 Lesson Complete!</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Achievement Popup -->
+    <div class="achievement" id="achievement">
+        <div class="achievement-icon">🏆</div>
+        <div class="achievement-title">Achievement Unlocked!</div>
+        <p>You've mastered the basics of Data Engineering with Pandas!</p>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         JAVASCRIPT INTERACTIVITY
+         ═══════════════════════════════════════════════════════════════════ -->
+    <script>
+        // CONFIGURATION
+        const sectionsOrder = ['intro', 'pandas-basics', 'series', 'dataframes', 'loading-data', 'inspection', 'supplemental', 'cheatsheet'];
+        const totalTopics = 6; // Excluding intro
+        
+        // DOM Elements
+        const progressBar = document.getElementById('progressBar');
+        const xpFill = document.getElementById('xpFill');
+        const xpText = document.getElementById('xpText');
+        const achievement = document.getElementById('achievement');
+        
+        // State
+        const completed = new Set();
+
+        // NAVIGATION
+        function navigateToSection(id) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            const target = document.getElementById(id);
+            if (target) target.classList.add('active');
+            
+            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+            const nav = document.querySelector(`.nav-item[data-section="${id}"]`);
+            if (nav) nav.classList.add('active');
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', () => navigateToSection(item.dataset.section));
+        });
+
+        // XP & PROGRESS
+        function updateXP() {
+            const percent = (completed.size / totalTopics) * 100;
+            xpFill.style.width = percent + '%';
+            xpText.textContent = `${completed.size} / ${totalTopics} Topics`;
+            
+            if (completed.size === totalTopics) {
+                achievement.classList.add('show');
+                setTimeout(() => achievement.classList.remove('show'), 6000);
+            }
+        }
+
+        document.querySelectorAll('.complete-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const topic = btn.dataset.topic;
+                if (!completed.has(topic)) {
+                    completed.add(topic);
+                    const item = document.querySelector(`.nav-item[data-section="${topic}"]`);
+                    if (item) item.classList.add('completed');
+                    
+                    btn.textContent = 'Completed ✓';
+                    btn.disabled = true;
+                    btn.style.opacity = '0.7';
+                    updateXP();
+                }
+            });
+        });
+
+        // RUN BUTTONS (SIMULATION)
+        document.querySelectorAll('.run-button').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const container = btn.closest('.code-container');
+                let out = container.querySelector('.output');
+                
+                if (!out) {
+                    out = document.createElement('div');
+                    out.className = 'output';
+                    container.appendChild(out);
+                }
+                
+                out.innerHTML = '<div class="output-label">Output:</div>' + 
+                               (btn.dataset.output || 'No output').replace(/\n/g, '<br>');
+                out.classList.add('show');
+                
+                btn.disabled = true;
+                btn.innerHTML = '✔ Ran';
+            });
+        });
+
+        // SKILL TABS
+        document.querySelectorAll('.skill-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const progression = tab.closest('.skill-progression');
+                const targetId = tab.dataset.target;
+                
+                progression.querySelectorAll('.skill-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                progression.querySelectorAll('.skill-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                
+                const targetContent = document.getElementById(targetId);
+                if (targetContent) targetContent.classList.add('active');
+            });
+        });
+
+        // SCROLL PROGRESS
+        window.addEventListener('scroll', () => {
+            const doc = document.documentElement;
+            const scrolled = doc.scrollTop || document.body.scrollTop;
+            const height = (doc.scrollHeight - doc.clientHeight) || 1;
+            const percent = (scrolled / height) * 100;
+            progressBar.style.width = percent + '%';
+        });
+
+        // KEYBOARD NAV
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+                const activeSection = document.querySelector('.section.active');
+                if (!activeSection) return;
+                
+                const currentIndex = sectionsOrder.indexOf(activeSection.id);
+                let newIndex;
+                
+                if (e.key === 'ArrowRight' && currentIndex < sectionsOrder.length - 1) {
+                    newIndex = currentIndex + 1;
+                } else if (e.key === 'ArrowLeft' && currentIndex > 0) {
+                    newIndex = currentIndex - 1;
+                }
+                
+                if (newIndex !== undefined) {
+                    navigateToSection(sectionsOrder[newIndex]);
+                }
+            }
+        });
+
+        console.log('🐍 Data Engineering Lesson Loaded!');
+    </script>
+
+    </body>
+</html>

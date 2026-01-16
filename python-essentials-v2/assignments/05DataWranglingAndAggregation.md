@@ -1,4 +1,4 @@
-## Lesson 6 Assignment — Data Wrangling and Manipulation
+## Lesson 5 Assignment — Data Wrangling and Aggregation
 ### Advanced Data Wrangling and Aggregation with Pandas
 
 ### **Objective:**
