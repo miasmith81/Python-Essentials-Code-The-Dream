@@ -861,6 +861,72 @@ pip3 --version
                     <li>Code Runner - Run Python files with a single click</li>
                 </ul>
 
+                <h3>4. Your First Python Program</h3>
+                <p>Let's verify everything works by creating and running your first Python script!</p>
+
+                <div class="code-container">
+                    <div class="code-header">
+                        <span class="code-label">hello.py (Your First Script)</span>
+                    </div>
+<pre><code><span class="comment"># My first Python program</span>
+<span class="comment"># Save this as hello.py and run it</span>
+
+<span class="keyword">print</span>(<span class="string">"Hello, Python!"</span>)
+<span class="keyword">print</span>(<span class="string">"Welcome to Code the Dream!"</span>)
+<span class="keyword">print</span>(<span class="string">"You just wrote your first program 🎉"</span>)
+
+<span class="comment"># Let's do some math</span>
+<span class="keyword">print</span>(<span class="string">"Quick math:"</span>, <span class="number">42</span> + <span class="number">8</span>)  <span class="comment"># Should print 50</span>
+</code></pre>
+                </div>
+
+                <div class="explanation-box">
+                    <div class="explanation-title">🚀 Try It: Run Your First Script</div>
+                    <p><strong>Step 1:</strong> Create a new file in VS Code called <code>hello.py</code></p>
+                    <p><strong>Step 2:</strong> Type the code above (don't copy-paste!)</p>
+                    <p><strong>Step 3:</strong> Run it using one of these methods:</p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Click the "Run" button (▶️) in VS Code top-right</li>
+                        <li>Right-click in editor → "Run Python File in Terminal"</li>
+                        <li>In terminal: <code>python hello.py</code></li>
+                    </ul>
+                    <p style="margin-top: 1rem;"><strong style="color: var(--accent-green);">Success!</strong> If you see output, you're ready for Week 1!</p>
+                </div>
+
+                <div style="background: rgba(0, 255, 65, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-green); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-green); margin-bottom: 1rem; font-size: 1.1rem;">🏋️ Exercise: Personalize Your Hello Program</div>
+                    <p><strong>Modify your script to:</strong></p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Print your name instead of "Python"</li>
+                        <li>Print today's date</li>
+                        <li>Calculate your birth year (current year - your age)</li>
+                        <li>Print a fun fact about yourself</li>
+                    </ul>
+                    <p style="margin-top: 1rem; color: var(--accent-yellow);"><em>💡 This is your first GitHub-worthy code! Save it and we'll push it to GitHub later.</em></p>
+                </div>
+
+                <h3>5. Interactive Python Shell</h3>
+                <p>The Python shell is your playground for experimenting with code instantly.</p>
+
+                <div class="code-container">
+                    <div class="code-header">
+                        <span class="code-label">Terminal - Python Shell</span>
+                    </div>
+<pre><code><span class="comment"># Start the interactive shell</span>
+> python
+Python 3.11.5 (main, Sep 11 2023, 13:54:46)
+>>> <span class="number">5</span> + <span class="number">3</span>
+8
+>>> <span class="string">"Hello"</span> + <span class="string">" World"</span>
+'Hello World'
+>>> <span class="keyword">len</span>(<span class="string">"Python"</span>)
+6
+>>> <span class="keyword">exit</span>()  <span class="comment"># Exit the shell</span>
+</code></pre>
+                </div>
+
+                <p><strong style="color: var(--accent-cyan);">Pro Tip:</strong> Use the shell for quick experiments—test ideas before writing full scripts. Type <code>help(function_name)</code> to learn about any function!</p>
+
                 <button class="nav-btn complete-btn" data-topic="setup">Mark Complete ✓</button>
                 <div class="nav-buttons">
                     <button class="nav-btn prev" onclick="navigateToSection('intro')">◀ Prev: Intro</button>
@@ -1261,6 +1327,67 @@ count = <span class="number">0</span>
                     </ul>
                 </div>
 
+                <div style="background: rgba(0, 255, 65, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-green); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-green); margin-bottom: 1rem; font-size: 1.1rem;">🏋️ Exercise: FizzBuzz Challenge</div>
+                    <p><strong>The Classic Interview Question:</strong> Print numbers 1 to 20, but:</p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>For multiples of 3, print "Fizz"</li>
+                        <li>For multiples of 5, print "Buzz"</li>
+                        <li>For multiples of both, print "FizzBuzz"</li>
+                    </ul>
+                    <p style="margin-top: 1rem;"><strong>Expected Output:</strong> 1, 2, Fizz, 4, Buzz, Fizz, 7, 8, Fizz, Buzz, 11, Fizz, 13, 14, FizzBuzz, 16, 17, Fizz, 19, Buzz</p>
+                    <p style="margin-top: 0.5rem;"><em style="color: var(--accent-yellow);">💡 Hint: Use <code>%</code> (modulo) to check divisibility. Order matters—check "both" first!</em></p>
+                </div>
+
+                <div class="code-container" data-example="fizzbuzz-solution">
+                    <div class="code-header">
+                        <span class="code-label">FizzBuzz Solution (Try First!)</span>
+                        <button class="nav-btn" type="button" onclick="this.closest('.code-container').querySelector('pre').style.display='block';this.remove()">Show Solution</button>
+                    </div>
+<pre style="display:none"><code><span class="comment"># FizzBuzz - a classic interview question</span>
+<span class="keyword">for</span> num <span class="keyword">in</span> <span class="keyword">range</span>(<span class="number">1</span>, <span class="number">21</span>):
+    <span class="keyword">if</span> num % <span class="number">3</span> == <span class="number">0</span> <span class="keyword">and</span> num % <span class="number">5</span> == <span class="number">0</span>:
+        <span class="keyword">print</span>(<span class="string">"FizzBuzz"</span>)
+    <span class="keyword">elif</span> num % <span class="number">3</span> == <span class="number">0</span>:
+        <span class="keyword">print</span>(<span class="string">"Fizz"</span>)
+    <span class="keyword">elif</span> num % <span class="number">5</span> == <span class="number">0</span>:
+        <span class="keyword">print</span>(<span class="string">"Buzz"</span>)
+    <span class="keyword">else</span>:
+        <span class="keyword">print</span>(num)
+</code></pre>
+                </div>
+
+                <div style="background: rgba(0, 240, 255, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-cyan); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-cyan); margin-bottom: 1rem; font-size: 1.1rem;">🏋️ Exercise: Number Guessing Game</div>
+                    <p><strong>Build a simple game:</strong></p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>The computer picks a random number 1-10</li>
+                        <li>The player guesses until correct</li>
+                        <li>Give hints: "Too high!" or "Too low!"</li>
+                        <li>Count and display number of guesses</li>
+                    </ul>
+                    <p style="margin-top: 1rem;"><strong>Starter Code:</strong></p>
+<pre style="background: var(--bg-dark); padding: 1rem; border-radius: 4px;"><code><span class="keyword">import</span> random
+
+secret = random.randint(<span class="number">1</span>, <span class="number">10</span>)
+guess_count = <span class="number">0</span>
+
+<span class="comment"># Your code here: while loop, get input, compare, give hints</span>
+</code></pre>
+                </div>
+
+                <div style="background: rgba(255, 0, 255, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-magenta); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-magenta); margin-bottom: 1rem; font-size: 1.1rem;">🌟 Challenge: Password Strength Checker</div>
+                    <p><strong>Advanced Exercise:</strong> Check if a password meets security requirements.</p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>At least 8 characters long</li>
+                        <li>Contains at least one digit</li>
+                        <li>Contains at least one uppercase letter</li>
+                        <li>Rate as: "Weak", "Medium", or "Strong"</li>
+                    </ul>
+                    <p style="margin-top: 0.5rem;"><em style="color: var(--accent-yellow);">💡 Hint: Use <code>any(c.isdigit() for c in password)</code> to check for digits</em></p>
+                </div>
+
                 <div class="explanation-box info" data-notebook="session1">
                     <div class="explanation-title">📓 Practice in Notebook</div>
                     <p>Open <code>notebook-sessions/week1/session1_intro_to_python.ipynb</code> and implement the grade calculator and discount tiers with your own values.</p>
@@ -1376,6 +1503,54 @@ result = is_valid_email(<span class="string">'alice@example.com'</span>)
                         <li>Return the value (don’t print)</li>
                         <li>Bonus: Validate inputs are numbers</li>
                     </ul>
+                </div>
+
+                <div style="background: rgba(0, 255, 65, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-green); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-green); margin-bottom: 1rem; font-size: 1.1rem;">🏋️ Exercise: Build a Mini Calculator</div>
+                    <p><strong>Create functions for basic math operations:</strong></p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li><code>add(a, b)</code> - returns a + b</li>
+                        <li><code>subtract(a, b)</code> - returns a - b</li>
+                        <li><code>multiply(a, b)</code> - returns a * b</li>
+                        <li><code>divide(a, b)</code> - returns a / b (handle division by zero!)</li>
+                    </ul>
+                </div>
+
+                <div class="code-container" data-example="scope">
+                    <div class="code-header">
+                        <span class="code-label">Understanding Scope (Important!)</span>
+                    </div>
+<pre><code><span class="comment"># Local vs Global Variables</span>
+message = <span class="string">"I'm global"</span>  <span class="comment"># Global - accessible everywhere</span>
+
+<span class="keyword">def</span> greet():
+    message = <span class="string">"I'm local"</span>  <span class="comment"># Local - only inside this function</span>
+    <span class="keyword">print</span>(message)
+
+greet()         <span class="comment"># Output: I'm local</span>
+<span class="keyword">print</span>(message)  <span class="comment"># Output: I'm global</span>
+</code></pre>
+                </div>
+
+                <div class="code-container" data-example="multiple-returns">
+                    <div class="code-header">
+                        <span class="code-label">Returning Multiple Values</span>
+                    </div>
+<pre><code><span class="comment"># Functions can return multiple values</span>
+<span class="keyword">def</span> get_stats(purchases):
+    total = <span class="keyword">sum</span>(purchases)
+    count = <span class="keyword">len</span>(purchases)
+    <span class="keyword">return</span> total, count
+
+purchases = [<span class="number">29.99</span>, <span class="number">49.99</span>, <span class="number">9.99</span>]
+total, count = get_stats(purchases)
+<span class="keyword">print</span>(<span class="string">f"Total: ${total:.2f}, Items: {count}"</span>)
+</code></pre>
+                </div>
+
+                <div style="background: rgba(255, 0, 255, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-magenta); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-magenta); margin-bottom: 1rem; font-size: 1.1rem;">🌟 Challenge: BMI Calculator</div>
+                    <p><strong>Build a BMI calculator:</strong> Create <code>calculate_bmi(weight_kg, height_m)</code> and <code>get_bmi_category(bmi)</code> to categorize as Underweight/Normal/Overweight/Obese.</p>
                 </div>
 
                 <div class="explanation-box info" data-notebook="session1">

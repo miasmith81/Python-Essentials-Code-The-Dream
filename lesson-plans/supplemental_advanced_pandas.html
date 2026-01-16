@@ -453,6 +453,20 @@ merged = pd.merge(users, depts, on=<span class="string">'id'</span>, how=<span c
                     </div>
                 </div>
 
+                <div style="background: rgba(0, 255, 65, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-green); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-green); margin-bottom: 1rem; font-size: 1.1rem;">🏋️ Exercise: Customer Orders</div>
+                    <p><strong>Scenario:</strong> You have three DataFrames: <code>customers</code>, <code>orders</code>, and <code>products</code>. Merge them to create a complete order report.</p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Create a <code>customers</code> DataFrame with columns: <code>customer_id</code>, <code>name</code>, <code>city</code></li>
+                        <li>Create an <code>orders</code> DataFrame with columns: <code>order_id</code>, <code>customer_id</code>, <code>product_id</code>, <code>quantity</code></li>
+                        <li>Create a <code>products</code> DataFrame with columns: <code>product_id</code>, <code>product_name</code>, <code>price</code></li>
+                        <li>Merge all three DataFrames to show: customer name, product name, quantity, and total price</li>
+                        <li>Use a left join to keep all orders, even if product info is missing</li>
+                        <li>Calculate total revenue per customer using groupby after merging</li>
+                    </ul>
+                    <p style="margin-top: 1rem;"><strong>Expected Output:</strong> A DataFrame showing each order with customer details, product details, and calculated total (quantity × price).</p>
+                </div>
+
                 <div class="warning-box">
                     <div class="warning-title">⚠️ Common Pitfalls: Merging</div>
                     <ul>
@@ -506,6 +520,34 @@ summary = df.groupby(<span class="string">'dept'</span>).agg({
 
 <span class="keyword">print</span>(summary)
 </code></pre>
+                </div>
+
+                <div style="background: rgba(0, 255, 65, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-green); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-green); margin-bottom: 1rem; font-size: 1.1rem;">🏋️ Exercise: Sales By Region</div>
+                    <p><strong>Scenario:</strong> Analyze regional sales data using GroupBy with multiple aggregations.</p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Create a sales DataFrame with columns: <code>region</code>, <code>salesperson</code>, <code>product</code>, <code>units_sold</code>, <code>revenue</code></li>
+                        <li>Group by <code>region</code> and calculate: total revenue, average units sold, count of transactions</li>
+                        <li>Group by <code>region</code> AND <code>product</code> to find best-selling product per region</li>
+                        <li>Use <code>.agg()</code> with a dictionary to apply different functions to different columns</li>
+                        <li>Find the top salesperson in each region using <code>idxmax()</code> or sorting</li>
+                        <li>Reset index and rename columns for a clean summary table</li>
+                    </ul>
+                    <p style="margin-top: 1rem;"><strong>Bonus:</strong> Use <code>.transform()</code> to add a column showing each row's percentage of regional total revenue.</p>
+                </div>
+
+                <div style="background: rgba(255, 0, 255, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-magenta); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-magenta); margin-bottom: 1rem; font-size: 1.1rem;">🚀 Challenge: Excel-Style Reports (Pivot Tables)</div>
+                    <p><strong>Scenario:</strong> Create Excel-style pivot table reports for business analysis.</p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Create a sales DataFrame with: <code>date</code>, <code>region</code>, <code>category</code>, <code>product</code>, <code>revenue</code></li>
+                        <li>Use <code>pd.pivot_table()</code> with <code>region</code> as rows and <code>category</code> as columns</li>
+                        <li>Add <code>margins=True</code> to show row and column totals (like Excel)</li>
+                        <li>Create a multi-index pivot table with <code>region</code> and <code>category</code> as rows</li>
+                        <li>Use <code>aggfunc</code> parameter to show both sum and mean in the same pivot table</li>
+                        <li>Use <code>fill_value=0</code> to replace NaN with zeros in empty cells</li>
+                    </ul>
+                    <p style="margin-top: 1rem;"><strong>Advanced:</strong> Create a crosstab showing count of products sold by region and day of week.</p>
                 </div>
 
                 <div class="warning-box">
@@ -610,6 +652,21 @@ df[<span class="string">'B'</span>] = df[<span class="string">'B'</span>].fillna
                     </div>
                 </div>
 
+                <div style="background: rgba(0, 255, 65, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-green); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-green); margin-bottom: 1rem; font-size: 1.1rem;">🏋️ Exercise: Stock Data Analysis</div>
+                    <p><strong>Scenario:</strong> Work with stock price data that has missing values and datetime index.</p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Create a stock DataFrame with <code>date</code>, <code>symbol</code>, <code>open</code>, <code>high</code>, <code>low</code>, <code>close</code>, <code>volume</code></li>
+                        <li>Convert the <code>date</code> column to datetime and set it as the index</li>
+                        <li>Introduce some NaN values to simulate missing trading days</li>
+                        <li>Use <code>ffill()</code> (forward fill) to fill missing prices with the last known value</li>
+                        <li>Resample to weekly data using <code>.resample('W').agg({'close': 'last', 'volume': 'sum'})</code></li>
+                        <li>Calculate 7-day rolling average using <code>.rolling(7).mean()</code></li>
+                        <li>Handle volume NaN differently (fill with 0 since no trades occurred)</li>
+                    </ul>
+                    <p style="margin-top: 1rem;"><strong>Bonus:</strong> Use <code>interpolate(method='linear')</code> for smoother missing value estimation.</p>
+                </div>
+
                 <div class="warning-box">
                     <div class="warning-title">⚠️ Common Pitfalls: Missing Data</div>
                     <ul>
@@ -663,6 +720,34 @@ gmail_users = df[df[<span class="string">'email'</span>].str.contains(<span clas
 
 <span class="keyword">print</span>(df[<span class="string">'name'</span>])
 </code></pre>
+                </div>
+
+                <div style="background: rgba(0, 255, 65, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-green); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-green); margin-bottom: 1rem; font-size: 1.1rem;">🏋️ Exercise: Custom Transformations</div>
+                    <p><strong>Scenario:</strong> Use <code>apply()</code> and <code>transform()</code> for complex row and column operations.</p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Create a DataFrame with employee data: <code>name</code>, <code>department</code>, <code>salary</code>, <code>hire_date</code>, <code>performance_score</code></li>
+                        <li>Use <code>apply()</code> on a row to calculate a custom bonus: <code>salary * 0.1</code> if performance > 8, else <code>salary * 0.05</code></li>
+                        <li>Use <code>apply()</code> on a column to categorize salaries: 'Low', 'Medium', 'High' based on thresholds</li>
+                        <li>Use <code>transform()</code> to calculate each employee's salary as percentage of department total</li>
+                        <li>Create a custom function that processes multiple columns and returns a new calculated field</li>
+                        <li>Compare <code>apply(axis=0)</code> (column-wise) vs <code>apply(axis=1)</code> (row-wise) behavior</li>
+                    </ul>
+                    <p style="margin-top: 1rem;"><strong>Key Insight:</strong> <code>transform()</code> returns same-shape output (for adding columns), while <code>apply()</code> can return any shape.</p>
+                </div>
+
+                <div style="background: rgba(255, 0, 255, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-magenta); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-magenta); margin-bottom: 1rem; font-size: 1.1rem;">🚀 Challenge: Text Data Pipeline</div>
+                    <p><strong>Scenario:</strong> Build a complete text cleaning pipeline using method chaining.</p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Create a DataFrame with messy product descriptions containing: extra spaces, mixed case, special characters, HTML tags</li>
+                        <li>Chain <code>.str</code> methods: <code>strip() → lower() → replace() → extract()</code></li>
+                        <li>Extract product codes using regex: <code>.str.extract(r'(\w{3}-\d{4})')</code></li>
+                        <li>Remove HTML tags using <code>.str.replace(r'<.*?>', '', regex=True)</code></li>
+                        <li>Split product names into separate columns (brand, model, variant)</li>
+                        <li>Flag invalid entries where cleaning produced empty strings</li>
+                    </ul>
+                    <p style="margin-top: 1rem;"><strong>Advanced:</strong> Use <code>apply()</code> with a custom function for complex cleaning logic that can't be done with <code>.str</code> alone.</p>
                 </div>
 
                 <div class="warning-box">

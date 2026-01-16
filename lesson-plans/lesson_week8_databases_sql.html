@@ -400,6 +400,19 @@ query = <span class="string">f"SELECT * FROM users WHERE name = '{user_input}'"<
                             <div class="explanation-title">⚠️ SQL Injection</div>
                             <p>Never insert user input directly into a query string. Malicious users can destroy your database.</p>
                         </div>
+
+                        <div style="background: rgba(0, 255, 65, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-green); margin: 2rem 0; border-radius: 8px;">
+                            <div style="font-weight: 700; color: var(--accent-green); margin-bottom: 1rem; font-size: 1.1rem;">🏋️ Exercise: Parameterized Queries</div>
+                            <p><strong>Practice safe query techniques to prevent SQL injection:</strong></p>
+                            <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                                <li>Create a <code>users</code> table with columns: <code>id</code>, <code>username</code>, <code>email</code>, <code>role</code></li>
+                                <li>Write a safe INSERT using <code>?</code> placeholders for all user-provided values</li>
+                                <li>Create a search function that accepts a username parameter safely</li>
+                                <li>Test with malicious input like <code>'; DROP TABLE users; --</code> to verify protection</li>
+                                <li>Compare the executed query string when using f-strings vs parameterized queries</li>
+                            </ul>
+                            <p style="margin-top: 1rem; color: var(--accent-cyan);"><strong>Bonus:</strong> Create a login function that uses parameterized queries to check username AND password.</p>
+                        </div>
                     </div>
 
                     <!-- NOVICE -->
@@ -462,7 +475,35 @@ conn.close()  <span class="comment"># Don't forget to close!</span>
     <span class="keyword">print</span>(cursor.fetchall())
 </code></pre>
                         </div>
+
+                        <div style="background: rgba(0, 255, 65, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-green); margin: 2rem 0; border-radius: 8px;">
+                            <div style="font-weight: 700; color: var(--accent-green); margin-bottom: 1rem; font-size: 1.1rem;">🏋️ Exercise: Employee Query</div>
+                            <p><strong>Write SELECT statements with WHERE, ORDER BY, and LIMIT:</strong></p>
+                            <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                                <li>Create an <code>employees</code> table with: <code>id</code>, <code>name</code>, <code>department</code>, <code>salary</code>, <code>hire_date</code></li>
+                                <li>Insert at least 10 employees across different departments</li>
+                                <li>Query: Find all employees in the "Engineering" department</li>
+                                <li>Query: Find employees with salary > 50000, ordered by salary DESC</li>
+                                <li>Query: Get the top 5 highest-paid employees using LIMIT</li>
+                                <li>Query: Find employees hired after a specific date using WHERE</li>
+                            </ul>
+                            <p style="margin-top: 1rem; color: var(--accent-cyan);"><strong>Bonus:</strong> Combine multiple conditions with AND/OR operators.</p>
+                        </div>
                     </div>
+                </div>
+
+                <div style="background: rgba(0, 255, 65, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-green); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-green); margin-bottom: 1rem; font-size: 1.1rem;">🏋️ Exercise: Multi-Table Queries</div>
+                    <p><strong>Practice INNER JOIN and LEFT JOIN between tables:</strong></p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Create two tables: <code>employees</code> (id, name, department_id) and <code>departments</code> (id, name, location)</li>
+                        <li>Insert sample data with some employees having valid department_id, some with NULL</li>
+                        <li>Write an INNER JOIN to list employees with their department names</li>
+                        <li>Write a LEFT JOIN to show ALL employees, even those without a department</li>
+                        <li>Add a third table <code>projects</code> (id, name, employee_id) and join all three</li>
+                        <li>Count how many employees are in each department using JOIN + GROUP BY</li>
+                    </ul>
+                    <p style="margin-top: 1rem; color: var(--accent-cyan);"><strong>Bonus:</strong> Find departments with no employees using a RIGHT JOIN or subquery.</p>
                 </div>
 
                 <div class="warning-box">
@@ -570,6 +611,22 @@ user = session.query(User).first()
                     </ol>
                 </div>
 
+                <div style="background: rgba(255, 0, 255, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-magenta); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-magenta); margin-bottom: 1rem; font-size: 1.1rem;">🚀 Challenge: Database CRUD App</div>
+                    <p><strong>Build a complete Create, Read, Update, Delete application using SQLite and Python:</strong></p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li><strong>Create:</strong> Function <code>add_contact(name, email, phone)</code> that inserts a new contact</li>
+                        <li><strong>Read:</strong> Function <code>get_all_contacts()</code> that returns all contacts as a list</li>
+                        <li><strong>Read:</strong> Function <code>search_contacts(query)</code> that searches by name or email</li>
+                        <li><strong>Update:</strong> Function <code>update_contact(id, **kwargs)</code> that updates any field</li>
+                        <li><strong>Delete:</strong> Function <code>delete_contact(id)</code> that removes a contact by ID</li>
+                        <li>Use parameterized queries for ALL database operations</li>
+                        <li>Include proper error handling with try/except blocks</li>
+                    </ul>
+                    <p style="margin-top: 1rem; color: var(--accent-yellow);"><strong>Advanced:</strong> Add a simple command-line interface (CLI) menu to interact with your CRUD functions.</p>
+                    <p style="margin-top: 0.5rem; color: var(--accent-cyan);"><strong>Extra Credit:</strong> Refactor to use SQLAlchemy ORM instead of raw sqlite3.</p>
+                </div>
+
                 <button class="nav-btn complete-btn" data-topic="sqlalchemy">Mark Topic Complete ✓</button>
                 <div class="explanation-box info" data-notebook="week6-orm">
                     <div class="explanation-title">📓 Practice in Notebook</div>
@@ -621,6 +678,35 @@ conn.close()
                         <li><strong>Index Confusion:</strong> By default, <code>to_sql()</code> writes the DataFrame index as a column. Set <code>index=False</code> unless you explicitly want the index in your table.</li>
                         <li><strong>Data Type Mismatches:</strong> Pandas infers SQL data types, which can cause issues. Use the <code>dtype</code> parameter in <code>to_sql()</code> to explicitly specify column types.</li>
                     </ul>
+                </div>
+
+                <div style="background: rgba(0, 255, 65, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-green); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-green); margin-bottom: 1rem; font-size: 1.1rem;">🏋️ Exercise: Sales Analytics</div>
+                    <p><strong>Use GROUP BY and aggregate functions (COUNT, SUM, AVG) for data analysis:</strong></p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Create a <code>sales</code> table with: <code>id</code>, <code>product_name</code>, <code>category</code>, <code>quantity</code>, <code>price</code>, <code>sale_date</code></li>
+                        <li>Insert at least 20 sales records across different products and categories</li>
+                        <li>Query: Calculate total revenue per category using SUM(quantity * price)</li>
+                        <li>Query: Find the average order value (AVG) per product</li>
+                        <li>Query: Count the number of sales per day using GROUP BY sale_date</li>
+                        <li>Query: Find categories with more than 5 sales using HAVING</li>
+                        <li>Load results into a Pandas DataFrame and create a summary report</li>
+                    </ul>
+                    <p style="margin-top: 1rem; color: var(--accent-cyan);"><strong>Bonus:</strong> Add MIN/MAX to find the cheapest and most expensive sale per category.</p>
+                </div>
+
+                <div style="background: rgba(255, 0, 255, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-magenta); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-magenta); margin-bottom: 1rem; font-size: 1.1rem;">🚀 Challenge: Complete Analytics Dashboard</div>
+                    <p><strong>Build an end-to-end analytics pipeline combining SQL and Pandas:</strong></p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Create a SQLite database with related tables: <code>customers</code>, <code>orders</code>, <code>order_items</code>, <code>products</code></li>
+                        <li>Write a complex JOIN query combining all tables to get order details</li>
+                        <li>Use <code>pd.read_sql()</code> to load the joined data into a DataFrame</li>
+                        <li>Calculate: Customer lifetime value, top 10 products by revenue, monthly sales trends</li>
+                        <li>Use Pandas <code>groupby()</code> for additional aggregations not done in SQL</li>
+                        <li>Export your analysis results back to new SQL tables using <code>to_sql()</code></li>
+                    </ul>
+                    <p style="margin-top: 1rem; color: var(--accent-yellow);"><strong>Advanced:</strong> Create a function that generates weekly sales reports automatically.</p>
                 </div>
 
                 <div class="discussion-box">

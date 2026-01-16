@@ -973,6 +973,35 @@ df = pd.DataFrame({<span class="string">'a'</span>: [<span class="number">1</spa
                     <p>Open <code>notebook-sessions/week4/session1_data_engineering.ipynb</code> and implement standard imports (<code>pd</code>, <code>np</code>), version checks, and display options. Add a cell explaining why version verification matters.</p>
                 </div>
 
+                <!-- Exercise: DataFrame Explorer -->
+                <div style="background: rgba(0, 255, 65, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-green); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-green); margin-bottom: 1rem; font-size: 1.1rem;">🏋️ Exercise: DataFrame Explorer</div>
+                    <p><strong>Goal:</strong> Load a CSV file and explore its contents using Pandas inspection methods.</p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Import pandas with the standard alias <code>pd</code></li>
+                        <li>Load a CSV file using <code>pd.read_csv('your_file.csv')</code></li>
+                        <li>Display the first 10 rows using <code>df.head(10)</code></li>
+                        <li>Show all column data types with <code>df.dtypes</code></li>
+                        <li>Generate summary statistics with <code>df.describe()</code></li>
+                        <li>Print the DataFrame shape: <code>print(f"Rows: {df.shape[0]}, Columns: {df.shape[1]}")</code></li>
+                    </ul>
+                    <p style="margin-top: 1rem; font-style: italic; color: var(--accent-cyan);">💡 Tip: Try with the sample data in <code>week2/week2_data/</code> folder!</p>
+                </div>
+
+                <!-- Challenge: Setup Verification Script -->
+                <div style="background: rgba(255, 0, 255, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-magenta); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-magenta); margin-bottom: 1rem; font-size: 1.1rem;">🚀 Challenge: Environment Verification Script</div>
+                    <p><strong>Create a reusable setup verification function:</strong></p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Write a function <code>verify_environment()</code> that checks Pandas and NumPy versions</li>
+                        <li>Print a warning if Pandas version is below 2.0</li>
+                        <li>Set optimal display options (<code>max_columns</code>, <code>precision</code>, <code>max_rows</code>)</li>
+                        <li>Return a dict with environment info: <code>{'pandas': pd.__version__, 'numpy': np.__version__}</code></li>
+                        <li>Bonus: Add a check for optional dependencies like <code>matplotlib</code> or <code>openpyxl</code></li>
+                    </ul>
+                    <p style="margin-top: 1rem; font-style: italic; color: var(--accent-yellow);">⭐ Pro tip: This function can be your standard "first cell" in every data analysis notebook!</p>
+                </div>
+
                 <button class="nav-btn complete-btn" data-topic="pandas-basics">Mark Topic Complete ✓</button>
                 <div class="nav-buttons">
                     <button class="nav-btn prev" onclick="navigateToSection('intro')">◀ Prev: Intro</button>
@@ -1152,6 +1181,35 @@ print(future_pop)"></textarea>
                 <div class="explanation-box info" data-notebook="week4-series">
                     <div class="explanation-title">📓 Practice in Notebook</div>
                     <p>Open <code>notebook-sessions/week4/session1_data_engineering.ipynb</code> and build a <code>Series</code> with labels. Practice vectorized operations (discounts, taxes) and label-based access with <code>.loc</code>.</p>
+                </div>
+
+                <!-- Exercise: Data Filtering -->
+                <div style="background: rgba(0, 255, 65, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-green); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-green); margin-bottom: 1rem; font-size: 1.1rem;">🏋️ Exercise: Data Filtering</div>
+                    <p><strong>Goal:</strong> Practice filtering Series data based on conditions.</p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Create a Series of 10 stock prices with company ticker symbols as the index</li>
+                        <li>Filter stocks priced above $100: <code>expensive = prices[prices > 100]</code></li>
+                        <li>Find stocks in a specific range: <code>mid_range = prices[(prices >= 50) & (prices <= 150)]</code></li>
+                        <li>Use <code>.loc[]</code> to select specific tickers: <code>prices.loc[['AAPL', 'GOOGL', 'MSFT']]</code></li>
+                        <li>Calculate the percentage of stocks above the median price</li>
+                    </ul>
+                    <p style="margin-top: 1rem; font-style: italic; color: var(--accent-cyan);">💡 Tip: Boolean indexing is one of the most powerful Pandas features—master it!</p>
+                </div>
+
+                <!-- Challenge: Price Comparison Analysis -->
+                <div style="background: rgba(255, 0, 255, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-magenta); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-magenta); margin-bottom: 1rem; font-size: 1.1rem;">🚀 Challenge: Price Comparison Analysis</div>
+                    <p><strong>Build a complete price analysis using two Series:</strong></p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Create <code>last_week</code> and <code>this_week</code> Series with matching product indices</li>
+                        <li>Calculate price changes: <code>change = this_week - last_week</code></li>
+                        <li>Calculate percentage change: <code>pct_change = (change / last_week) * 100</code></li>
+                        <li>Find products that increased in price (filter where change > 0)</li>
+                        <li>Find the product with the largest percentage increase</li>
+                        <li>Create a summary report showing: avg change, max increase, max decrease</li>
+                    </ul>
+                    <p style="margin-top: 1rem; font-style: italic; color: var(--accent-yellow);">⭐ This mirrors real-world retail analytics and financial reporting!</p>
                 </div>
 
                 <!-- Common Pitfalls -->
@@ -1363,6 +1421,38 @@ df = pd.DataFrame(students)
                     <p>Open <code>notebook-sessions/week4/session2_data_engineering_group.ipynb</code> and load sample CSV/JSON files. Use <code>parse_dates</code>, <code>dtype</code>, and <code>usecols</code>. Add error handling and print shape.</p>
                 </div>
 
+                <!-- Exercise: Column Operations -->
+                <div style="background: rgba(0, 255, 65, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-green); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-green); margin-bottom: 1rem; font-size: 1.1rem;">🏋️ Exercise: Column Operations</div>
+                    <p><strong>Goal:</strong> Practice adding, modifying, and managing DataFrame columns.</p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Create a DataFrame with columns: <code>product</code>, <code>price</code>, <code>quantity</code></li>
+                        <li>Add a calculated column: <code>df['total'] = df['price'] * df['quantity']</code></li>
+                        <li>Add a tax column (8.5% tax): <code>df['tax'] = df['total'] * 0.085</code></li>
+                        <li>Rename columns using: <code>df.rename(columns={'price': 'unit_price'}, inplace=True)</code></li>
+                        <li>Add a column with default value: <code>df['currency'] = 'USD'</code></li>
+                        <li>Handle missing values: <code>df['discount'] = df['discount'].fillna(0)</code></li>
+                    </ul>
+                    <p style="margin-top: 1rem; font-style: italic; color: var(--accent-cyan);">💡 Tip: Always verify changes with <code>df.head()</code> after each operation!</p>
+                </div>
+
+                <!-- Challenge: Sales Analysis -->
+                <div style="background: rgba(255, 0, 255, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-magenta); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-magenta); margin-bottom: 1rem; font-size: 1.1rem;">🚀 Challenge: Sales Analysis Dashboard</div>
+                    <p><strong>Build a complete sales analysis from raw data:</strong></p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Create a sales DataFrame with: <code>salesperson</code>, <code>region</code>, <code>product</code>, <code>units_sold</code>, <code>unit_price</code></li>
+                        <li>Calculate total revenue per row: <code>df['revenue'] = df['units_sold'] * df['unit_price']</code></li>
+                        <li>Find total revenue across all sales: <code>total = df['revenue'].sum()</code></li>
+                        <li>Calculate average revenue per sale: <code>avg = df['revenue'].mean()</code></li>
+                        <li>Find the top salesperson: <code>df.groupby('salesperson')['revenue'].sum().idxmax()</code></li>
+                        <li>Find the best-performing region</li>
+                        <li>Identify the top 3 highest-revenue transactions</li>
+                        <li>Calculate what percentage each region contributes to total revenue</li>
+                    </ul>
+                    <p style="margin-top: 1rem; font-style: italic; color: var(--accent-yellow);">⭐ This is exactly what business analysts do daily—you're building real skills!</p>
+                </div>
+
                 <button class="nav-btn complete-btn" data-topic="dataframes">Mark Topic Complete ✓</button>
                 <div class="nav-buttons">
                     <button class="nav-btn prev" onclick="navigateToSection('series')">◀ Prev: Series</button>
@@ -1520,6 +1610,38 @@ dtypes = {
                     <p><strong>4.</strong> How would you handle a 10GB CSV file that doesn't fit in memory? (Hint: <code>chunksize</code> parameter!)</p>
                 </div>
 
+                <!-- Exercise: Robust Data Loading -->
+                <div style="background: rgba(0, 255, 65, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-green); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-green); margin-bottom: 1rem; font-size: 1.1rem;">🏋️ Exercise: Robust Data Loading</div>
+                    <p><strong>Goal:</strong> Practice loading data with proper error handling and type specification.</p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Create a CSV file with columns: <code>id</code>, <code>name</code>, <code>date</code>, <code>value</code>, <code>category</code></li>
+                        <li>Include some missing values (empty cells) and custom null markers (<code>'N/A'</code>, <code>'-'</code>)</li>
+                        <li>Load the file with explicit <code>dtype</code> specification for each column</li>
+                        <li>Use <code>parse_dates=['date']</code> to convert date strings automatically</li>
+                        <li>Handle custom null values with <code>na_values=['N/A', '-', 'missing']</code></li>
+                        <li>Wrap loading in try/except to handle <code>FileNotFoundError</code></li>
+                        <li>Print <code>df.info()</code> and <code>df.isna().sum()</code> to verify loading worked correctly</li>
+                    </ul>
+                    <p style="margin-top: 1rem; font-style: italic; color: var(--accent-cyan);">💡 Tip: Real-world data ALWAYS has issues—practice defensive loading!</p>
+                </div>
+
+                <!-- Challenge: Multi-Format ETL Pipeline -->
+                <div style="background: rgba(255, 0, 255, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-magenta); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-magenta); margin-bottom: 1rem; font-size: 1.1rem;">🚀 Challenge: Multi-Format ETL Pipeline</div>
+                    <p><strong>Build a complete ETL function that handles multiple file formats:</strong></p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Create a function <code>load_data(filepath)</code> that auto-detects file type by extension</li>
+                        <li>Support <code>.csv</code>, <code>.json</code>, <code>.xlsx</code> formats</li>
+                        <li>Use <code>Path(filepath).suffix</code> to detect file extension</li>
+                        <li>Apply appropriate reader: <code>pd.read_csv()</code>, <code>pd.read_json()</code>, <code>pd.read_excel()</code></li>
+                        <li>Return both the DataFrame and a metadata dict: <code>{'rows': n, 'cols': m, 'source': filepath}</code></li>
+                        <li>Handle unknown file types with a helpful error message</li>
+                        <li>Bonus: Add a <code>validate=True</code> parameter that runs automatic data quality checks</li>
+                    </ul>
+                    <p style="margin-top: 1rem; font-style: italic; color: var(--accent-yellow);">⭐ This pattern is the foundation of production ETL pipelines!</p>
+                </div>
+
                 <div class="explanation-box info" data-notebook="week4-inspection">
                     <div class="explanation-title">📓 Practice in Notebook</div>
                     <p>Open <code>notebook-sessions/week4/session2_data_engineering_group.ipynb</code> and perform the inspection trilogy on loaded data: <code>df.shape</code>, <code>df.info()</code>, <code>df.isna().sum()</code>, and <code>df.describe()</code>.</p>
@@ -1645,6 +1767,39 @@ dtypes = {
                     <p><strong>2.</strong> What would you check first when handed a brand new CSV file? Create a checklist!</p>
                     <p><strong>3.</strong> How do <code>describe()</code> statistics help you spot outliers or data quality issues?</p>
                     <p><strong>4.</strong> When would you use <code>df.sample(10)</code> instead of <code>df.head(10)</code>?</p>
+                </div>
+
+                <!-- Exercise: Complete Data Audit -->
+                <div style="background: rgba(0, 255, 65, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-green); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-green); margin-bottom: 1rem; font-size: 1.1rem;">🏋️ Exercise: Complete Data Audit</div>
+                    <p><strong>Goal:</strong> Perform a comprehensive data quality check on any DataFrame.</p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Check dimensions: <code>print(f"Shape: {df.shape[0]} rows × {df.shape[1]} columns")</code></li>
+                        <li>View column types: <code>df.dtypes</code> — flag any unexpected <code>object</code> types</li>
+                        <li>Count nulls per column: <code>df.isna().sum()</code></li>
+                        <li>Calculate null percentage: <code>(df.isna().sum() / len(df) * 100).round(2)</code></li>
+                        <li>Check for duplicates: <code>df.duplicated().sum()</code></li>
+                        <li>View value distributions for categorical columns: <code>df['category'].value_counts()</code></li>
+                        <li>Check numeric ranges with <code>df.describe()</code> — look for suspicious min/max values</li>
+                    </ul>
+                    <p style="margin-top: 1rem; font-style: italic; color: var(--accent-cyan);">💡 Tip: Make this your standard "data intake" checklist for every new dataset!</p>
+                </div>
+
+                <!-- Challenge: Automated Data Quality Report -->
+                <div style="background: rgba(255, 0, 255, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-magenta); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-magenta); margin-bottom: 1rem; font-size: 1.1rem;">🚀 Challenge: Automated Data Quality Report</div>
+                    <p><strong>Create a reusable data quality report function:</strong></p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Write a function <code>generate_quality_report(df)</code> that returns a summary dict</li>
+                        <li>Include: total rows, total columns, memory usage (<code>df.memory_usage(deep=True).sum()</code>)</li>
+                        <li>List columns with >50% missing values (potential drop candidates)</li>
+                        <li>Flag columns with only 1 unique value (useless for analysis)</li>
+                        <li>Identify potential ID columns (columns where <code>nunique() == len(df)</code>)</li>
+                        <li>Calculate the overall "completeness score": <code>(1 - df.isna().mean().mean()) * 100</code></li>
+                        <li>Print a formatted report with emoji indicators (🟢 good, 🟡 warning, 🔴 critical)</li>
+                        <li>Bonus: Add suggestions for data cleaning based on findings</li>
+                    </ul>
+                    <p style="margin-top: 1rem; font-style: italic; color: var(--accent-yellow);">⭐ Data quality reports like this are essential for professional data engineering!</p>
                 </div>
 
                 <button class="nav-btn complete-btn" data-topic="inspection">Mark Topic Complete ✓</button>
