@@ -1,0 +1,419 @@
+/* ═══════════════════════════════════════════════════════════════════════════════
+   Glassmorphic Sticky Navbar - Python Essentials Curriculum
+   Non-invasive global navigation component
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+/* CSS Variables for Navbar */
+:root {
+    --navbar-height: 60px;
+    --navbar-bg: rgba(10, 14, 39, 0.85);
+    --navbar-blur: 20px;
+    --navbar-border: rgba(0, 240, 255, 0.2);
+    --navbar-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+    --nav-link-color: #e0e0e0;
+    --nav-link-hover: #00f0ff;
+    --nav-link-active: #ff00ff;
+    --dropdown-bg: rgba(26, 31, 58, 0.95);
+}
+
+/* Body padding to account for fixed navbar */
+body.has-navbar {
+    padding-top: var(--navbar-height);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   Main Navbar Container
+   ═══════════════════════════════════════════════════════════════════════════════ */
+.global-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--navbar-height);
+    z-index: 9999;
+    
+    /* Glassmorphic Effect */
+    background: var(--navbar-bg);
+    backdrop-filter: blur(var(--navbar-blur));
+    -webkit-backdrop-filter: blur(var(--navbar-blur));
+    
+    /* Border & Shadow */
+    border-bottom: 1px solid var(--navbar-border);
+    box-shadow: var(--navbar-shadow);
+    
+    /* Transitions */
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Navbar shrinks slightly on scroll */
+.global-navbar.scrolled {
+    --navbar-height: 50px;
+    background: rgba(10, 14, 39, 0.95);
+    box-shadow: 0 4px 40px rgba(0, 240, 255, 0.15);
+}
+
+/* Inner container */
+.navbar-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1400px;
+    height: 100%;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   Logo / Brand
+   ═══════════════════════════════════════════════════════════════════════════════ */
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    transition: transform 0.3s ease;
+}
+
+.navbar-brand:hover {
+    transform: scale(1.02);
+}
+
+.navbar-logo {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.navbar-brand:hover .navbar-logo {
+    filter: drop-shadow(0 0 8px rgba(0, 240, 255, 0.5));
+}
+
+.navbar-title {
+    font-family: 'IBM Plex Mono', 'Space Mono', monospace;
+    font-size: 1.1rem;
+    font-weight: 700;
+    background: linear-gradient(45deg, #00f0ff, #ff00ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 0.5px;
+}
+
+/* Hide title on very small screens */
+@media (max-width: 480px) {
+    .navbar-title {
+        display: none;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   Navigation Links
+   ═══════════════════════════════════════════════════════════════════════════════ */
+.navbar-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    color: var(--nav-link-color);
+    text-decoration: none;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 500;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.nav-link:hover {
+    color: var(--nav-link-hover);
+    background: rgba(0, 240, 255, 0.1);
+}
+
+.nav-link.active {
+    color: var(--nav-link-active);
+    background: rgba(255, 0, 255, 0.15);
+}
+
+/* Underline indicator */
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #00f0ff, #ff00ff);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+    width: 80%;
+}
+
+/* Nav icons */
+.nav-icon {
+    width: 16px;
+    height: 16px;
+    opacity: 0.8;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   Dropdown Menu (for Weeks)
+   ═══════════════════════════════════════════════════════════════════════════════ */
+.nav-dropdown {
+    position: relative;
+}
+
+.dropdown-toggle {
+    cursor: pointer;
+}
+
+.dropdown-toggle::after {
+    content: '▼';
+    font-size: 0.6rem;
+    margin-left: 0.25rem;
+    transition: transform 0.3s ease;
+}
+
+.nav-dropdown:hover .dropdown-toggle::after {
+    transform: rotate(180deg);
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    min-width: 280px;
+    max-height: 400px;
+    overflow-y: auto;
+    
+    /* Glassmorphic dropdown */
+    background: var(--dropdown-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--navbar-border);
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    
+    /* Hidden by default */
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    padding: 0.5rem;
+    z-index: 10000;
+}
+
+.nav-dropdown:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* Dropdown items */
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    color: var(--nav-link-color);
+    text-decoration: none;
+    font-size: 0.85rem;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.dropdown-item:hover {
+    background: rgba(0, 240, 255, 0.15);
+    color: var(--nav-link-hover);
+    transform: translateX(4px);
+}
+
+.dropdown-item.active {
+    background: rgba(255, 0, 255, 0.2);
+    color: var(--nav-link-active);
+}
+
+/* Week number badge in dropdown */
+.week-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 28px;
+    height: 24px;
+    background: linear-gradient(135deg, #00f0ff, #ff00ff);
+    color: #0a0e27;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border-radius: 6px;
+}
+
+/* Dropdown section divider */
+.dropdown-divider {
+    height: 1px;
+    background: var(--navbar-border);
+    margin: 0.5rem 0;
+}
+
+.dropdown-header {
+    padding: 0.5rem 1rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #00ff41;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   Mobile Menu Toggle
+   ═══════════════════════════════════════════════════════════════════════════════ */
+.navbar-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    padding: 0.5rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 10001;
+}
+
+.navbar-toggle span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: #00f0ff;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.navbar-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.navbar-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.navbar-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   Mobile Responsive
+   ═══════════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 900px) {
+    .navbar-toggle {
+        display: flex;
+    }
+    
+    .navbar-nav {
+        position: fixed;
+        top: var(--navbar-height);
+        left: 0;
+        right: 0;
+        bottom: 0;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        padding: 1rem;
+        background: var(--dropdown-bg);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        
+        /* Hidden by default */
+        transform: translateX(100%);
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        overflow-y: auto;
+    }
+    
+    .navbar-nav.open {
+        transform: translateX(0);
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    .nav-link {
+        padding: 1rem;
+        font-size: 1rem;
+        border-bottom: 1px solid rgba(0, 240, 255, 0.1);
+    }
+    
+    .nav-dropdown .dropdown-menu {
+        position: static;
+        transform: none;
+        min-width: 100%;
+        max-height: none;
+        opacity: 1;
+        visibility: visible;
+        background: rgba(0, 0, 0, 0.2);
+        box-shadow: none;
+        border: none;
+        margin-top: 0.5rem;
+        display: none;
+    }
+    
+    .nav-dropdown.open .dropdown-menu {
+        display: block;
+    }
+    
+    .dropdown-item {
+        padding-left: 2rem;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   Scrollbar Styling for Dropdown
+   ═══════════════════════════════════════════════════════════════════════════════ */
+.dropdown-menu::-webkit-scrollbar {
+    width: 6px;
+}
+
+.dropdown-menu::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.dropdown-menu::-webkit-scrollbar-thumb {
+    background: rgba(0, 240, 255, 0.3);
+    border-radius: 3px;
+}
+
+.dropdown-menu::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 240, 255, 0.5);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   Accessibility
+   ═══════════════════════════════════════════════════════════════════════════════ */
+.nav-link:focus,
+.dropdown-item:focus,
+.navbar-toggle:focus {
+    outline: 2px solid #00f0ff;
+    outline-offset: 2px;
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+    .global-navbar,
+    .nav-link,
+    .dropdown-menu,
+    .dropdown-item,
+    .navbar-toggle span {
+        transition: none;
+    }
+}
