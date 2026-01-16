@@ -513,15 +513,3 @@ Specially enhanced for the **Returned Citizen community** and **[Code the Dream]
 [⬆ Back to Top](#-python-essentials---interactive-curriculum)
 
 </div>
-
-<div align="center">
-
-**Enhanced curriculum for the Returned Citizen community by StrayDog Syndications LLC**
-
-*Especially for Code the Dream students*
-
-**Bridging the Digital Cliff through accessible, career-aligned education**
-
-[⬆ Back to Top](#-python-essentials---interactive-curriculum-for-code-the-dream)
-
-</div>
