@@ -12,7 +12,7 @@
 
 **PowerShell Command:**
 ```powershell
-cd C:\Users\EHunt\Repos\Python\CTD
+cd C:\Users\EHunt\Repos\Projects\Python-Essentials-Code-The-Dream
 (Get-Content index.html) -replace 'StrayDogSyn/Python-Essentials-Code-The-Dream', 'YOUR-USERNAME/YOUR-REPO' | Set-Content index.html
 ```
 
@@ -34,7 +34,7 @@ cd C:\Users\EHunt\Repos\Python\CTD
 ### 3. Test Locally
 
 ```powershell
-cd C:\Users\EHunt\Repos\Python\CTD
+cd C:\Users\EHunt\Repos\Projects\Python-Essentials-Code-The-Dream
 python -m http.server 8000
 ```
 
