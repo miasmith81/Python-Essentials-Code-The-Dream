@@ -242,7 +242,7 @@ INNER JOIN artists ON albums.artist_id = artists.artist_id
 WHERE artists.country = 'UK';
 
 -- Query 8: Multiple JOINs - Tracks with album and artist info
-SELECT 
+SELECT TOP 10
     tracks.title AS track_title,
     albums.title AS album_title,
     artists.name AS artist_name,
@@ -250,8 +250,7 @@ SELECT
 FROM tracks
 INNER JOIN albums ON tracks.album_id = albums.album_id
 INNER JOIN artists ON albums.artist_id = artists.artist_id
-ORDER BY tracks.duration_seconds DESC
-LIMIT 10;
+ORDER BY tracks.duration_seconds DESC;
 
 -- ═══════════════════════════════════════════════════════════════════════════════
 -- SECTION 9: Aggregation Queries (GROUP BY)
