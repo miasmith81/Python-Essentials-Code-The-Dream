@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 8: SQL & Databases | Python Course</title>
+    <meta name="description" content="Interactive SQL & Database lesson covering SQLite, SQLAlchemy, and Pandas integration.">
+    <link rel="icon" type="image/png" href="../assets/brands/favicon-straydog.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&family=Orbitron:wght@700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/navbar.css">
+    <style>
+        /* ═══════════════════════════════════════════════════════════════════
+           CSS CUSTOM PROPERTIES (Variables) - CONSISTENT WITH PREVIOUS WEEKS
+           ═══════════════════════════════════════════════════════════════════ */
+        :root {
+            --bg-dark: #0a0e27;
+            --bg-medium: #1a1f3a;
+            --bg-light: #2a2f4a;
+            --accent-cyan: #00f0ff;
+            --accent-magenta: #ff00ff;
+            --accent-yellow: #ffff00;
+            --accent-green: #00ff41;
+            --accent-orange: #ff6b35;
+            --accent-red: #ff3366;
+            --accent-blue: #4da6ff;
+            --text-primary: #e0e0e0;
+            --text-secondary: #a0a0a0;
+            --level-bad: #ff3366;
+            --level-novice: #ff9f43;
+            --level-intermediate: #4da6ff;
+            --level-best: #00ff41;
+            --shadow-glow: 0 0 20px rgba(0, 240, 255, 0.3);
+            --shadow-glow-green: 0 0 20px rgba(0, 255, 65, 0.3);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Space Mono', monospace;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 240, 255, 0.03) 2px, rgba(0, 240, 255, 0.03) 4px);
+            pointer-events: none;
+            z-index: 1;
+            animation: scanlines 8s linear infinite;
+        }
+
+        @keyframes scanlines {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(4px); }
+        }
+
+        header {
+            position: relative;
+            z-index: 10;
+            padding: 2rem;
+            text-align: center;
+            background: linear-gradient(135deg, var(--bg-medium) 0%, var(--bg-dark) 100%);
+            border-bottom: 3px solid var(--accent-cyan);
+            box-shadow: 0 4px 20px rgba(0, 240, 255, 0.2);
+        }
+
+        h1 {
+            font-family: 'Orbitron', monospace;
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--accent-cyan), var(--accent-magenta));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 5px var(--accent-cyan)); }
+            to { filter: drop-shadow(0 0 20px var(--accent-magenta)); }
+        }
+
+        .subtitle { font-size: 1.1rem; color: var(--accent-green); font-weight: 600; }
+        
+        .week-badge {
+            display: inline-block;
+            background: var(--accent-magenta);
+            color: var(--bg-dark);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-top: 0.5rem;
+        }
+
+        .progress-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 4px; background: var(--bg-medium); z-index: 1000;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(90deg, var(--accent-cyan), var(--accent-magenta)); width: 0%; transition: width 0.3s ease; box-shadow: var(--shadow-glow);
+        }
+        .xp-bar {
+            position: fixed; top: 20px; right: 20px; background: var(--bg-medium); padding: 1rem; border-radius: 8px; border: 2px solid var(--accent-cyan); z-index: 100; min-width: 220px; box-shadow: var(--shadow-glow);
+        }
+        .xp-label { font-size: 0.85rem; color: var(--accent-yellow); margin-bottom: 0.5rem; font-weight: 700; }
+        .xp-progress { width: 100%; height: 20px; background: var(--bg-dark); border-radius: 10px; overflow: hidden; position: relative; }
+        .xp-fill { height: 100%; background: linear-gradient(90deg, var(--accent-green), var(--accent-cyan)); width: 0%; transition: width 0.5s ease; }
+        .xp-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 0.75rem; font-weight: 700; color: var(--text-primary); text-shadow: 1px 1px 2px rgba(0,0,0,0.8); }
+
+        .container { display: flex; max-width: 1400px; margin: 0 auto; position: relative; z-index: 2; }
+        .sidebar { width: 300px; position: sticky; top: 20px; height: calc(100vh - 40px); padding: 2rem 1rem; background: var(--bg-medium); border-right: 2px solid var(--accent-cyan); overflow-y: auto; }
+        .nav-title { font-size: 0.9rem; color: var(--accent-yellow); margin-bottom: 1rem; font-weight: 700; text-transform: uppercase; }
+        .nav-item { padding: 0.75rem 1rem; margin-bottom: 0.5rem; cursor: pointer; border-left: 3px solid transparent; transition: all 0.3s ease; font-size: 0.95rem; background: var(--bg-dark); border-radius: 4px; }
+        .nav-item:hover { border-left-color: var(--accent-cyan); background: var(--bg-light); transform: translateX(5px); }
+        .nav-item.active { border-left-color: var(--accent-magenta); background: var(--bg-light); color: var(--accent-cyan); box-shadow: var(--shadow-glow); }
+        .nav-item.completed::after { content: ' ✓'; color: var(--accent-green); float: right; }
+        
+        .main-content { flex: 1; padding: 2rem; min-height: 100vh; }
+        .section { display: none; animation: fadeIn 0.5s ease; }
+        .section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        h2 { font-family: 'Orbitron', monospace; font-size: 2rem; color: var(--accent-cyan); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 1px; }
+        h3 { font-family: 'Orbitron', monospace; font-size: 1.5rem; color: var(--accent-magenta); margin: 2rem 0 1rem 0; }
+        p { margin-bottom: 1rem; color: var(--text-secondary); line-height: 1.8; }
+
+        .skill-progression { margin: 2rem 0; background: var(--bg-medium); border-radius: 12px; overflow: hidden; border: 2px solid var(--bg-light); }
+        .skill-tabs { display: flex; background: var(--bg-dark); border-bottom: 2px solid var(--bg-light); flex-wrap: wrap; }
+        .skill-tab { flex: 1; min-width: 120px; padding: 1rem; cursor: pointer; text-align: center; font-weight: 700; font-size: 0.85rem; transition: all 0.3s ease; border: none; background: transparent; color: var(--text-secondary); font-family: 'Space Mono', monospace; position: relative; }
+        .skill-tab::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: transparent; transition: background 0.3s ease; }
+        .skill-tab:hover { background: var(--bg-light); }
+        .skill-tab.active { color: var(--text-primary); }
+        .skill-tab[data-level="bad"] { border-top: 3px solid var(--level-bad); }
+        .skill-tab[data-level="novice"] { border-top: 3px solid var(--level-novice); }
+        .skill-tab[data-level="intermediate"] { border-top: 3px solid var(--level-intermediate); }
+        .skill-tab[data-level="best"] { border-top: 3px solid var(--level-best); }
+        .skill-tab[data-level="bad"].active::after { background: var(--level-bad); }
+        .skill-tab[data-level="novice"].active::after { background: var(--level-novice); }
+        .skill-tab[data-level="intermediate"].active::after { background: var(--level-intermediate); }
+        .skill-tab[data-level="best"].active::after { background: var(--level-best); }
+        .skill-tab-icon { display: block; font-size: 1.2rem; margin-bottom: 0.25rem; }
+        .skill-content { display: none; padding: 0; animation: fadeIn 0.3s ease; }
+        .skill-content.active { display: block; }
+
+        .code-container { background: var(--bg-dark); border: 2px solid var(--accent-cyan); border-radius: 8px; margin: 1.5rem 0; overflow: hidden; box-shadow: var(--shadow-glow); }
+        .code-container.level-bad { border-color: var(--level-bad); box-shadow: 0 0 15px rgba(255, 51, 102, 0.2); }
+        .code-container.level-novice { border-color: var(--level-novice); box-shadow: 0 0 15px rgba(255, 159, 67, 0.2); }
+        .code-container.level-intermediate { border-color: var(--level-intermediate); box-shadow: 0 0 15px rgba(77, 166, 255, 0.2); }
+        .code-container.level-best { border-color: var(--level-best); box-shadow: var(--shadow-glow-green); }
+
+        .code-header { background: var(--bg-medium); padding: 0.75rem 1rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--accent-cyan); flex-wrap: wrap; gap: 0.5rem; }
+        .code-header-left { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
+        .code-label { color: var(--accent-yellow); font-weight: 700; font-size: 0.9rem; }
+        .level-badge { padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+        .level-badge.bad { background: var(--level-bad); color: white; }
+        .level-badge.novice { background: var(--level-novice); color: var(--bg-dark); }
+        .level-badge.intermediate { background: var(--level-intermediate); color: var(--bg-dark); }
+        .level-badge.best { background: var(--level-best); color: var(--bg-dark); }
+        .semantic-label { font-size: 0.8rem; color: var(--text-secondary); padding: 0.25rem 0.5rem; background: var(--bg-dark); border-radius: 4px; }
+
+        pre { padding: 1.5rem; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; line-height: 1.7; background: var(--bg-dark); color: var(--text-primary); margin: 0; }
+        .keyword { color: var(--accent-magenta); font-weight: 600; }
+        .string { color: var(--accent-green); }
+        .function { color: var(--accent-cyan); }
+        .comment { color: #6a9955; font-style: italic; }
+        .number { color: var(--accent-yellow); }
+        .class-name { color: var(--accent-orange); font-weight: bold; }
+        .builtin { color: var(--accent-blue); }
+        .decorator { color: var(--accent-yellow); }
+
+        .output { background: #000; color: var(--text-primary); padding: 0; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; border-top: 1px solid var(--bg-light); max-height: 0; overflow: hidden; transition: all 0.3s ease; }
+        .output.show { padding: 1rem; max-height: 300px; overflow-y: auto; }
+        .output-label { color: var(--text-secondary); font-size: 0.75rem; text-transform: uppercase; margin-bottom: 0.5rem; display: block; }
+
+        .run-button { background: var(--accent-green); color: var(--bg-dark); border: none; padding: 0.4rem 1rem; border-radius: 4px; font-family: 'Space Mono', monospace; font-weight: 700; cursor: pointer; transition: all 0.2s; font-size: 0.8rem; }
+        .run-button:hover { transform: translateY(-2px); box-shadow: 0 0 10px var(--accent-green); }
+        .run-button:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        .explanation-box { background: var(--bg-medium); border-radius: 8px; padding: 1.25rem; margin: 1rem 0; border-left: 4px solid var(--accent-blue); }
+        .explanation-box.tip { border-left-color: var(--level-best); }
+        .explanation-box.warning { border-left-color: var(--level-bad); }
+        .explanation-box.info { border-left-color: var(--accent-cyan); }
+        .explanation-title { font-weight: 700; margin-bottom: 0.5rem; color: var(--text-primary); display: flex; align-items: center; gap: 0.5rem; }
+
+        .objectives-box { background: linear-gradient(135deg, rgba(0, 240, 255, 0.1), var(--bg-medium)); border: 2px solid var(--accent-cyan); border-radius: 8px; padding: 1.5rem; margin: 1.5rem 0; }
+        .objectives-list li { padding: 0.5rem 0; padding-left: 1.5rem; position: relative; }
+        .objectives-list li::before { content: '▸'; position: absolute; left: 0; color: var(--accent-green); font-weight: bold; }
+
+        .playground { background: var(--bg-medium); border: 2px solid var(--accent-yellow); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .playground-header { display: flex; justify-content: space-between; margin-bottom: 1rem; }
+        .playground-title { font-weight: 700; color: var(--accent-yellow); }
+        textarea { width: 100%; height: 150px; background: var(--bg-dark); color: var(--text-primary); border: 1px solid var(--bg-light); padding: 1rem; font-family: 'JetBrains Mono', monospace; border-radius: 4px; resize: vertical; }
+
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--bg-light); }
+        .nav-btn { background: var(--bg-medium); color: var(--text-primary); border: 2px solid var(--accent-cyan); padding: 1rem 2rem; border-radius: 8px; cursor: pointer; font-family: 'Space Mono', monospace; font-weight: 700; transition: all 0.3s ease; }
+        .nav-btn:hover { background: var(--accent-cyan); color: var(--bg-dark); }
+        .nav-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .complete-btn { background: linear-gradient(135deg, var(--accent-green), var(--accent-cyan)); color: var(--bg-dark); border: none; width: 100%; margin-top: 2rem; }
+
+        .achievement { position: fixed; bottom: 20px; right: 20px; background: linear-gradient(135deg, var(--bg-medium), #000); border: 2px solid var(--accent-yellow); border-radius: 12px; padding: 1.5rem; width: 300px; transform: translateY(150%); transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 2000; box-shadow: 0 0 30px rgba(255, 255, 0, 0.3); text-align: center; }
+        .achievement.show { transform: translateY(0); }
+        .achievement-icon { font-size: 3rem; margin-bottom: 0.5rem; animation: bounce 1s infinite alternate; }
+        @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-10px); } }
+
+        @media (max-width: 968px) {
+            .container { flex-direction: column; }
+            .sidebar { width: 100%; height: auto; position: relative; }
+            .xp-bar { position: relative; top: 0; right: 0; margin: 1rem; }
+        }
+    </style>
+</head>
+<body class="sd-watermark">
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <div class="xp-bar">
+        <div class="xp-label">📊 Progress</div>
+        <div class="xp-progress">
+            <div class="xp-fill" id="xpFill"></div>
+            <div class="xp-text" id="xpText">0 / 5 Topics</div>
+        </div>
+    </div>
+
+    <header>
+        <h1>🗄️ SQL & Databases</h1>
+        <p class="subtitle">Talking to Databases with Python</p>
+        <span class="week-badge">WEEK 8</span>
+        <!-- Quick Access Toolbar for Presentation Mode -->
+        <div class="quick-access-toolbar" style="display: flex; gap: 0.75rem; justify-content: center; margin-top: 1rem; flex-wrap: wrap;">
+            <a href="../notebook-sessions/week8/session1_sql_databases.ipynb" download class="quick-btn" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: rgba(0, 240, 255, 0.15); border: 1px solid var(--accent-cyan); border-radius: 8px; color: var(--accent-cyan); text-decoration: none; font-size: 0.85rem; transition: all 0.3s ease;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                Solo Notebook
+            </a>
+            <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week8/session1_sql_databases.ipynb" target="_blank" class="quick-btn" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: rgba(249, 171, 0, 0.15); border: 1px solid #f9ab00; border-radius: 8px; color: #f9ab00; text-decoration: none; font-size: 0.85rem; transition: all 0.3s ease;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                Run in Colab
+            </a>
+            <a href="../notebook-sessions/week8/session2_sql_databases_group.ipynb" download class="quick-btn" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: rgba(0, 255, 65, 0.15); border: 1px solid var(--accent-green); border-radius: 8px; color: var(--accent-green); text-decoration: none; font-size: 0.85rem; transition: all 0.3s ease;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                Group Notebook
+            </a>
+            <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week8/session2_sql_databases_group.ipynb" target="_blank" class="quick-btn" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: rgba(255, 0, 255, 0.15); border: 1px solid var(--accent-magenta); border-radius: 8px; color: var(--accent-magenta); text-decoration: none; font-size: 0.85rem; transition: all 0.3s ease;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                Group Colab
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <aside class="sidebar">
+            <nav class="nav-section">
+                <div class="nav-title">📖 Topics</div>
+                <div class="nav-item active" data-section="intro">Introduction</div>
+                <div class="nav-item" data-section="sqlite">SQLite Basics</div>
+                <div class="nav-item" data-section="sqlalchemy">SQLAlchemy</div>
+                <div class="nav-item" data-section="pandas-sql">Pandas & SQL</div>
+                <div class="nav-item" data-section="supplemental">📚 Supplemental</div>
+                <div class="nav-item" data-section="cheatsheet">Cheat Sheet</div>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <!-- INTRO -->
+            <section id="intro" class="section active">
+                <h2>🗄️ Why SQL Matters</h2>
+                
+                <div class="objectives-box">
+                    <div class="objectives-title">🎯 Learning Objectives</div>
+                    <ul class="objectives-list">
+                        <li>Understand Relational Databases (RDBMS)</li>
+                        <li>Connect to databases using Python's `sqlite3`</li>
+                        <li>Write SQL queries (SELECT, INSERT, WHERE)</li>
+                        <li>Use SQLAlchemy for Object-Relational Mapping (ORM)</li>
+                        <li>Load SQL data directly into Pandas DataFrames</li>
+                    </ul>
+                </div>
+
+                <div class="vocab-list">
+                    <div class="vocab-title">📚 Key Vocabulary</div>
+                    <div class="vocab-grid">
+                        <div class="vocab-item">
+                            <span class="vocab-term">RDBMS</span>
+                            <span class="vocab-definition">Relational Database Management System—a database organized into tables with rows and columns, using SQL for querying (e.g., SQLite, PostgreSQL, MySQL).</span>
+                        </div>
+                        <div class="vocab-item">
+                            <span class="vocab-term">SQL</span>
+                            <span class="vocab-definition">Structured Query Language—a standard language for interacting with relational databases (SELECT, INSERT, UPDATE, DELETE).</span>
+                        </div>
+                        <div class="vocab-item">
+                            <span class="vocab-term">ORM</span>
+                            <span class="vocab-definition">Object-Relational Mapping—a technique that lets you interact with database tables as if they were Python objects (SQLAlchemy is a popular ORM).</span>
+                        </div>
+                        <div class="vocab-item">
+                            <span class="vocab-term">Connection</span>
+                            <span class="vocab-definition">A bridge between your Python script and a database, allowing you to send queries and receive results.</span>
+                        </div>
+                        <div class="vocab-item">
+                            <span class="vocab-term">Cursor</span>
+                            <span class="vocab-definition">An object used to execute SQL queries and fetch results from a database connection.</span>
+                        </div>
+                        <div class="vocab-item">
+                            <span class="vocab-term">ETL</span>
+                            <span class="vocab-definition">Extract, Transform, Load—a data pipeline process for moving data from sources (databases) to destinations (DataFrames, data warehouses).</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-grid">
+                    <div class="concept-card">
+                        <h3>🗄️ SQLite Basics</h3>
+                        <p>Work with lightweight, file-based databases using Python's built-in <code>sqlite3</code> module. Perfect for local projects and prototypes.</p>
+                    </div>
+                    <div class="concept-card">
+                        <h3>🔗 SQLAlchemy ORM</h3>
+                        <p>Use SQLAlchemy to map database tables to Python classes, enabling object-oriented database operations without raw SQL.</p>
+                    </div>
+                    <div class="concept-card">
+                        <h3>🐼 Pandas + SQL</h3>
+                        <p>Load SQL query results directly into Pandas DataFrames with <code>pd.read_sql()</code> for seamless data analysis workflows.</p>
+                    </div>
+                </div>
+
+                <div class="analogy-box">
+                    <div class="analogy-title">🎯 Analogy: Database as a Library</div>
+                    <p><strong>Database:</strong> A library building.</p>
+                    <p><strong>Tables:</strong> Different sections (Fiction, Non-Fiction, Reference).</p>
+                    <p><strong>Rows:</strong> Individual books on the shelves.</p>
+                    <p><strong>Columns:</strong> Book attributes (Title, Author, ISBN, Year).</p>
+                    <p><strong>SQL Queries:</strong> Asking the librarian for specific books using a request form.</p>
+                    <p><strong>ORM (SQLAlchemy):</strong> Having a personal assistant who translates your plain-English requests into library catalog language.</p>
+                    <p><strong>Pandas Integration:</strong> The librarian hands you a spreadsheet (DataFrame) with all the books matching your request, ready for analysis.</p>
+                </div>
+
+                <div class="explanation-box info">
+                    <div class="explanation-title">💡 SQL + Python = Superpower</div>
+                    <p>Data rarely lives in CSV files in production. It lives in databases. Python gives you the tools to extract, transform, and load (ETL) that data efficiently.</p>
+                    <p><strong>Real-World Applications:</strong></p>
+                    <ul>
+                        <li><strong>E-commerce:</strong> Query product databases to analyze sales trends</li>
+                        <li><strong>Finance:</strong> Extract transaction history for fraud detection models</li>
+                        <li><strong>Healthcare:</strong> Pull patient records for research studies</li>
+                        <li><strong>Social Media:</strong> Analyze user engagement from massive database tables</li>
+                    </ul>
+                </div>
+                <div class="explanation-box info" data-notebook="week6-intro">
+                    <div class="explanation-title">📓 Practice in Notebook</div>
+                    <p>Open <code>notebook-sessions/week6/session1_sql_databases.ipynb</code> and write a short note on when to choose raw SQL vs ORM. Add a tiny example for each.</p>
+                </div>
+
+                <div class="explanation-box">
+                    <div class="explanation-title">💡 Learning Strategy: SQL + Python</div>
+                    <p><strong>Start with SQLite:</strong> It's built into Python and requires no setup—perfect for learning SQL fundamentals.</p>
+                    <p><strong>Learn SQL First, ORM Later:</strong> Understanding raw SQL makes you appreciate ORMs. Don't skip to SQLAlchemy without knowing basic SELECT and JOIN.</p>
+                    <p><strong>Use DB Browser for SQLite:</strong> Visualize your database structure with a GUI tool before writing Python code.</p>
+                    <p><strong>Practice Pandas Integration:</strong> <code>pd.read_sql()</code> is your bridge from databases to DataFrames—master it for seamless data pipelines.</p>
+                    <p><strong>Mind Your Connections:</strong> Always close database connections (<code>conn.close()</code>) or use context managers (<code>with</code>) to avoid resource leaks.</p>
+                </div>
+
+                <button class="nav-btn complete-btn" data-topic="intro">Mark Complete ✓</button>
+                <div class="nav-buttons">
+                    <button class="nav-btn" disabled>◀ Previous</button>
+                    <button class="nav-btn next" onclick="navigateToSection('sqlite')">Next: SQLite Basics ▶</button>
+                </div>
+            </section>
+
+            <!-- SQLITE BASICS -->
+            <section id="sqlite" class="section">
+                <h2>💾 SQLite Basics</h2>
+                <p>SQLite is a lightweight, file-based database built into Python. No installation required!</p>
+
+                <div class="skill-progression">
+                    <div class="skill-tabs">
+                        <button class="skill-tab active" data-level="bad" data-target="sql-bad">
+                            <span class="skill-tab-icon">🔴</span> Bad
+                        </button>
+                        <button class="skill-tab" data-level="novice" data-target="sql-novice">
+                            <span class="skill-tab-icon">🟠</span> Novice
+                        </button>
+                        <button class="skill-tab" data-level="best" data-target="sql-best">
+                            <span class="skill-tab-icon">🟢</span> Best Practice
+                        </button>
+                    </div>
+
+                    <!-- BAD -->
+                    <div class="skill-content active" id="sql-bad">
+                        <div class="code-container level-bad">
+                            <div class="code-header">
+                                <div class="code-header-left">
+                                    <span class="code-label">Python</span>
+                                    <span class="level-badge bad">❌ Bad Practice</span>
+                                    <span class="semantic-label">SQL Injection Risk</span>
+                                </div>
+                                <button class="run-button" data-output="User 'admin' deleted (simulated)">Run ▶</button>
+                            </div>
+<pre><code><span class="comment"># ❌ BAD: String concatenation for queries</span>
+<span class="keyword">import</span> sqlite3
+
+user_input = <span class="string">"admin'; DROP TABLE users; --"</span>
+
+<span class="comment"># DANGEROUS! Allows SQL Injection attacks</span>
+query = <span class="string">f"SELECT * FROM users WHERE name = '{user_input}'"</span>
+
+<span class="keyword">print</span>(<span class="string">f"Executing: {query}"</span>)
+<span class="comment"># Executing: SELECT * FROM users WHERE name = 'admin'; DROP TABLE users; --'</span>
+</code></pre>
+                        </div>
+                        <div class="explanation-box warning">
+                            <div class="explanation-title">⚠️ SQL Injection</div>
+                            <p>Never insert user input directly into a query string. Malicious users can destroy your database.</p>
+                        </div>
+
+                        <div style="background: rgba(0, 255, 65, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-green); margin: 2rem 0; border-radius: 8px;">
+                            <div style="font-weight: 700; color: var(--accent-green); margin-bottom: 1rem; font-size: 1.1rem;">🏋️ Exercise: Parameterized Queries</div>
+                            <p><strong>Practice safe query techniques to prevent SQL injection:</strong></p>
+                            <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                                <li>Create a <code>users</code> table with columns: <code>id</code>, <code>username</code>, <code>email</code>, <code>role</code></li>
+                                <li>Write a safe INSERT using <code>?</code> placeholders for all user-provided values</li>
+                                <li>Create a search function that accepts a username parameter safely</li>
+                                <li>Test with malicious input like <code>'; DROP TABLE users; --</code> to verify protection</li>
+                                <li>Compare the executed query string when using f-strings vs parameterized queries</li>
+                            </ul>
+                            <p style="margin-top: 1rem; color: var(--accent-cyan);"><strong>Bonus:</strong> Create a login function that uses parameterized queries to check username AND password.</p>
+                        </div>
+                    </div>
+
+                    <!-- NOVICE -->
+                    <div class="skill-content" id="sql-novice">
+                        <div class="code-container level-novice">
+                            <div class="code-header">
+                                <div class="code-header-left">
+                                    <span class="code-label">Python</span>
+                                    <span class="level-badge novice">🔰 Novice</span>
+                                    <span class="semantic-label">Basic SQLite</span>
+                                </div>
+                                <button class="run-button" data-output="[(1, 'Alice')]">Run ▶</button>
+                            </div>
+<pre><code><span class="comment"># 🔰 NOVICE: Manual connection management</span>
+<span class="keyword">import</span> sqlite3
+
+<span class="comment"># Connect to file (or memory)</span>
+conn = sqlite3.connect(<span class="string">':memory:'</span>)
+cursor = conn.cursor()
+
+cursor.execute(<span class="string">"CREATE TABLE users (id INT, name TEXT)"</span>)
+cursor.execute(<span class="string">"INSERT INTO users VALUES (1, 'Alice')"</span>)
+conn.commit()
+
+cursor.execute(<span class="string">"SELECT * FROM users"</span>)
+<span class="keyword">print</span>(cursor.fetchall())
+
+conn.close()  <span class="comment"># Don't forget to close!</span>
+</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- BEST -->
+                    <div class="skill-content" id="sql-best">
+                        <div class="code-container level-best">
+                            <div class="code-header">
+                                <div class="code-header-left">
+                                    <span class="code-label">Python</span>
+                                    <span class="level-badge best">⭐ Best Practice</span>
+                                    <span class="semantic-label">Context Managers & Params</span>
+                                </div>
+                                <button class="run-button" data-output="[(1, 'Alice')]">Run ▶</button>
+                            </div>
+<pre><code><span class="comment"># ⭐ BEST PRACTICE: Context Manager + Parameterized Queries</span>
+<span class="keyword">import</span> sqlite3
+
+<span class="comment"># Use 'with' to auto-close connection</span>
+<span class="keyword">with</span> sqlite3.connect(<span class="string">':memory:'</span>) <span class="keyword">as</span> conn:
+    cursor = conn.cursor()
+    
+    cursor.execute(<span class="string">"CREATE TABLE users (id INT, name TEXT)"</span>)
+    
+    <span class="comment"># Safe parameter substitution (?)</span>
+    data = (<span class="number">1</span>, <span class="string">'Alice'</span>)
+    cursor.execute(<span class="string">"INSERT INTO users VALUES (?, ?)"</span>, data)
+    conn.commit()
+    
+    <span class="comment"># Querying</span>
+    cursor.execute(<span class="string">"SELECT * FROM users WHERE name=?"</span>, (<span class="string">'Alice'</span>,))
+    <span class="keyword">print</span>(cursor.fetchall())
+</code></pre>
+                        </div>
+
+                        <div style="background: rgba(0, 255, 65, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-green); margin: 2rem 0; border-radius: 8px;">
+                            <div style="font-weight: 700; color: var(--accent-green); margin-bottom: 1rem; font-size: 1.1rem;">🏋️ Exercise: Employee Query</div>
+                            <p><strong>Write SELECT statements with WHERE, ORDER BY, and LIMIT:</strong></p>
+                            <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                                <li>Create an <code>employees</code> table with: <code>id</code>, <code>name</code>, <code>department</code>, <code>salary</code>, <code>hire_date</code></li>
+                                <li>Insert at least 10 employees across different departments</li>
+                                <li>Query: Find all employees in the "Engineering" department</li>
+                                <li>Query: Find employees with salary > 50000, ordered by salary DESC</li>
+                                <li>Query: Get the top 5 highest-paid employees using LIMIT</li>
+                                <li>Query: Find employees hired after a specific date using WHERE</li>
+                            </ul>
+                            <p style="margin-top: 1rem; color: var(--accent-cyan);"><strong>Bonus:</strong> Combine multiple conditions with AND/OR operators.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="background: rgba(0, 255, 65, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-green); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-green); margin-bottom: 1rem; font-size: 1.1rem;">🏋️ Exercise: Multi-Table Queries</div>
+                    <p><strong>Practice INNER JOIN and LEFT JOIN between tables:</strong></p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Create two tables: <code>employees</code> (id, name, department_id) and <code>departments</code> (id, name, location)</li>
+                        <li>Insert sample data with some employees having valid department_id, some with NULL</li>
+                        <li>Write an INNER JOIN to list employees with their department names</li>
+                        <li>Write a LEFT JOIN to show ALL employees, even those without a department</li>
+                        <li>Add a third table <code>projects</code> (id, name, employee_id) and join all three</li>
+                        <li>Count how many employees are in each department using JOIN + GROUP BY</li>
+                    </ul>
+                    <p style="margin-top: 1rem; color: var(--accent-cyan);"><strong>Bonus:</strong> Find departments with no employees using a RIGHT JOIN or subquery.</p>
+                </div>
+
+                <div class="warning-box">
+                    <div class="warning-title">⚠️ Common Pitfalls: SQLite</div>
+                    <ul>
+                        <li><strong>SQL Injection Vulnerabilities:</strong> Never use f-strings or string concatenation for queries with user input. Always use parameterized queries (<code>cursor.execute(query, params)</code>).</li>
+                        <li><strong>Forgetting to Commit:</strong> INSERT, UPDATE, and DELETE require <code>conn.commit()</code> to save changes. Forgetting this means your data changes are lost.</li>
+                        <li><strong>Not Closing Connections:</strong> Always <code>conn.close()</code> or use <code>with</code> context managers. Unclosed connections cause resource leaks and lock issues.</li>
+                        <li><strong>Type Mismatches:</strong> SQLite has dynamic typing, which can cause unexpected behavior. Be explicit about data types when creating tables.</li>
+                    </ul>
+                </div>
+
+                <div class="discussion-box">
+                    <div class="discussion-title">💬 Discussion Questions</div>
+                    <ol>
+                        <li>Why is SQL injection considered one of the most dangerous security vulnerabilities? Can you think of real-world examples where this caused damage?</li>
+                        <li>When would you choose SQLite over a full database server like PostgreSQL or MySQL? What are SQLite's limitations?</li>
+                        <li>How does using parameterized queries (<code>?</code> placeholders) protect against SQL injection attacks?</li>
+                        <li>What's the difference between <code>fetchone()</code>, <code>fetchmany()</code>, and <code>fetchall()</code>? When would you use each?</li>
+                    </ol>
+                </div>
+
+                <div class="playground">
+                    <div class="playground-title">🎮 Practice Playground: Student Database</div>
+                    <p><strong>Challenge:</strong> Create a SQLite database <code>school.db</code> with a <code>students</code> table:</p>
+                    <ul>
+                        <li>Columns: <code>id</code> (INTEGER PRIMARY KEY), <code>name</code> (TEXT), <code>grade</code> (INTEGER), <code>gpa</code> (REAL)</li>
+                        <li>Insert 5 students with different grades and GPAs</li>
+                        <li>Query students with GPA > 3.5</li>
+                        <li>Update a student's grade</li>
+                        <li>Delete a student by ID</li>
+                    </ul>
+                    <p><strong>Bonus:</strong> Use a <code>with</code> statement to automatically close the connection.</p>
+                </div>
+
+                <button class="nav-btn complete-btn" data-topic="sqlite">Mark Topic Complete ✓</button>
+                <div class="explanation-box info" data-notebook="week6-sqlite">
+                    <div class="explanation-title">📓 Practice in Notebook</div>
+                    <p>Open <code>notebook-sessions/week6/session1_sql_databases.ipynb</code> and create a table, insert rows using <code>?</code> parameters, and query them. Demonstrate a safe lookup by name.</p>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-btn prev" onclick="navigateToSection('intro')">◀ Prev: Intro</button>
+                    <button class="nav-btn next" onclick="navigateToSection('sqlalchemy')">Next: SQLAlchemy ▶</button>
+                </div>
+            </section>
+
+            <!-- SQLALCHEMY -->
+            <section id="sqlalchemy" class="section">
+                <h2>🔗 SQLAlchemy ORM</h2>
+                <p>Write Python, not SQL. SQLAlchemy maps Python classes to database tables.</p>
+
+                <div class="code-container level-best">
+                    <div class="code-header">
+                        <span class="code-label">Python</span>
+                        <span class="level-badge best">⭐ Modern ORM</span>
+                    </div>
+                    <button class="run-button" data-output="User: Alice (ID: 1)">Run ▶</button>
+<pre><code><span class="keyword">from</span> sqlalchemy <span class="keyword">import</span> create_engine, Column, Integer, String
+<span class="keyword">from</span> sqlalchemy.orm <span class="keyword">import</span> declarative_base, sessionmaker
+
+<span class="comment"># 1. Setup Engine</span>
+engine = create_engine(<span class="string">'sqlite:///:memory:'</span>)
+Base = declarative_base()
+
+<span class="comment"># 2. Define Model (Table)</span>
+<span class="keyword">class</span> <span class="class-name">User</span>(Base):
+    __tablename__ = <span class="string">'users'</span>
+    id = Column(Integer, primary_key=<span class="keyword">True</span>)
+    name = Column(String)
+
+Base.metadata.create_all(engine)
+
+<span class="comment"># 3. Interact via Session</span>
+Session = sessionmaker(bind=engine)
+session = Session()
+
+<span class="comment"># Add</span>
+new_user = User(name=<span class="string">'Alice'</span>)
+session.add(new_user)
+session.commit()
+
+<span class="comment"># Query</span>
+user = session.query(User).first()
+<span class="keyword">print</span>(<span class="string">f"User: {user.name} (ID: {user.id})"</span>)
+</code></pre>
+                </div>
+
+                <div class="warning-box">
+                    <div class="warning-title">⚠️ Common Pitfalls: SQLAlchemy</div>
+                    <ul>
+                        <li><strong>Forgetting to Commit Sessions:</strong> Like raw SQL, ORM changes require <code>session.commit()</code>. Without it, your INSERT/UPDATE/DELETE operations are rolled back.</li>
+                        <li><strong>N+1 Query Problem:</strong> Accessing relationships in loops causes separate queries for each item. Use <code>joinedload()</code> or <code>subqueryload()</code> to eagerly load relationships.</li>
+                        <li><strong>Not Closing Sessions:</strong> Always <code>session.close()</code> or use context managers. Unclosed sessions hold database connections and can exhaust connection pools.</li>
+                        <li><strong>Mixing ORM and Raw SQL:</strong> Using <code>session.execute()</code> for raw SQL bypasses ORM tracking. Be careful mixing paradigms—stick to one approach per transaction.</li>
+                    </ul>
+                </div>
+
+                <div class="discussion-box">
+                    <div class="discussion-title">💬 Discussion Questions</div>
+                    <ol>
+                        <li>What are the advantages of using an ORM like SQLAlchemy over raw SQL? What are the trade-offs in terms of performance and control?</li>
+                        <li>How does SQLAlchemy's declarative base pattern make database schema changes easier to manage across a team?</li>
+                        <li>When would you choose raw SQL queries over SQLAlchemy ORM methods? Give examples of scenarios where each is preferable.</li>
+                        <li>What is the N+1 query problem, and why is it a performance issue in production applications?</li>
+                    </ol>
+                </div>
+
+                <div style="background: rgba(255, 0, 255, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-magenta); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-magenta); margin-bottom: 1rem; font-size: 1.1rem;">🚀 Challenge: Database CRUD App</div>
+                    <p><strong>Build a complete Create, Read, Update, Delete application using SQLite and Python:</strong></p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li><strong>Create:</strong> Function <code>add_contact(name, email, phone)</code> that inserts a new contact</li>
+                        <li><strong>Read:</strong> Function <code>get_all_contacts()</code> that returns all contacts as a list</li>
+                        <li><strong>Read:</strong> Function <code>search_contacts(query)</code> that searches by name or email</li>
+                        <li><strong>Update:</strong> Function <code>update_contact(id, **kwargs)</code> that updates any field</li>
+                        <li><strong>Delete:</strong> Function <code>delete_contact(id)</code> that removes a contact by ID</li>
+                        <li>Use parameterized queries for ALL database operations</li>
+                        <li>Include proper error handling with try/except blocks</li>
+                    </ul>
+                    <p style="margin-top: 1rem; color: var(--accent-yellow);"><strong>Advanced:</strong> Add a simple command-line interface (CLI) menu to interact with your CRUD functions.</p>
+                    <p style="margin-top: 0.5rem; color: var(--accent-cyan);"><strong>Extra Credit:</strong> Refactor to use SQLAlchemy ORM instead of raw sqlite3.</p>
+                </div>
+
+                <button class="nav-btn complete-btn" data-topic="sqlalchemy">Mark Topic Complete ✓</button>
+                <div class="explanation-box info" data-notebook="week6-orm">
+                    <div class="explanation-title">📓 Practice in Notebook</div>
+                    <p>Open <code>notebook-sessions/week6/session1_sql_databases.ipynb</code> and define a <code>User</code> model, create the schema, insert a user, and query by name using SQLAlchemy.</p>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-btn prev" onclick="navigateToSection('sqlite')">◀ Prev: SQLite</button>
+                    <button class="nav-btn next" onclick="navigateToSection('pandas-sql')">Next: Pandas & SQL ▶</button>
+                </div>
+            </section>
+
+            <!-- PANDAS & SQL -->
+            <section id="pandas-sql" class="section">
+                <h2>🐼 Pandas & SQL</h2>
+                <p>The ultimate duo. Read SQL query results directly into a DataFrame.</p>
+
+                <div class="code-container level-best">
+                    <div class="code-header">
+                        <span class="code-label">Python</span>
+                        <span class="level-badge best">⭐ High Efficiency</span>
+                    </div>
+                    <button class="run-button" data-output="   id   name\n0   1  Alice\n1   2    Bob">Run ▶</button>
+<pre><code><span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+<span class="keyword">import</span> sqlite3
+
+<span class="comment"># Setup dummy data</span>
+conn = sqlite3.connect(<span class="string">':memory:'</span>)
+conn.execute(<span class="string">"CREATE TABLE data (id INT, name TEXT)"</span>)
+conn.execute(<span class="string">"INSERT INTO data VALUES (1, 'Alice'), (2, 'Bob')"</span>)
+conn.commit()
+
+<span class="comment"># ⭐ READ SQL to DATAFRAME</span>
+df = pd.read_sql(<span class="string">"SELECT * FROM data"</span>, conn)
+<span class="keyword">print</span>(df)
+
+<span class="comment"># ⭐ WRITE DATAFRAME to SQL</span>
+df[<span class="string">'new_col'</span>] = <span class="string">'Active'</span>
+df.to_sql(<span class="string">'new_table'</span>, conn, if_exists=<span class="string">'replace'</span>, index=<span class="keyword">False</span>)
+
+conn.close()
+</code></pre>
+                </div>
+
+                <div class="warning-box">
+                    <div class="warning-title">⚠️ Common Pitfalls: Pandas + SQL</div>
+                    <ul>
+                        <li><strong>Loading Huge Tables:</strong> <code>pd.read_sql()</code> loads entire result sets into memory. For large tables, use <code>chunksize</code> parameter or write better WHERE clauses to filter data in SQL first.</li>
+                        <li><strong>if_exists='replace' Dangers:</strong> Using <code>to_sql()</code> with <code>if_exists='replace'</code> deletes the entire table. Use <code>'append'</code> for adding rows or <code>'fail'</code> to prevent accidental overwrites.</li>
+                        <li><strong>Index Confusion:</strong> By default, <code>to_sql()</code> writes the DataFrame index as a column. Set <code>index=False</code> unless you explicitly want the index in your table.</li>
+                        <li><strong>Data Type Mismatches:</strong> Pandas infers SQL data types, which can cause issues. Use the <code>dtype</code> parameter in <code>to_sql()</code> to explicitly specify column types.</li>
+                    </ul>
+                </div>
+
+                <div style="background: rgba(0, 255, 65, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-green); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-green); margin-bottom: 1rem; font-size: 1.1rem;">🏋️ Exercise: Sales Analytics</div>
+                    <p><strong>Use GROUP BY and aggregate functions (COUNT, SUM, AVG) for data analysis:</strong></p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Create a <code>sales</code> table with: <code>id</code>, <code>product_name</code>, <code>category</code>, <code>quantity</code>, <code>price</code>, <code>sale_date</code></li>
+                        <li>Insert at least 20 sales records across different products and categories</li>
+                        <li>Query: Calculate total revenue per category using SUM(quantity * price)</li>
+                        <li>Query: Find the average order value (AVG) per product</li>
+                        <li>Query: Count the number of sales per day using GROUP BY sale_date</li>
+                        <li>Query: Find categories with more than 5 sales using HAVING</li>
+                        <li>Load results into a Pandas DataFrame and create a summary report</li>
+                    </ul>
+                    <p style="margin-top: 1rem; color: var(--accent-cyan);"><strong>Bonus:</strong> Add MIN/MAX to find the cheapest and most expensive sale per category.</p>
+                </div>
+
+                <div style="background: rgba(255, 0, 255, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-magenta); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-magenta); margin-bottom: 1rem; font-size: 1.1rem;">🚀 Challenge: Complete Analytics Dashboard</div>
+                    <p><strong>Build an end-to-end analytics pipeline combining SQL and Pandas:</strong></p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Create a SQLite database with related tables: <code>customers</code>, <code>orders</code>, <code>order_items</code>, <code>products</code></li>
+                        <li>Write a complex JOIN query combining all tables to get order details</li>
+                        <li>Use <code>pd.read_sql()</code> to load the joined data into a DataFrame</li>
+                        <li>Calculate: Customer lifetime value, top 10 products by revenue, monthly sales trends</li>
+                        <li>Use Pandas <code>groupby()</code> for additional aggregations not done in SQL</li>
+                        <li>Export your analysis results back to new SQL tables using <code>to_sql()</code></li>
+                    </ul>
+                    <p style="margin-top: 1rem; color: var(--accent-yellow);"><strong>Advanced:</strong> Create a function that generates weekly sales reports automatically.</p>
+                </div>
+
+                <div class="discussion-box">
+                    <div class="discussion-title">💬 Discussion Questions</div>
+                    <ol>
+                        <li>Why is it often better to filter data with SQL WHERE clauses instead of loading everything into Pandas first?</li>
+                        <li>When would you use <code>pd.read_sql_query()</code> vs. <code>pd.read_sql_table()</code>? What are the differences?</li>
+                        <li>How does <code>chunksize</code> in <code>pd.read_sql()</code> help with memory management? Give an example scenario where this is critical.</li>
+                        <li>What are the advantages of using Pandas DataFrames as an intermediate layer between databases and visualization tools?</li>
+                    </ol>
+                </div>
+
+                <div class="playground">
+                    <div class="playground-title">🎮 Practice Playground: Sales Analysis Pipeline</div>
+                    <p><strong>Challenge:</strong> Build a complete ETL pipeline:</p>
+                    <ul>
+                        <li>Create a SQLite database <code>sales.db</code> with a <code>transactions</code> table (columns: <code>id</code>, <code>product</code>, <code>amount</code>, <code>date</code>)</li>
+                        <li>Insert 20 sample transactions with different products and dates</li>
+                        <li>Use <code>pd.read_sql()</code> to query transactions from the last 7 days</li>
+                        <li>Calculate total sales per product in Pandas</li>
+                        <li>Write the aggregated results back to a new table <code>product_summary</code> using <code>to_sql()</code></li>
+                    </ul>
+                    <p><strong>Bonus:</strong> Use SQLAlchemy engine instead of raw sqlite3 connection for better compatibility.</p>
+                </div>
+
+                <button class="nav-btn complete-btn" data-topic="pandas-sql">Mark Topic Complete ✓</button>
+                <div class="explanation-box info" data-notebook="week6-pandas-sql">
+                    <div class="explanation-title">📓 Practice in Notebook</div>
+                    <p>Open <code>notebook-sessions/week6/session2_sql_databases_group.ipynb</code> and load a table into a DataFrame with <code>pd.read_sql</code>. Add a new column and write it back using <code>to_sql</code>.</p>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-btn prev" onclick="navigateToSection('sqlalchemy')">◀ Prev: SQLAlchemy</button>
+                    <button class="nav-btn next" onclick="navigateToSection('supplemental')">Next: Supplemental ▶</button>
+                </div>
+            </section>
+
+            <!-- ═══════════════════════════════════════════════════════════════
+                 SECTION: SUPPLEMENTAL MATERIALS
+                 ═══════════════════════════════════════════════════════════════ -->
+            <section id="supplemental" class="section">
+                <h2>📚 Supplemental Materials: Extended SQL & Related Topics</h2>
+                <p>Deepen your database skills with additional resources and explore how SQL integrates with your broader Python data toolkit.</p>
+
+                <div class="objectives-box">
+                    <div class="objectives-title">🎯 Advanced Topics</div>
+                    <ul class="objectives-list">
+                        <li><strong>Original SQL Lesson</strong> — Alternative explanations and additional SQL patterns</li>
+                        <li><strong>Advanced Pandas</strong> — Complement SQL queries with DataFrame operations</li>
+                        <li><strong>Data Visualization</strong> — Visualize query results effectively</li>
+                    </ul>
+                </div>
+
+                <div class="explanation-box info">
+                    <div class="explanation-title">📖 Extended Lesson: SQL Databases (Alternate)</div>
+                    <p>For additional SQL coverage and alternative explanations, explore the original lesson materials:</p>
+                    <p style="margin-top: 1rem;">
+                        <a href="supplemental_sql_extended.html" class="nav-btn" style="text-decoration: none; display: inline-block;">
+                            🗄️ Open Extended SQL Lesson →
+                        </a>
+                    </p>
+                    <p style="margin-top: 0.75rem; color: var(--text-secondary); font-size: 0.9rem;">
+                        <strong>Topics covered:</strong> SQLite fundamentals, SQLAlchemy ORM, Pandas-SQL integration, and best practices.
+                    </p>
+                </div>
+
+                <div class="explanation-box info">
+                    <div class="explanation-title">📖 Related: Advanced Pandas Operations</div>
+                    <p>Many SQL operations have Pandas equivalents. Master both to choose the right tool:</p>
+                    <p style="margin-top: 1rem;">
+                        <a href="supplemental_advanced_pandas.html" class="nav-btn" style="text-decoration: none; display: inline-block;">
+                            🐼 Open Advanced Pandas Lesson →
+                        </a>
+                    </p>
+                    <p style="margin-top: 0.75rem; color: var(--text-secondary); font-size: 0.9rem;">
+                        <strong>Comparison:</strong> SQL JOINs ↔ pd.merge(), GROUP BY ↔ df.groupby(), WHERE ↔ boolean filtering
+                    </p>
+                </div>
+
+                <div class="analogy-box">
+                    <div class="analogy-title">💡 SQL vs Pandas: When to Use Each</div>
+                    <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
+                        <li><strong>Use SQL:</strong> Large datasets, persistent storage, complex joins, data integrity constraints</li>
+                        <li><strong>Use Pandas:</strong> Exploratory analysis, quick prototyping, complex transformations, visualization</li>
+                        <li><strong>Use Both:</strong> Query subset with SQL, analyze in Pandas, write results back to database</li>
+                    </ul>
+                </div>
+
+                <div class="nav-buttons">
+                    <button class="nav-btn prev" onclick="navigateToSection('pandas-sql')">◀ Prev: Pandas & SQL</button>
+                    <button class="nav-btn next" onclick="navigateToSection('cheatsheet')">Next: Cheat Sheet ▶</button>
+                </div>
+            </section>
+
+            <!-- CHEAT SHEET -->
+            <section id="cheatsheet" class="section">
+                <h2>📜 SQL Cheat Sheet</h2>
+                
+                <div class="code-container level-best">
+                    <div class="code-header">
+                        <span class="code-label">SQL Patterns</span>
+                        <span class="level-badge best">Reference</span>
+                    </div>
+<pre><code><span class="comment"># ═══ SQLITE3 ═══</span>
+<span class="keyword">import</span> sqlite3
+<span class="keyword">with</span> sqlite3.connect(<span class="string">'db.sqlite'</span>) <span class="keyword">as</span> conn:
+    cursor = conn.cursor()
+    cursor.execute(<span class="string">"SELECT * FROM table WHERE id=?"</span>, (<span class="number">1</span>,))
+    row = cursor.fetchone()
+
+<span class="comment"># ═══ PANDAS ═══</span>
+<span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+<span class="comment"># Read</span>
+df = pd.read_sql(<span class="string">"SELECT * FROM table"</span>, conn)
+<span class="comment"># Write</span>
+df.to_sql(<span class="string">'table_name'</span>, conn, if_exists=<span class="string">'append'</span>, index=<span class="keyword">False</span>)
+
+<span class="comment"># ═══ BASIC SQL SYNTAX ═══</span>
+<span class="comment"># SELECT col1, col2 FROM table WHERE col1 > 5</span>
+<span class="comment"># INSERT INTO table (col1) VALUES (val1)</span>
+<span class="comment"># UPDATE table SET col1 = val1 WHERE id = 1</span>
+<span class="comment"># DELETE FROM table WHERE id = 1</span>
+</code></pre>
+                </div>
+
+                <div class="objectives-box" style="margin-top: 2rem;">
+                    <div class="objectives-title">🎯 Key Takeaways: SQL & Databases</div>
+                    <ul>
+                        <li><strong>Master SQLite First:</strong> Python's built-in <code>sqlite3</code> is perfect for learning SQL fundamentals without server setup.</li>
+                        <li><strong>Always Use Parameterized Queries:</strong> Protect against SQL injection by using <code>?</code> placeholders instead of f-strings or string concatenation.</li>
+                        <li><strong>Remember to Commit:</strong> INSERT, UPDATE, and DELETE require <code>conn.commit()</code> to persist changes—forgetting this loses your data modifications.</li>
+                        <li><strong>ORMs Simplify Complex Apps:</strong> SQLAlchemy lets you work with databases using Python objects, making schema changes and relationships easier to manage.</li>
+                        <li><strong>Pandas + SQL = ETL Power:</strong> <code>pd.read_sql()</code> and <code>to_sql()</code> create seamless pipelines from databases to DataFrames and back.</li>
+                        <li><strong>Filter in SQL, Not Pandas:</strong> Use WHERE clauses to reduce data volume before loading into Pandas—memory and performance depend on it.</li>
+                        <li><strong>Close Your Connections:</strong> Always <code>conn.close()</code> or use <code>with</code> statements to avoid resource leaks and connection pool exhaustion.</li>
+                        <li><strong>Understand Data Types:</strong> Be explicit about column types when creating tables and writing DataFrames to avoid type mismatch issues.</li>
+                    </ul>
+                </div>
+                <div class="explanation-box" data-quiz="week6-quiz" style="margin-top: 1rem;">
+                    <div class="explanation-title">🧠 Quick Quiz: Week 6 Concepts</div>
+                    <form aria-label="Week 6 Quiz" style="color: var(--text-secondary);">
+                        <p>1) What's the safest way to insert user input into an SQL query?</p>
+                        <label><input type="radio" name="q1"> f-strings with input</label>
+                        <label><input type="radio" name="q1" data-correct> Parameterized queries (e.g., <code>?</code>)</label>
+                        <p>2) Which library provides ORM capabilities?</p>
+                        <label><input type="radio" name="q2" data-correct> SQLAlchemy</label>
+                        <label><input type="radio" name="q2"> sqlite3</label>
+                        <p>3) How do you load SQL results into a DataFrame?</p>
+                        <label><input type="radio" name="q3" data-correct> <code>pd.read_sql(query, conn)</code></label>
+                        <label><input type="radio" name="q3"> <code>df.to_sql()</code></label>
+                        <div style="margin-top:0.75rem;">
+                            <button class="nav-btn" type="button" aria-label="Check quiz answers" onclick="(function(){var s=0;document.querySelectorAll('[data-quiz] input[data-correct]').forEach(function(el){if(el.checked)s++;});alert('Score: '+s+'/3');})();">Check Answers</button>
+                        </div>
+                    </form>
+                </div>
+
+                <button class="nav-btn complete-btn" data-topic="cheatsheet">Mark Lesson Complete 🎉</button>
+                <div class="nav-buttons">
+                    <button class="nav-btn prev" onclick="navigateToSection('pandas-sql')">◀ Prev: Pandas & SQL</button>
+                    <button class="nav-btn next" disabled>🏆 Lesson Complete!</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div class="achievement" id="achievement">
+        <div class="achievement-icon">🗄️</div>
+        <div class="achievement-title">Achievement Unlocked!</div>
+        <p>You can now persist data like a pro using SQL and Python.</p>
+    </div>
+
+    <script>
+        const sectionsOrder = ['intro', 'sqlite', 'sqlalchemy', 'pandas-sql', 'supplemental', 'cheatsheet'];
+        const totalTopics = 4; // Excluding intro
+        
+        const progressBar = document.getElementById('progressBar');
+        const xpFill = document.getElementById('xpFill');
+        const xpText = document.getElementById('xpText');
+        const achievement = document.getElementById('achievement');
+        const completed = new Set();
+
+        function navigateToSection(id) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            const target = document.getElementById(id);
+            if (target) target.classList.add('active');
+            
+            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+            const nav = document.querySelector(`.nav-item[data-section="${id}"]`);
+            if (nav) nav.classList.add('active');
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', () => navigateToSection(item.dataset.section));
+        });
+
+        function updateXP() {
+            const percent = (completed.size / totalTopics) * 100;
+            xpFill.style.width = percent + '%';
+            xpText.textContent = `${completed.size} / ${totalTopics} Topics`;
+            
+            if (completed.size === totalTopics) {
+                achievement.classList.add('show');
+                setTimeout(() => achievement.classList.remove('show'), 6000);
+            }
+        }
+
+        document.querySelectorAll('.complete-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const topic = btn.dataset.topic;
+                if (!completed.has(topic)) {
+                    completed.add(topic);
+                    const item = document.querySelector(`.nav-item[data-section="${topic}"]`);
+                    if (item) item.classList.add('completed');
+                    btn.textContent = 'Completed ✓';
+                    btn.disabled = true;
+                    updateXP();
+                }
+            });
+        });
+
+        document.querySelectorAll('.run-button').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const container = btn.closest('.code-container');
+                let out = container.querySelector('.output');
+                if (!out) {
+                    out = document.createElement('div');
+                    out.className = 'output';
+                    container.appendChild(out);
+                }
+                out.innerHTML = '<div class="output-label">Output:</div>' + 
+                               (btn.dataset.output || 'No output').replace(/\n/g, '<br>');
+                out.classList.add('show');
+                btn.disabled = true;
+                btn.innerHTML = '✔ Ran';
+            });
+        });
+
+        document.querySelectorAll('.skill-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const progression = tab.closest('.skill-progression');
+                const targetId = tab.dataset.target;
+                progression.querySelectorAll('.skill-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                progression.querySelectorAll('.skill-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                const targetContent = document.getElementById(targetId);
+                if (targetContent) targetContent.classList.add('active');
+            });
+        });
+
+        window.addEventListener('scroll', () => {
+            const doc = document.documentElement;
+            const scrolled = doc.scrollTop || document.body.scrollTop;
+            const height = (doc.scrollHeight - doc.clientHeight) || 1;
+            const percent = (scrolled / height) * 100;
+            progressBar.style.width = percent + '%';
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+                const activeSection = document.querySelector('.section.active');
+                if (!activeSection) return;
+                const currentIndex = sectionsOrder.indexOf(activeSection.id);
+                let newIndex;
+                if (e.key === 'ArrowRight' && currentIndex < sectionsOrder.length - 1) newIndex = currentIndex + 1;
+                else if (e.key === 'ArrowLeft' && currentIndex > 0) newIndex = currentIndex - 1;
+                if (newIndex !== undefined) navigateToSection(sectionsOrder[newIndex]);
+            }
+        });
+
+        console.log('🗄️ Week 6: SQL & Databases Loaded!');
+    </script>
+
+        <script src="../assets/js/navbar.js" defer></script>
+</body>
+</html>

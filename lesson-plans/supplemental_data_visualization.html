@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&family=Orbitron:wght@700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/navbar.css">
     <style>
         /* ═══════════════════════════════════════════════════════════════════
            CSS CUSTOM PROPERTIES (Variables) - CONSISTENT WITH WEEK 4
@@ -211,6 +212,11 @@
         .achievement-icon { font-size: 3rem; margin-bottom: 0.5rem; animation: bounce 1s infinite alternate; }
         @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-10px); } }
 
+        /* Colab Button Styles */
+        .colab-btn:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(249, 171, 0, 0.5); }
+        .notebook-resource-box a:hover { transform: translateY(-2px); }
+        .notebook-resource-box a[download]:hover { background: var(--accent-cyan); color: var(--bg-dark); }
+
         @media (max-width: 968px) {
             .container { flex-direction: column; }
             .sidebar { width: 100%; height: auto; position: relative; }
@@ -295,6 +301,40 @@
                     <div class="vocab-item">
                         <div class="vocab-term">Seaborn</div>
                         <div class="vocab-def">A high-level plotting library built on Matplotlib with beautiful defaults and statistical functions.</div>
+                    </div>
+                </div>
+
+                <!-- Interactive Notebook Resource -->
+                <div class="notebook-resource-box" style="background: linear-gradient(135deg, rgba(255, 159, 67, 0.15), rgba(0, 240, 255, 0.1)); border: 2px solid var(--accent-orange); border-radius: 12px; padding: 1.5rem; margin: 2rem 0; position: relative; overflow: hidden;">
+                    <div style="position: absolute; top: -20px; right: -20px; font-size: 5rem; opacity: 0.1;">📓</div>
+                    <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+                        <div style="flex: 1; min-width: 280px;">
+                            <h3 style="color: var(--accent-orange); margin: 0 0 0.5rem 0; font-size: 1.3rem;">
+                                🚀 Interactive Companion Notebook
+                            </h3>
+                            <p style="margin: 0 0 0.75rem 0; color: var(--text-primary); font-size: 0.95rem;">
+                                <strong>Data Wrangling & Aggregation</strong> — A comprehensive 2-hour interactive notebook covering selection, groupby, merging, and transformation with progressive examples (Novice → Intermediate → Advanced).
+                            </p>
+                            <p style="margin: 0; color: var(--text-secondary); font-size: 0.85rem;">
+                                ✅ Rich visualizations with Matplotlib & Seaborn<br>
+                                ✅ Real-world sales analysis practice<br>
+                                ✅ Assignment preview for Kaggle football dataset
+                            </p>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                            <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week5/week5_visualization_of_data.ipynb" 
+                               target="_blank" 
+                               class="colab-btn"
+                               style="display: inline-flex; align-items: center; gap: 0.5rem; background: linear-gradient(135deg, #F9AB00, #E8710A); color: white; padding: 0.75rem 1.25rem; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.9rem; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(249, 171, 0, 0.3);">
+                                <img src="https://colab.research.google.com/img/colab_favicon_256px.png" alt="Colab" style="width: 24px; height: 24px;">
+                                Open in Google Colab
+                            </a>
+                            <a href="../notebook-sessions/week5/week5_visualization_of_data.ipynb" 
+                               download
+                               style="display: inline-flex; align-items: center; gap: 0.5rem; background: var(--bg-medium); color: var(--accent-cyan); padding: 0.6rem 1rem; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.85rem; border: 2px solid var(--accent-cyan); transition: all 0.3s ease;">
+                                ⬇️ Download .ipynb
+                            </a>
+                        </div>
                     </div>
                 </div>
 
@@ -474,6 +514,38 @@ plt.show()
                     </div>
                 </div>
 
+                <!-- Exercise: Stock Price Tracker -->
+                <div style="background: rgba(0, 255, 65, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-green); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-green); margin-bottom: 1rem; font-size: 1.1rem;">🏋️ Exercise: Stock Price Tracker</div>
+                    <p><strong>Description:</strong> Create a line chart that visualizes stock price movements over time using the object-oriented Matplotlib interface.</p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Generate sample data: 30 days of stock prices starting at $100 with random daily changes (±5%)</li>
+                        <li>Use <code>fig, ax = plt.subplots(figsize=(12, 6))</code> to create your canvas</li>
+                        <li>Plot the price line with markers at each data point</li>
+                        <li>Add a horizontal line at the starting price ($100) as a reference</li>
+                        <li>Color the line green if the final price is above $100, red if below</li>
+                        <li>Include proper axis labels: "Day" (x-axis) and "Price ($)" (y-axis)</li>
+                        <li>Add a title: "30-Day Stock Price Movement"</li>
+                        <li>Apply a grid with <code>alpha=0.3</code> for readability</li>
+                    </ul>
+                    <p style="margin-top: 1rem; color: var(--text-secondary);"><strong>Bonus:</strong> Add annotations for the highest and lowest price points using <code>ax.annotate()</code>.</p>
+                </div>
+
+                <!-- Challenge: Multi-Stock Comparison -->
+                <div style="background: rgba(255, 0, 255, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-magenta); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-magenta); margin-bottom: 1rem; font-size: 1.1rem;">🚀 Challenge: Multi-Stock Comparison</div>
+                    <p><strong>Description:</strong> Extend your Stock Price Tracker to compare 3 different stocks on the same chart.</p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Generate price data for three fictional stocks: "TechCorp", "DataInc", "AILabs"</li>
+                        <li>Plot all three lines on the same axes with different colors</li>
+                        <li>Add a legend to identify each stock</li>
+                        <li>Calculate and display the percentage change for each stock in the legend label</li>
+                        <li>Use different line styles (solid, dashed, dotted) for accessibility</li>
+                        <li>Add a shaded region using <code>ax.fill_between()</code> to highlight a "volatility period" (days 10-20)</li>
+                    </ul>
+                    <p style="margin-top: 1rem; color: var(--text-secondary);"><strong>Pro Tip:</strong> Use <code>ax.legend(loc='upper left')</code> to position the legend away from the data.</p>
+                </div>
+
                 <div class="warning-box">
                     <div class="warning-title">⚠️ Common Pitfalls: Matplotlib</div>
                     <ul>
@@ -587,6 +659,53 @@ plt.show()
                     </div>
                 </div>
 
+                <!-- Exercise: Sales Comparison -->
+                <div style="background: rgba(0, 255, 65, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-green); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-green); margin-bottom: 1rem; font-size: 1.1rem;">🏋️ Exercise: Sales Comparison</div>
+                    <p><strong>Description:</strong> Create bar charts to compare product sales across different categories and regions using Seaborn.</p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Create a DataFrame with columns: 'Product' (A, B, C, D), 'Region' (North, South, East, West), 'Sales' (random values)</li>
+                        <li>Use <code>sns.barplot()</code> to show average sales by Product</li>
+                        <li>Add <code>hue='Region'</code> to compare sales across regions within each product</li>
+                        <li>Apply the 'viridis' or 'coolwarm' color palette</li>
+                        <li>Add error bars to show confidence intervals (Seaborn does this automatically!)</li>
+                        <li>Rotate x-axis labels 45 degrees for readability using <code>plt.xticks(rotation=45)</code></li>
+                        <li>Add a descriptive title and axis labels</li>
+                    </ul>
+                    <p style="margin-top: 1rem; color: var(--text-secondary);"><strong>Bonus:</strong> Create a second plot using <code>sns.catplot(kind='bar')</code> with <code>col='Region'</code> to create a faceted bar chart.</p>
+                </div>
+
+                <!-- Exercise: Correlation Analysis -->
+                <div style="background: rgba(0, 255, 65, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-green); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-green); margin-bottom: 1rem; font-size: 1.1rem;">🏋️ Exercise: Correlation Analysis</div>
+                    <p><strong>Description:</strong> Use scatter plots to visualize and analyze relationships between variables in a dataset.</p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Load the built-in 'mpg' dataset: <code>mpg = sns.load_dataset('mpg')</code></li>
+                        <li>Create a scatter plot of 'horsepower' vs 'mpg' (miles per gallon)</li>
+                        <li>Add <code>hue='origin'</code> to color points by country of origin (USA, Europe, Japan)</li>
+                        <li>Use <code>size='weight'</code> to encode vehicle weight in point sizes</li>
+                        <li>Add a regression line using <code>sns.regplot()</code> or set <code>fit_reg=True</code></li>
+                        <li>Interpret the correlation: Is it positive or negative? Strong or weak?</li>
+                        <li>Create a correlation heatmap for all numeric columns using <code>sns.heatmap(mpg.corr(), annot=True)</code></li>
+                    </ul>
+                    <p style="margin-top: 1rem; color: var(--text-secondary);"><strong>Questions to Answer:</strong> Which variable has the strongest correlation with MPG? How does the relationship vary by origin?</p>
+                </div>
+
+                <!-- Challenge: Statistical Story -->
+                <div style="background: rgba(255, 0, 255, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-magenta); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-magenta); margin-bottom: 1rem; font-size: 1.1rem;">🚀 Challenge: Tell a Statistical Story</div>
+                    <p><strong>Description:</strong> Combine multiple Seaborn plots to tell a complete story about the 'tips' dataset.</p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Load the tips dataset: <code>tips = sns.load_dataset('tips')</code></li>
+                        <li>Create a <code>pairplot()</code> to see relationships between all numeric variables, colored by 'time'</li>
+                        <li>Create a <code>violinplot()</code> showing tip distribution by day and time</li>
+                        <li>Use <code>jointplot()</code> to show the relationship between total_bill and tip with marginal histograms</li>
+                        <li>Create a <code>boxplot()</code> comparing tips by day of week</li>
+                        <li>Write 3-4 bullet points describing insights you discovered from these visualizations</li>
+                    </ul>
+                    <p style="margin-top: 1rem; color: var(--text-secondary);"><strong>Reflection:</strong> Which plot type was most effective for each insight? Why?</p>
+                </div>
+
                 <div class="warning-box">
                     <div class="warning-title">⚠️ Common Pitfalls: Seaborn</div>
                     <ul>
@@ -690,6 +809,43 @@ plt.show()
                         <li>Bottom-right: Histogram of temperature distribution</li>
                     </ul>
                     <p><strong>Bonus:</strong> Use <code>fig.suptitle()</code> to add an overall title to your dashboard.</p>
+                </div>
+
+                <!-- Exercise: Weather Dashboard -->
+                <div style="background: rgba(0, 255, 65, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-green); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-green); margin-bottom: 1rem; font-size: 1.1rem;">🏋️ Exercise: Weather Analysis Dashboard</div>
+                    <p><strong>Description:</strong> Build a complete weather analysis dashboard using subplots with realistic data.</p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Generate 365 days of weather data: temperature (seasonal pattern + noise), rainfall (random), humidity</li>
+                        <li>Create a 2x2 subplot grid with <code>figsize=(14, 10)</code></li>
+                        <li><strong>Top-left:</strong> Line plot of daily temperature with a 7-day rolling average overlay</li>
+                        <li><strong>Top-right:</strong> Monthly total rainfall as a bar chart (aggregate your daily data)</li>
+                        <li><strong>Bottom-left:</strong> Scatter plot of temperature vs. humidity with seasonal color coding</li>
+                        <li><strong>Bottom-right:</strong> Histogram of temperature distribution with mean/median lines</li>
+                        <li>Use <code>fig.suptitle('Annual Weather Analysis Dashboard', fontsize=16)</code></li>
+                        <li>Apply <code>plt.tight_layout(rect=[0, 0, 1, 0.96])</code> to make room for the title</li>
+                    </ul>
+                    <p style="margin-top: 1rem; color: var(--text-secondary);"><strong>Tip:</strong> Use <code>np.random.seed(42)</code> at the start for reproducible random data.</p>
+                </div>
+
+                <!-- Challenge: Dashboard Creation -->
+                <div style="background: rgba(255, 0, 255, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-magenta); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-magenta); margin-bottom: 1rem; font-size: 1.1rem;">🚀 Challenge: Professional Analytics Dashboard</div>
+                    <p><strong>Description:</strong> Create a publication-ready multi-chart dashboard combining Matplotlib and Seaborn techniques.</p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Load a real dataset (use <code>sns.load_dataset('diamonds')</code> or the Titanic dataset)</li>
+                        <li>Create a 2x3 grid of subplots (<code>fig, axes = plt.subplots(2, 3, figsize=(18, 10))</code>)</li>
+                        <li><strong>Plot 1:</strong> Distribution histogram of the main numeric variable</li>
+                        <li><strong>Plot 2:</strong> Box plot comparing categories</li>
+                        <li><strong>Plot 3:</strong> Scatter plot with regression line showing two variable relationships</li>
+                        <li><strong>Plot 4:</strong> Bar chart of counts by category</li>
+                        <li><strong>Plot 5:</strong> Correlation heatmap of numeric columns</li>
+                        <li><strong>Plot 6:</strong> Violin or swarm plot for distribution comparison</li>
+                        <li>Apply consistent styling: use <code>sns.set_theme(style='whitegrid')</code></li>
+                        <li>Add a main title using <code>fig.suptitle()</code> with your analysis theme</li>
+                        <li>Export the dashboard as a high-resolution PNG: <code>plt.savefig('dashboard.png', dpi=300, bbox_inches='tight')</code></li>
+                    </ul>
+                    <p style="margin-top: 1rem; color: var(--text-secondary);"><strong>Portfolio Piece:</strong> This dashboard can serve as a portfolio project—add insights as text annotations!</p>
                 </div>
 
                 <div class="explanation-box info" data-notebook="week5-subplots">
@@ -896,5 +1052,6 @@ plt.tight_layout()
         console.log('🎨 Week 5: Data Visualization Loaded!');
     </script>
 
-    </body>
+        <script src="../assets/js/navbar.js" defer></script>
+</body>
 </html>

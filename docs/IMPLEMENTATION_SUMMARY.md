@@ -113,20 +113,26 @@
 
 ## 🔗 File Paths (All Verified ✅)
 
-### Lesson Plans
+### Lesson Plans (Current Structure - January 2026)
 ```
 lesson-plans/lesson_week1_intro_python.html ✅
 lesson-plans/lesson_week2_data_structures.html ✅
 lesson-plans/lesson_week3_python_skills.html ✅
 lesson-plans/lesson_week4_data_engineering.html ✅
-lesson-plans/lesson_week5_data_visualization.html ✅
-lesson-plans/lesson_week6_sql_databases.html ✅
-lesson-plans/lesson_week7_apis_scraping.html ✅
-lesson-plans/lesson_week8_advanced_pandas.html ✅
+lesson-plans/lesson_week5_data_wrangling.html ✅
+lesson-plans/lesson_week6_data_cleaning.html ✅
+lesson-plans/lesson_week7_advanced_cleaning.html ✅
+lesson-plans/lesson_week8_databases_sql.html ✅
 lesson-plans/lesson_week9_intro_ml.html ✅
 lesson-plans/lesson_week10_flask_web.html ✅
 lesson-plans/lesson_week11_deployment.html ✅
+lesson-plans/supplemental_advanced_pandas.html ✅
+lesson-plans/supplemental_apis_scraping.html ✅
+lesson-plans/supplemental_data_visualization.html ✅
+lesson-plans/supplemental_sql_extended.html ✅
 ```
+
+**All lessons now include glassmorphic navbar integration!**
 
 ### Jupyter Notebooks (22 total)
 ```

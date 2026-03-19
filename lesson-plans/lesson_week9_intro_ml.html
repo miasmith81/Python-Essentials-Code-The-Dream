@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&family=Orbitron:wght@700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/navbar.css">
     <style>
         /* ═══════════════════════════════════════════════════════════════════
            CSS CUSTOM PROPERTIES (Variables) - CONSISTENT THEME
@@ -235,6 +236,25 @@
         <h1>🤖 Intro to Machine Learning</h1>
         <p class="subtitle">Predicting the Future with Scikit-Learn</p>
         <span class="week-badge">WEEK 9</span>
+        <!-- Quick Access Toolbar for Presentation Mode -->
+        <div class="quick-access-toolbar" style="display: flex; gap: 0.75rem; justify-content: center; margin-top: 1rem; flex-wrap: wrap;">
+            <a href="../notebook-sessions/week9/session1_intro_to_ml.ipynb" download class="quick-btn" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: rgba(0, 240, 255, 0.15); border: 1px solid var(--accent-cyan); border-radius: 8px; color: var(--accent-cyan); text-decoration: none; font-size: 0.85rem; transition: all 0.3s ease;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                Solo Notebook
+            </a>
+            <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week9/session1_intro_to_ml.ipynb" target="_blank" class="quick-btn" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: rgba(249, 171, 0, 0.15); border: 1px solid #f9ab00; border-radius: 8px; color: #f9ab00; text-decoration: none; font-size: 0.85rem; transition: all 0.3s ease;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                Run in Colab
+            </a>
+            <a href="../notebook-sessions/week9/session2_intro_to_ml_group.ipynb" download class="quick-btn" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: rgba(0, 255, 65, 0.15); border: 1px solid var(--accent-green); border-radius: 8px; color: var(--accent-green); text-decoration: none; font-size: 0.85rem; transition: all 0.3s ease;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                Group Notebook
+            </a>
+            <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week9/session2_intro_to_ml_group.ipynb" target="_blank" class="quick-btn" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: rgba(255, 0, 255, 0.15); border: 1px solid var(--accent-magenta); border-radius: 8px; color: var(--accent-magenta); text-decoration: none; font-size: 0.85rem; transition: all 0.3s ease;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                Group Colab
+            </a>
+        </div>
     </header>
 
     <div class="container">
@@ -425,6 +445,72 @@ X_train, X_test, y_train, y_test = train_test_split(
                     </div>
                 </div>
 
+                <!-- Exercise: Iris Classification -->
+                <div style="background: rgba(0, 255, 65, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-green); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-green); margin-bottom: 1rem; font-size: 1.1rem;">🏋️ Exercise: Iris Classification</div>
+                    <p><strong>Build your first classifier using the famous Iris dataset:</strong></p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Load the Iris dataset using <code>from sklearn.datasets import load_iris</code></li>
+                        <li>Explore the data: print the feature names and target names</li>
+                        <li>Split the data into training (80%) and testing (20%) sets</li>
+                        <li>Train a <code>KNeighborsClassifier</code> with <code>n_neighbors=3</code></li>
+                        <li>Make predictions on the test set and calculate accuracy</li>
+                        <li>Try different values of <code>n_neighbors</code> (1, 5, 7) and compare accuracy</li>
+                    </ul>
+                    <div class="code-container level-best" style="margin-top: 1rem;">
+                        <div class="code-header">
+                            <span class="code-label">Starter Code</span>
+                        </div>
+<pre><code><span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> load_iris
+<span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split
+<span class="keyword">from</span> sklearn.neighbors <span class="keyword">import</span> KNeighborsClassifier
+<span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> accuracy_score
+
+<span class="comment"># Load data</span>
+iris = load_iris()
+X, y = iris.data, iris.target
+
+<span class="comment"># TODO: Split the data</span>
+<span class="comment"># TODO: Create and train the model</span>
+<span class="comment"># TODO: Make predictions and evaluate</span>
+</code></pre>
+                    </div>
+                </div>
+
+                <!-- Exercise: Feature Scaling -->
+                <div style="background: rgba(0, 255, 65, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-green); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-green); margin-bottom: 1rem; font-size: 1.1rem;">🏋️ Exercise: Feature Scaling</div>
+                    <p><strong>Practice data preprocessing with StandardScaler:</strong></p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Create a synthetic dataset with features on different scales (e.g., age: 0-100, income: 0-1000000)</li>
+                        <li>Apply <code>StandardScaler</code> to normalize the features</li>
+                        <li>Compare the mean and standard deviation before and after scaling</li>
+                        <li>Important: Fit the scaler on training data only, then transform both train and test</li>
+                        <li>Train a LogisticRegression model with and without scaling—compare accuracy</li>
+                    </ul>
+                    <div class="code-container level-best" style="margin-top: 1rem;">
+                        <div class="code-header">
+                            <span class="code-label">Starter Code</span>
+                        </div>
+<pre><code><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> StandardScaler
+<span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split
+<span class="keyword">import</span> numpy <span class="keyword">as</span> np
+
+<span class="comment"># Create data with different scales</span>
+np.random.seed(<span class="number">42</span>)
+age = np.random.randint(<span class="number">18</span>, <span class="number">80</span>, <span class="number">100</span>)  <span class="comment"># Range: 18-80</span>
+income = np.random.randint(<span class="number">20000</span>, <span class="number">200000</span>, <span class="number">100</span>)  <span class="comment"># Range: 20k-200k</span>
+X = np.column_stack([age, income])
+y = (income > <span class="number">100000</span>).astype(<span class="keyword">int</span>)  <span class="comment"># Simple target</span>
+
+<span class="comment"># TODO: Split the data</span>
+<span class="comment"># TODO: Create scaler and fit on X_train only</span>
+<span class="comment"># TODO: Transform both X_train and X_test</span>
+<span class="comment"># TODO: Print mean/std before and after scaling</span>
+</code></pre>
+                    </div>
+                </div>
+
                 <button class="nav-btn complete-btn" data-topic="basics">Mark Topic Complete ✓</button>
                 <div class="nav-buttons">
                     <button class="nav-btn prev" onclick="navigateToSection('intro')">◀ Prev: Intro</button>
@@ -459,6 +545,56 @@ pred = model.predict([[<span class="number">5</span>]])
 <span class="keyword">print</span>(f<span class="string">"Prediction for 5.0: {pred[0]}"</span>)
 <span class="keyword">print</span>(f<span class="string">"Coefficient: {model.coef_[0]}"</span>)
 </code></pre>
+                </div>
+
+                <!-- Exercise: House Price Predictor -->
+                <div style="background: rgba(0, 255, 65, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-green); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-green); margin-bottom: 1rem; font-size: 1.1rem;">🏋️ Exercise: House Price Predictor</div>
+                    <p><strong>Build a linear regression model to predict house prices:</strong></p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Load the California Housing dataset: <code>from sklearn.datasets import fetch_california_housing</code></li>
+                        <li>Explore the features (MedInc, HouseAge, AveRooms, etc.)</li>
+                        <li>Split data into train/test sets (80/20 split)</li>
+                        <li>Train a <code>LinearRegression</code> model</li>
+                        <li>Calculate Mean Squared Error (MSE) and R² score on test data</li>
+                        <li>Bonus: Try <code>Ridge</code> regression and compare performance</li>
+                    </ul>
+                    <div class="code-container level-best" style="margin-top: 1rem;">
+                        <div class="code-header">
+                            <span class="code-label">Starter Code</span>
+                        </div>
+<pre><code><span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> fetch_california_housing
+<span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LinearRegression, Ridge
+<span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split
+<span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> mean_squared_error, r2_score
+
+<span class="comment"># Load data</span>
+housing = fetch_california_housing()
+X, y = housing.data, housing.target
+
+<span class="keyword">print</span>(f<span class="string">"Features: {housing.feature_names}"</span>)
+<span class="keyword">print</span>(f<span class="string">"X shape: {X.shape}"</span>)
+
+<span class="comment"># TODO: Split the data</span>
+<span class="comment"># TODO: Train LinearRegression</span>
+<span class="comment"># TODO: Make predictions and calculate MSE, R²</span>
+<span class="comment"># TODO: Try Ridge regression</span>
+</code></pre>
+                    </div>
+                </div>
+
+                <!-- Challenge: Polynomial Regression -->
+                <div style="background: rgba(255, 0, 255, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-magenta); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-magenta); margin-bottom: 1rem; font-size: 1.1rem;">🚀 Challenge: Non-Linear Relationships</div>
+                    <p><strong>Extend your regression skills with polynomial features:</strong></p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Create synthetic data with a non-linear relationship: <code>y = x² + noise</code></li>
+                        <li>Try fitting a LinearRegression—observe the poor fit</li>
+                        <li>Use <code>PolynomialFeatures(degree=2)</code> to transform your data</li>
+                        <li>Fit LinearRegression on the polynomial features</li>
+                        <li>Compare R² scores: linear vs polynomial</li>
+                        <li>Experiment with degree=3, 4, 5—what happens with too high a degree?</li>
+                    </ul>
                 </div>
 
                 <button class="nav-btn complete-btn" data-topic="regression">Mark Topic Complete ✓</button>
@@ -501,6 +637,94 @@ preds = model.predict(X_test)
 </code></pre>
                 </div>
 
+                <!-- Exercise: Metrics Comparison -->
+                <div style="background: rgba(0, 255, 65, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-green); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-green); margin-bottom: 1rem; font-size: 1.1rem;">🏋️ Exercise: Metrics Comparison</div>
+                    <p><strong>Understand when accuracy isn't enough—compare different metrics:</strong></p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Create an imbalanced dataset: 90% class 0, 10% class 1</li>
+                        <li>Train a classifier and calculate Accuracy, Precision, Recall, and F1-score</li>
+                        <li>Create a "dummy" classifier that always predicts class 0—what's its accuracy?</li>
+                        <li>Compare all metrics between your model and the dummy classifier</li>
+                        <li>Understand: When is accuracy misleading? When do we care about Recall vs Precision?</li>
+                        <li>Use <code>classification_report()</code> for a complete metrics summary</li>
+                    </ul>
+                    <div class="code-container level-best" style="margin-top: 1rem;">
+                        <div class="code-header">
+                            <span class="code-label">Starter Code</span>
+                        </div>
+<pre><code><span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> make_classification
+<span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split
+<span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LogisticRegression
+<span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> (accuracy_score, precision_score, 
+                             recall_score, f1_score, classification_report)
+
+<span class="comment"># Create imbalanced dataset</span>
+X, y = make_classification(n_samples=<span class="number">1000</span>, n_classes=<span class="number">2</span>, 
+                           weights=[<span class="number">0.9</span>, <span class="number">0.1</span>], random_state=<span class="number">42</span>)
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=<span class="number">42</span>)
+
+<span class="comment"># TODO: Train a classifier</span>
+<span class="comment"># TODO: Calculate accuracy, precision, recall, F1</span>
+<span class="comment"># TODO: Compare with a dummy "always predict 0" baseline</span>
+<span class="comment"># TODO: Print classification_report()</span>
+</code></pre>
+                    </div>
+                </div>
+
+                <!-- Challenge: Customer Churn Predictor -->
+                <div style="background: rgba(255, 0, 255, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-magenta); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-magenta); margin-bottom: 1rem; font-size: 1.1rem;">🚀 Challenge: Customer Churn Predictor</div>
+                    <p><strong>Build a complete classification pipeline to predict customer churn:</strong></p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Generate synthetic customer data with features: tenure, monthly_charges, total_charges, contract_length</li>
+                        <li>Create a target variable: churn (1) or stay (0) based on logical rules</li>
+                        <li>Preprocess: Handle any missing values, scale numerical features</li>
+                        <li>Split data with stratification (important for imbalanced churn data!)</li>
+                        <li>Train multiple classifiers: LogisticRegression, RandomForest, KNeighbors</li>
+                        <li>Compare all three using accuracy, precision, recall, and F1-score</li>
+                        <li>Identify which model is best for minimizing customer loss (hint: focus on recall for churners)</li>
+                        <li>Visualize the confusion matrix for your best model</li>
+                    </ul>
+                    <div class="code-container level-best" style="margin-top: 1rem;">
+                        <div class="code-header">
+                            <span class="code-label">Starter Code</span>
+                        </div>
+<pre><code><span class="keyword">import</span> numpy <span class="keyword">as</span> np
+<span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+<span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split
+<span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> StandardScaler
+<span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LogisticRegression
+<span class="keyword">from</span> sklearn.ensemble <span class="keyword">import</span> RandomForestClassifier
+<span class="keyword">from</span> sklearn.neighbors <span class="keyword">import</span> KNeighborsClassifier
+<span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> classification_report, confusion_matrix
+
+<span class="comment"># Generate synthetic churn data</span>
+np.random.seed(<span class="number">42</span>)
+n_customers = <span class="number">1000</span>
+
+data = pd.DataFrame({
+    <span class="string">'tenure'</span>: np.random.randint(<span class="number">1</span>, <span class="number">72</span>, n_customers),  <span class="comment"># Months</span>
+    <span class="string">'monthly_charges'</span>: np.random.uniform(<span class="number">20</span>, <span class="number">100</span>, n_customers),
+    <span class="string">'contract_length'</span>: np.random.choice([<span class="number">1</span>, <span class="number">12</span>, <span class="number">24</span>], n_customers),
+})
+data[<span class="string">'total_charges'</span>] = data[<span class="string">'tenure'</span>] * data[<span class="string">'monthly_charges'</span>]
+
+<span class="comment"># Create churn logic: high charges + short tenure + month-to-month = likely churn</span>
+churn_prob = (<span class="number">100</span> - data[<span class="string">'tenure'</span>]) / <span class="number">100</span> + (data[<span class="string">'monthly_charges'</span>] / <span class="number">200</span>)
+churn_prob += (data[<span class="string">'contract_length'</span>] == <span class="number">1</span>) * <span class="number">0.3</span>
+data[<span class="string">'churn'</span>] = (churn_prob > np.random.uniform(size=n_customers) + <span class="number">0.5</span>).astype(<span class="keyword">int</span>)
+
+<span class="comment"># TODO: Prepare features (X) and target (y)</span>
+<span class="comment"># TODO: Split with stratify=y</span>
+<span class="comment"># TODO: Scale features</span>
+<span class="comment"># TODO: Train and compare 3 different classifiers</span>
+<span class="comment"># TODO: Print classification reports and identify best model</span>
+</code></pre>
+                    </div>
+                </div>
+
                 <button class="nav-btn complete-btn" data-topic="classification">Mark Topic Complete ✓</button>
                 <div class="nav-buttons">
                     <button class="nav-btn prev" onclick="navigateToSection('regression')">◀ Prev: Regression</button>
@@ -537,6 +761,61 @@ score = pipe.score(X_test, y_test)
 
 <span class="keyword">print</span>(f<span class="string">"Pipeline Score: {score}"</span>)
 </code></pre>
+                </div>
+
+                <!-- Exercise: Building a Complete Pipeline -->
+                <div style="background: rgba(0, 255, 65, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-green); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-green); margin-bottom: 1rem; font-size: 1.1rem;">🏋️ Exercise: Building a Complete Pipeline</div>
+                    <p><strong>Create a production-ready pipeline that handles everything:</strong></p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Load the breast cancer dataset: <code>from sklearn.datasets import load_breast_cancer</code></li>
+                        <li>Build a pipeline with: <code>StandardScaler</code> → <code>PCA(n_components=10)</code> → <code>LogisticRegression</code></li>
+                        <li>Use <code>Pipeline</code> with named steps instead of <code>make_pipeline</code></li>
+                        <li>Train and evaluate the pipeline</li>
+                        <li>Access individual steps using <code>pipe.named_steps['scaler']</code></li>
+                        <li>Compare performance with and without PCA dimensionality reduction</li>
+                    </ul>
+                    <div class="code-container level-best" style="margin-top: 1rem;">
+                        <div class="code-header">
+                            <span class="code-label">Starter Code</span>
+                        </div>
+<pre><code><span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> load_breast_cancer
+<span class="keyword">from</span> sklearn.pipeline <span class="keyword">import</span> Pipeline
+<span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> StandardScaler
+<span class="keyword">from</span> sklearn.decomposition <span class="keyword">import</span> PCA
+<span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LogisticRegression
+<span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split
+
+<span class="comment"># Load data</span>
+cancer = load_breast_cancer()
+X, y = cancer.data, cancer.target
+
+<span class="comment"># TODO: Split the data</span>
+<span class="comment"># TODO: Create Pipeline with named steps</span>
+pipe = Pipeline([
+    (<span class="string">'scaler'</span>, StandardScaler()),
+    (<span class="string">'pca'</span>, PCA(n_components=<span class="number">10</span>)),
+    (<span class="string">'classifier'</span>, LogisticRegression())
+])
+
+<span class="comment"># TODO: Fit and evaluate</span>
+<span class="comment"># TODO: Access named steps and inspect components</span>
+</code></pre>
+                    </div>
+                </div>
+
+                <!-- Challenge: Cross-Validation with Pipelines -->
+                <div style="background: rgba(255, 0, 255, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-magenta); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-magenta); margin-bottom: 1rem; font-size: 1.1rem;">🚀 Challenge: Cross-Validation with Pipelines</div>
+                    <p><strong>Combine pipelines with cross-validation for robust model evaluation:</strong></p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Use <code>cross_val_score</code> with your pipeline for 5-fold cross-validation</li>
+                        <li>Calculate mean and standard deviation of scores across folds</li>
+                        <li>Use <code>GridSearchCV</code> to tune hyperparameters within the pipeline</li>
+                        <li>Search over: <code>pca__n_components: [5, 10, 15]</code> and <code>classifier__C: [0.1, 1, 10]</code></li>
+                        <li>Print the best parameters and best score</li>
+                        <li>Understand why preprocessing must be inside the pipeline for proper cross-validation</li>
+                    </ul>
                 </div>
 
                 <button class="nav-btn complete-btn" data-topic="pipelines">Mark Topic Complete ✓</button>
@@ -708,5 +987,6 @@ mse = mean_squared_error(y_test, preds)
         console.log('🤖 Week 9: ML Loaded!');
     </script>
 
-    </body>
+        <script src="../assets/js/navbar.js" defer></script>
+</body>
 </html>

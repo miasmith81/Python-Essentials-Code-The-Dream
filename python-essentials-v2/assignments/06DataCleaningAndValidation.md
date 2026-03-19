@@ -1,7 +1,9 @@
-## Lesson 5 Assignment — Data Cleaning and Validation
+# Lesson 6 Assignment — Data Cleaning and Validation
+
 ### Data Cleaning and Validation with Pandas
 
 ### **Objective:**
+
 In this assignment, you will gain hands-on experience cleaning and validating real-world datasets using the Pandas library. You’ll practice identifying and handling missing values, correcting data types, detecting duplicates and outliers, standardizing inconsistent text, encoding categorical variables, and validating data ranges. You’ll also work on a mini-project that simulates cleaning multiple messy files using techniques like fuzzy matching and regular expressions—building a strong foundation for reliable, analysis-ready data.
 
 ### **Tasks:**
@@ -16,7 +18,7 @@ In this assignment, you will gain hands-on experience cleaning and validating re
    - Read it into a DataFrame called df.
    - The DataFrame contains columns for 'Name', 'Age', 'Salary', 'Join Date', and 'City', with some missing values.
    - Print the original DataFrame.
-  
+
 Here's a summary of what the DataFrame looks like to help you get started (but don't use this code):
 
 ```python
@@ -42,6 +44,7 @@ df = pd.DataFrame(data)
      - Print the updated df2 DataFrame.
 
 ### **Task 2: Data Transformation**
+
 1. **Convert Data Types:**
    - Add another input.  This time search for "Code The Dream Eclipses".  This is a list of eclipses that were or will be observed in Arkansas.
    - Load the CSV file into a DataFrame called df3.  **Note:** The separator is "|" for this CSV file.
@@ -51,6 +54,7 @@ df = pd.DataFrame(data)
    - Print the first 20 lines of the revised df3.  Examine what is stored for the dates that could not be converted.
 
 ### **Task 3: Validating Data Ranges**
+
 1. **Ensure the 'Age' column contains values within the valid range (18 to 65):**
    - Replace invalid ages (less than 18 or greater than 65) with a NaN value.  (NaN is actually part of numpy: `np.nan` is the value you should use.  Don't use the string 'NaN'!)
    - Print the updated Dataframe.
@@ -60,6 +64,7 @@ df = pd.DataFrame(data)
 **Explanation:** Validating data ranges ensures that your data is consistent and suitable for analysis or modeling.
 
 ### **Task 4: Removing Duplicates & Outliers**
+
 1. **Identify and remove duplicate records:**
    - Print `df3.info()`.
    - Use the `duplicated()` method to identify duplicate rows in the DataFrame, and save the result in duplicate_series.  This Series has `True` for each duplicate entry.
@@ -67,7 +72,7 @@ df = pd.DataFrame(data)
    - Print `duplicate_series.value_counts()` to see how many duplicates you have.
    - Use the `drop_duplicates()` method to remove duplicate rows.
    - Print `info()` for the updated DataFrame.
-  
+
 By default, `drop_duplicates()` keeps the first occurrence of each duplicate row. You could use the `keep` parameter to change this behavior, but the default is ok for now.
 
 2. **Identify and replace outliers in the 'Age' column:**
@@ -79,6 +84,7 @@ By default, `drop_duplicates()` keeps the first occurrence of each duplicate row
 Outliers can also be identified using statistical methods like the Interquartile Range (IQR) or Z-scores -- but we'll just keep it simple for now
 
 ### **Task 5: Standardizing Data**
+
 1. **Standardize the 'Name' column:**
    - Convert all names to lowercase and trim any leading or trailing whitespace using `str.lower()` and `str.strip()`.
    - Print the updated DataFrame.
@@ -91,7 +97,7 @@ Outliers can also be identified using statistical methods like the Interquartile
    - Replace variations like 'NYC' with 'New York' and 'LA' with 'Los Angeles'.
    - Print the updated DataFrame.
 
-**Task 6 — Encoding Categorical Variables**
+### **Task 6 — Encoding Categorical Variables**
 
 1. Create a new DataFrame with a `Color` column = `['Red','Blue','Green','Blue']`.
 2. Apply:
@@ -101,7 +107,7 @@ Outliers can also be identified using statistical methods like the Interquartile
 ```
 3. Display results.
 
-**Task 7 — Consolidating Messy Files (Mini Project)**
+### **Task 7 — Consolidating Messy Files (Mini Project)**
 
 1. Add input dataset "Code The Dream Assignment 6" → contains 4 CSV files (400 rows each).
 2. Load all 4 into DataFrames and concatenate → `df_all` (~1600 rows).
@@ -144,7 +150,7 @@ Outliers can also be identified using statistical methods like the Interquartile
 
 ---
 
-**Task 8 — Regular Expressions for Validation**
+### **Task 8 — Regular Expressions for Validation**
 
 1. Extract Log Info:
 ```python
@@ -193,7 +199,7 @@ Outliers can also be identified using statistical methods like the Interquartile
 
 ---
 
-**Task 9 — Reflection & Validation**
+### **Task 9 — Reflection & Validation**
 
 Create a markdown cell summarizing:
 * Most common data issues found
@@ -201,6 +207,7 @@ Create a markdown cell summarizing:
 * How you could automate cleaning in a real workflow
 
 ---
+
 ### **Task 10: Start Your Final Project**
 
 Now that you have worked with pandas and gotten started with data cleaning and aggregation, it's time to start your final project.  Throughout the course, you'll apply the techniques you have learned incrementally to your project.  For this week, you will create a Kaggle notebook for you data pipeline final project.  The notebook name is up to you but you might use something like **CTD Python Data Pipeline**.
@@ -367,12 +374,12 @@ Include ``Markdown`` sections which explain the graphs and analysis.
 
 <details>
 <summary>This is the Kaggle Final Project Grading Rubric</summary>
- 
+
  # Kaggle Project Rubric
 
 * **General Code Quality**
 
-    * [ ]  Code demonstrates a strong understanding of Python basics. 
+    * [ ]  Code demonstrates a strong understanding of Python basics.
     * [ ]  Code is well organized and documented with comments.
     * [ ]  Functions are used to structure and organize the code.
 
@@ -434,22 +441,24 @@ Include ``Markdown`` sections which explain the graphs and analysis.
 </details>
 
 ### **This week's capstone project goals**
+
 For this week, you are just getting started. Create your Kaggle notebook and review the four datasets provided to decide which one you would like to work with. You may also select a different dataset that meets the rubric criteria with CIL approval.
 
 Use the techniques you've learned so far for data analysis and cleaning. Add code cells as needed to clean up any issues in the dataset (e.g., missing values, duplicates, incorrect types, or outliers). Include markdown cells to describe what the issues were and how you fixed them.
 
 Submit the current version of your capstone notebook using the second link field in the submission form.
 
+### **Submit the Notebook for Your Assignment**
 
-### **Submit the Notebook for Your Assignment**  
+📌 **Follow these steps to submit your work:**
 
-📌 **Follow these steps to submit your work:**  
+#### **1️⃣ Get a Sharing Link for Your Assignment**
 
-#### **1️⃣ Get a Sharing Link for Your Assignment**  
 - On the upper right of the Kaggle page, click on Save Version and save, accepting all defaults.  You can just do a quick save.
 - On the upper right, click on Share.  Choose Public, make sure that Allow Comments is on, and copy the public URL to your clipboard.
 
-#### **2️⃣ Submit Your Kaggle Link**  
-- Paste the URL into the **assignment submission form**.  
+#### **2️⃣ Submit Your Kaggle Link**
+
+- Paste the URL into the **assignment submission form**.
 
 ---

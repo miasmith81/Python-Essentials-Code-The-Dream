@@ -8,7 +8,9 @@
 Your enhanced `index.html` now includes:
 
 ### 🎯 Core Features
+- ✅ **Glassmorphic Navbar** - Sticky navigation with dropdowns for all pages
 - ✅ **11 Week Cards** - All weeks with lesson + notebook integration
+- ✅ **4 Supplemental Lessons** - Data Viz, APIs, Advanced Pandas, Extended SQL
 - ✅ **Progress Tracking** - Visual progress bar with localStorage persistence
 - ✅ **Jupyter Notebook Access** - 3 methods per week (Download, Colab, nbviewer)
 - ✅ **Setup Instructions** - Tabbed guide for Colab, Local, and VS Code
@@ -59,20 +61,27 @@ Update if you want a different contact email.
 Your repo already has the correct structure:
 
 ```
-CTD/
-├── index.html ✅ (newly enhanced)
-├── lesson-plans/ ✅ (existing HTML lessons)
+Python-Essentials-Code-The-Dream/
+├── index.html ✅ (with navbar + notebook integration)
+├── assets/ ✅
+│   ├── css/
+│   │   ├── curriculum.css
+│   │   ├── branding.css
+│   │   └── navbar.css       ✅ (glassmorphic navbar styles)
+│   ├── js/
+│   │   ├── navigation.js
+│   │   ├── progress.js
+│   │   ├── code-runner.js
+│   │   ├── branding.js
+│   │   └── navbar.js        ✅ (global navbar component)
+│   └── brands/
+├── lesson-plans/ ✅ (all 15 lessons with navbar)
 │   ├── lesson_week1_intro_python.html
-│   ├── lesson_week2_data_structures.html
-│   └── ... (weeks 3-11)
+│   ├── ... (weeks 2-11)
+│   └── supplemental_*.html   (4 supplemental lessons)
 └── notebook-sessions/ ✅ (existing notebooks)
-    ├── week1/
-    │   ├── session1_intro_to_python.ipynb
-    │   └── session2_intro_to_python_group.ipynb
-    ├── week2/
-    │   ├── session1_data_structures.ipynb
-    │   └── session2_data_structures_group.ipynb
-    └── ... (weeks 3-11)
+    ├── week1/ ... week11/
+    └── (session notebooks)
 ```
 
 All file paths in `index.html` match this structure - no changes needed!

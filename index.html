@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/branding.css">
+    <link rel="stylesheet" href="assets/css/navbar.css">
     <style>
         :root {
             --bg-dark: #0a0e27;
@@ -393,6 +394,246 @@
             color: var(--accent-magenta);
         }
 
+        /* Premium Notebook Row Layout */
+        .notebook-row {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+
+        .notebook-label {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            min-width: 110px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Premium Session Container */
+        .session-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid rgba(0, 240, 255, 0.15);
+        }
+
+        .session-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+        }
+
+        .session-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex: 1;
+        }
+
+        .session-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 24px;
+            height: 24px;
+            padding: 0 6px;
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.2), rgba(255, 0, 255, 0.2));
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            border-radius: 6px;
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+        }
+
+        .session-badge.group {
+            background: linear-gradient(135deg, rgba(255, 0, 255, 0.2), rgba(0, 255, 65, 0.2));
+            border-color: rgba(255, 0, 255, 0.3);
+            color: var(--accent-magenta);
+        }
+
+        .session-title {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* Icon-Only Button Toolbar */
+        .icon-toolbar {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .icon-btn {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            background: rgba(10, 14, 39, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 2px solid;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .icon-btn svg {
+            width: 18px;
+            height: 18px;
+            transition: transform 0.2s ease;
+        }
+
+        .icon-btn:hover svg {
+            transform: scale(1.1);
+        }
+
+        /* Download Button */
+        .icon-btn.download {
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+        }
+
+        .icon-btn.download:hover {
+            background: rgba(0, 240, 255, 0.15);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* Colab Button */
+        .icon-btn.colab {
+            border-color: #f9ab00;
+            color: #f9ab00;
+        }
+
+        .icon-btn.colab:hover {
+            background: rgba(249, 171, 0, 0.15);
+            box-shadow: 0 0 20px rgba(249, 171, 0, 0.5);
+            transform: translateY(-2px);
+        }
+
+        /* Preview Button */
+        .icon-btn.preview {
+            border-color: var(--accent-magenta);
+            color: var(--accent-magenta);
+        }
+
+        .icon-btn.preview:hover {
+            background: rgba(255, 0, 255, 0.15);
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* Glassmorphic Tooltip */
+        .icon-btn::before {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: calc(100% + 10px);
+            left: 50%;
+            transform: translateX(-50%) translateY(5px);
+            padding: 0.5rem 0.75rem;
+            background: rgba(26, 31, 58, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            border-radius: 8px;
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 9999;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            pointer-events: none;
+        }
+
+        /* Tooltip Arrow */
+        .icon-btn::after {
+            content: '';
+            position: absolute;
+            bottom: calc(100% + 4px);
+            left: 50%;
+            transform: translateX(-50%) translateY(5px);
+            border: 6px solid transparent;
+            border-top-color: rgba(26, 31, 58, 0.95);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        .icon-btn:hover::before,
+        .icon-btn:hover::after {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Tooltip color variants */
+        .icon-btn.download::before {
+            border-color: rgba(0, 240, 255, 0.4);
+        }
+
+        .icon-btn.colab::before {
+            border-color: rgba(249, 171, 0, 0.4);
+        }
+
+        .icon-btn.preview::before {
+            border-color: rgba(255, 0, 255, 0.4);
+        }
+
+        .notebook-btn.download {
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+        }
+
+        .notebook-btn.download:hover {
+            background: rgba(0, 240, 255, 0.15);
+            box-shadow: 0 0 12px rgba(0, 240, 255, 0.3);
+        }
+
+        .notebook-btn.colab {
+            border-color: #f9ab00;
+            color: #f9ab00;
+            font-weight: 600;
+        }
+
+        .notebook-btn.colab:hover {
+            background: rgba(249, 171, 0, 0.15);
+            box-shadow: 0 0 12px rgba(249, 171, 0, 0.4);
+            transform: translateY(-1px);
+        }
+
+        .notebook-btn.view {
+            border-color: var(--accent-magenta);
+            color: var(--accent-magenta);
+        }
+
+        .notebook-btn.view:hover {
+            background: rgba(255, 0, 255, 0.1);
+            box-shadow: 0 0 12px rgba(255, 0, 255, 0.3);
+        }
+
+        .notebook-btn svg {
+            vertical-align: middle;
+            margin-right: 4px;
+        }
+
         .complete-btn {
             background: transparent;
             border-color: var(--text-secondary);
@@ -420,6 +661,78 @@
 
         .footer a:hover {
             text-decoration: underline;
+        }
+
+        /* Collapsible About Section */
+        .about-creators-collapse {
+            max-width: 900px;
+            margin: 3rem auto;
+            border: 1px solid var(--accent-magenta);
+            border-radius: 12px;
+            background: var(--bg-card);
+            overflow: hidden;
+        }
+
+        .about-creators-collapse summary {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            font-family: 'Space Mono', 'IBM Plex Mono', monospace;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--accent-magenta);
+            background: var(--bg-medium);
+            transition: all 0.3s ease;
+            list-style: none;
+        }
+
+        .about-creators-collapse summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .about-creators-collapse summary::before {
+            content: '▶';
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+
+        .about-creators-collapse[open] summary::before {
+            transform: rotate(90deg);
+        }
+
+        .about-creators-collapse summary:hover {
+            background: var(--bg-light);
+        }
+
+        .about-creators-collapse .about-content {
+            padding: 1.5rem 2rem 2rem;
+            text-align: center;
+        }
+
+        .about-creators-collapse .about-content p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 1.05rem;
+            margin: 0 auto;
+        }
+
+        .about-creators-collapse .about-content p + p {
+            margin-top: 1rem;
+        }
+
+        .about-creators-collapse .about-content a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .about-creators-collapse .about-content a:hover {
+            text-decoration: underline;
+            text-shadow: 0 0 8px var(--accent-cyan);
         }
 
         /* Achievement Popup */
@@ -523,19 +836,6 @@
             </p>
         </div>
 
-        <div class="setup-section" id="about-creators">
-            <h2><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 8px;"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>About the Creators</h2>
-            <p style="color: var(--text-secondary); line-height: 2; max-width: 900px; margin: 0 auto; font-size: 1.1rem; text-align: center;">
-                This enhanced curriculum for the Returned Citizen community was created by 
-                <a href="https://www.straydog-syndications-llc.com/" target="_blank" rel="noopener" style="color: var(--accent-cyan); text-decoration: none; font-weight: 500; transition: all 0.3s;">StrayDog Syndications LLC</a> — 
-                <a href="https://github.com/StrayDogSyn" target="_blank" rel="noopener" style="color: var(--accent-cyan); text-decoration: none; font-weight: 500; transition: all 0.3s;">Eric 'Hunter' Petross</a> &amp; 
-                <a href="https://github.com/miasmith81" target="_blank" rel="noopener" style="color: var(--accent-cyan); text-decoration: none; font-weight: 500; transition: all 0.3s;">Mia 'Mausi' Smith‑Petross</a>.
-            </p>
-            <p style="color: var(--text-secondary); line-height: 2; max-width: 900px; margin: 1.5rem auto 0; font-size: 1.1rem; text-align: center;">
-                Our mission is to bridge the "Digital Cliff" for justice‑impacted learners through accessible, career‑aligned education.
-            </p>
-        </div>
-
         <!-- Setup Instructions -->
         <div class="setup-section" id="setup">
             <h2><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 8px;"><circle cx="12" cy="12" r="3"/><path d="M12 1v6m0 6v6M5.64 5.64l4.24 4.24m4.24 4.24l4.24 4.24M1 12h6m6 0h6M5.64 18.36l4.24-4.24m4.24-4.24l4.24-4.24"/></svg>Getting Started with Jupyter Notebooks</h2>
@@ -613,16 +913,40 @@
                 </div>
                 <div class="action-buttons">
                     <a href="lesson-plans/lesson_week1_intro_python.html" class="action-btn primary">Start Lesson →</a>
-                    <div style="display: flex; gap: 0.5rem;">
-                        <a href="notebook-sessions/week1/session1_intro_to_python.ipynb" download class="notebook-btn"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>Session 1</a>
-                        <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week1/session1_intro_to_python.ipynb" target="_blank" class="notebook-btn colab"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 2px;"><path d="M5 12h14M12 5l7 7-7 7"/></svg>Colab</a>
-                        <a href="https://nbviewer.org/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week1/session1_intro_to_python.ipynb" target="_blank" class="notebook-btn view"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>View</a>
+                    <div class="session-container">
+                        <div class="session-row">
+                            <div class="session-info">
+                                <span class="session-badge">S1</span>
+                                <span class="session-title">Solo Practice</span>
+                            </div>
+                            <div class="icon-toolbar">
+                                <a href="notebook-sessions/week1/session1_intro_to_python.ipynb" download class="icon-btn download" data-tooltip="Download .ipynb file">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                                </a>
+                                <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week1/session1_intro_to_python.ipynb" target="_blank" class="icon-btn colab" data-tooltip="Run in Google Colab">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                                </a>
+                                <a href="https://nbviewer.org/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week1/session1_intro_to_python.ipynb" target="_blank" class="icon-btn preview" data-tooltip="Preview Notebook">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="session-row">
+                            <div class="session-info">
+                                <span class="session-badge group">S2</span>
+                                <span class="session-title">Group Session</span>
+                            </div>
+                            <div class="icon-toolbar">
+                                <a href="notebook-sessions/week1/session2_intro_to_python_group.ipynb" download class="icon-btn download" data-tooltip="Download .ipynb file">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                                </a>
+                                <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week1/session2_intro_to_python_group.ipynb" target="_blank" class="icon-btn colab" data-tooltip="Run in Google Colab">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                    <div style="display: flex; gap: 0.5rem;">
-                        <a href="notebook-sessions/week1/session2_intro_to_python_group.ipynb" download class="notebook-btn"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>Session 2 (Group)</a>
-                        <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week1/session2_intro_to_python_group.ipynb" target="_blank" class="notebook-btn colab"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 2px;"><path d="M5 12h14M12 5l7 7-7 7"/></svg>Colab</a>
-                    </div>
-                    <button class="action-btn complete-btn" onclick="markComplete(1)">Mark Complete <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-left: 4px;"><path d="M20 6 9 17l-5-5"/></svg></button>
+                    <button class="action-btn complete-btn" onclick="markComplete(1)">Mark Complete ✓</button>
                 </div>
             </div>
 
@@ -635,16 +959,40 @@
                 </div>
                 <div class="action-buttons">
                     <a href="lesson-plans/lesson_week2_data_structures.html" class="action-btn primary">Start Lesson →</a>
-                    <div style="display: flex; gap: 0.5rem;">
-                        <a href="notebook-sessions/week2/session1_data_structures.ipynb" download class="notebook-btn"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>Session 1</a>
-                        <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week2/session1_data_structures.ipynb" target="_blank" class="notebook-btn colab"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 2px;"><path d="M5 12h14M12 5l7 7-7 7"/></svg>Colab</a>
-                        <a href="https://nbviewer.org/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week2/session1_data_structures.ipynb" target="_blank" class="notebook-btn view"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>View</a>
+                    <div class="session-container">
+                        <div class="session-row">
+                            <div class="session-info">
+                                <span class="session-badge">S1</span>
+                                <span class="session-title">Solo Practice</span>
+                            </div>
+                            <div class="icon-toolbar">
+                                <a href="notebook-sessions/week2/session1_data_structures.ipynb" download class="icon-btn download" data-tooltip="Download .ipynb file">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                                </a>
+                                <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week2/session1_data_structures.ipynb" target="_blank" class="icon-btn colab" data-tooltip="Run in Google Colab">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                                </a>
+                                <a href="https://nbviewer.org/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week2/session1_data_structures.ipynb" target="_blank" class="icon-btn preview" data-tooltip="Preview Notebook">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="session-row">
+                            <div class="session-info">
+                                <span class="session-badge group">S2</span>
+                                <span class="session-title">Group Session</span>
+                            </div>
+                            <div class="icon-toolbar">
+                                <a href="notebook-sessions/week2/session2_data_structures_group.ipynb" download class="icon-btn download" data-tooltip="Download .ipynb file">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                                </a>
+                                <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week2/session2_data_structures_group.ipynb" target="_blank" class="icon-btn colab" data-tooltip="Run in Google Colab">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                    <div style="display: flex; gap: 0.5rem;">
-                        <a href="notebook-sessions/week2/session2_data_structures_group.ipynb" download class="notebook-btn"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>Session 2 (Group)</a>
-                        <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week2/session2_data_structures_group.ipynb" target="_blank" class="notebook-btn colab"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 2px;"><path d="M5 12h14M12 5l7 7-7 7"/></svg>Colab</a>
-                    </div>
-                    <button class="action-btn complete-btn" onclick="markComplete(2)">Mark Complete <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-left: 4px;"><path d="M20 6 9 17l-5-5"/></svg></button>
+                    <button class="action-btn complete-btn" onclick="markComplete(2)">Mark Complete ✓</button>
                 </div>
             </div>
 
@@ -657,16 +1005,40 @@
                 </div>
                 <div class="action-buttons">
                     <a href="lesson-plans/lesson_week3_python_skills.html" class="action-btn primary">Start Lesson →</a>
-                    <div style="display: flex; gap: 0.5rem;">
-                        <a href="notebook-sessions/week3/session1_more_python_skills.ipynb" download class="notebook-btn"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>Session 1</a>
-                        <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week3/session1_more_python_skills.ipynb" target="_blank" class="notebook-btn colab"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 2px;"><path d="M5 12h14M12 5l7 7-7 7"/></svg>Colab</a>
-                        <a href="https://nbviewer.org/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week3/session1_more_python_skills.ipynb" target="_blank" class="notebook-btn view"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>View</a>
+                    <div class="session-container">
+                        <div class="session-row">
+                            <div class="session-info">
+                                <span class="session-badge">S1</span>
+                                <span class="session-title">Solo Practice</span>
+                            </div>
+                            <div class="icon-toolbar">
+                                <a href="notebook-sessions/week3/session1_more_python_skills.ipynb" download class="icon-btn download" data-tooltip="Download .ipynb file">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                                </a>
+                                <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week3/session1_more_python_skills.ipynb" target="_blank" class="icon-btn colab" data-tooltip="Run in Google Colab">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                                </a>
+                                <a href="https://nbviewer.org/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week3/session1_more_python_skills.ipynb" target="_blank" class="icon-btn preview" data-tooltip="Preview Notebook">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="session-row">
+                            <div class="session-info">
+                                <span class="session-badge group">S2</span>
+                                <span class="session-title">Group Session</span>
+                            </div>
+                            <div class="icon-toolbar">
+                                <a href="notebook-sessions/week3/session2_more_python_skills_group.ipynb" download class="icon-btn download" data-tooltip="Download .ipynb file">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                                </a>
+                                <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week3/session2_more_python_skills_group.ipynb" target="_blank" class="icon-btn colab" data-tooltip="Run in Google Colab">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                    <div style="display: flex; gap: 0.5rem;">
-                        <a href="notebook-sessions/week3/session2_more_python_skills_group.ipynb" download class="notebook-btn"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>Session 2 (Group)</a>
-                        <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week3/session2_more_python_skills_group.ipynb" target="_blank" class="notebook-btn colab"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 2px;"><path d="M5 12h14M12 5l7 7-7 7"/></svg>Colab</a>
-                    </div>
-                    <button class="action-btn complete-btn" onclick="markComplete(3)">Mark Complete <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-left: 4px;"><path d="M20 6 9 17l-5-5"/></svg></button>
+                    <button class="action-btn complete-btn" onclick="markComplete(3)">Mark Complete ✓</button>
                 </div>
             </div>
 
@@ -679,182 +1051,371 @@
                 </div>
                 <div class="action-buttons">
                     <a href="lesson-plans/lesson_week4_data_engineering.html" class="action-btn primary">Start Lesson →</a>
-                    <div style="display: flex; gap: 0.5rem;">
-                        <a href="notebook-sessions/week4/session1_intro_to_data_engineering.ipynb" download class="notebook-btn"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>Session 1</a>
-                        <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week4/session1_intro_to_data_engineering.ipynb" target="_blank" class="notebook-btn colab"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 2px;"><path d="M5 12h14M12 5l7 7-7 7"/></svg>Colab</a>
-                        <a href="https://nbviewer.org/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week4/session1_intro_to_data_engineering.ipynb" target="_blank" class="notebook-btn view"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>View</a>
+                    <div class="session-container">
+                        <div class="session-row">
+                            <div class="session-info">
+                                <span class="session-badge">S1</span>
+                                <span class="session-title">Solo Practice</span>
+                            </div>
+                            <div class="icon-toolbar">
+                                <a href="notebook-sessions/week4/session1_intro_to_data_engineering.ipynb" download class="icon-btn download" data-tooltip="Download .ipynb file">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                                </a>
+                                <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week4/session1_intro_to_data_engineering.ipynb" target="_blank" class="icon-btn colab" data-tooltip="Run in Google Colab">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                                </a>
+                                <a href="https://nbviewer.org/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week4/session1_intro_to_data_engineering.ipynb" target="_blank" class="icon-btn preview" data-tooltip="Preview Notebook">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="session-row">
+                            <div class="session-info">
+                                <span class="session-badge group">S2</span>
+                                <span class="session-title">Group Session</span>
+                            </div>
+                            <div class="icon-toolbar">
+                                <a href="notebook-sessions/week4/session2_intro_to_data_engineering_group.ipynb" download class="icon-btn download" data-tooltip="Download .ipynb file">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                                </a>
+                                <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week4/session2_intro_to_data_engineering_group.ipynb" target="_blank" class="icon-btn colab" data-tooltip="Run in Google Colab">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                    <div style="display: flex; gap: 0.5rem;">
-                        <a href="notebook-sessions/week4/session2_intro_to_data_engineering_group.ipynb" download class="notebook-btn"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>Session 2 (Group)</a>
-                        <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week4/session2_intro_to_data_engineering_group.ipynb" target="_blank" class="notebook-btn colab"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 2px;"><path d="M5 12h14M12 5l7 7-7 7"/></svg>Colab</a>
-                    </div>
-                    <button class="action-btn complete-btn" onclick="markComplete(4)">Mark Complete <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-left: 4px;"><path d="M20 6 9 17l-5-5"/></svg></button>
+                    <button class="action-btn complete-btn" onclick="markComplete(4)">Mark Complete ✓</button>
                 </div>
             </div>
 
             <!-- Week 5 -->
             <div class="week-card" data-week="5">
                 <div class="week-number">Week 5</div>
-                <div class="week-title">Data Cleaning & Validation</div>
+                <div class="week-title">Data Wrangling & Aggregation</div>
                 <div class="week-topics">
-                    Data quality • Missing values • Outliers • Validation techniques • Data profiling
+                    GroupBy operations • Pivot tables • Merging datasets • Aggregation functions • Data transformation
                 </div>
                 <div class="action-buttons">
-                    <a href="lesson-plans/lesson_week5_data_visualization.html" class="action-btn primary">Start Lesson →</a>
-                    <div style="display: flex; gap: 0.5rem;">
-                        <a href="notebook-sessions/week5/session1_data_cleaning_validation.ipynb" download class="notebook-btn"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>Session 1</a>
-                        <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week5/session1_data_cleaning_validation.ipynb" target="_blank" class="notebook-btn colab"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 2px;"><path d="M5 12h14M12 5l7 7-7 7"/></svg>Colab</a>
-                        <a href="https://nbviewer.org/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week5/session1_data_cleaning_validation.ipynb" target="_blank" class="notebook-btn view"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>View</a>
+                    <a href="lesson-plans/lesson_week5_data_wrangling.html" class="action-btn primary">Start Lesson →</a>
+                    <div class="session-container">
+                        <div class="session-row">
+                            <div class="session-info">
+                                <span class="session-badge">S1</span>
+                                <span class="session-title">Solo Practice</span>
+                            </div>
+                            <div class="icon-toolbar">
+                                <a href="notebook-sessions/week5/session1_data_wrangling_aggregation.ipynb" download class="icon-btn download" data-tooltip="Download .ipynb file">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                                </a>
+                                <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week5/session1_data_wrangling_aggregation.ipynb" target="_blank" class="icon-btn colab" data-tooltip="Run in Google Colab">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                                </a>
+                                <a href="https://nbviewer.org/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week5/session1_data_wrangling_aggregation.ipynb" target="_blank" class="icon-btn preview" data-tooltip="Preview Notebook">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="session-row">
+                            <div class="session-info">
+                                <span class="session-badge group">S2</span>
+                                <span class="session-title">Group Session</span>
+                            </div>
+                            <div class="icon-toolbar">
+                                <a href="notebook-sessions/week5/session2_data_wrangling_aggregation_group.ipynb" download class="icon-btn download" data-tooltip="Download .ipynb file">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                                </a>
+                                <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week5/session2_data_wrangling_aggregation_group.ipynb" target="_blank" class="icon-btn colab" data-tooltip="Run in Google Colab">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                    <div style="display: flex; gap: 0.5rem;">
-                        <a href="notebook-sessions/week5/session2_data_cleaning_validation_group.ipynb" download class="notebook-btn"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>Session 2 (Group)</a>
-                        <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week5/session2_data_cleaning_validation_group.ipynb" target="_blank" class="notebook-btn colab"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 2px;"><path d="M5 12h14M12 5l7 7-7 7"/></svg>Colab</a>
-                    </div>
-                    <button class="action-btn complete-btn" onclick="markComplete(5)">Mark Complete <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-left: 4px;"><path d="M20 6 9 17l-5-5"/></svg></button>
+                    <button class="action-btn complete-btn" onclick="markComplete(5)">Mark Complete ✓</button>
                 </div>
             </div>
 
             <!-- Week 6 -->
             <div class="week-card" data-week="6">
                 <div class="week-number">Week 6</div>
-                <div class="week-title">Data Wrangling & Aggregation</div>
+                <div class="week-title">Data Cleaning & Validation</div>
                 <div class="week-topics">
-                    GroupBy operations • Pivot tables • Merging datasets • Aggregation functions
+                    Data quality • Missing values • Outliers • Validation techniques • Data profiling
                 </div>
                 <div class="action-buttons">
-                    <a href="lesson-plans/lesson_week6_sql_databases.html" class="action-btn primary">Start Lesson →</a>
-                    <div style="display: flex; gap: 0.5rem;">
-                        <a href="notebook-sessions/week6/session1_data_wrangling_aggregation.ipynb" download class="notebook-btn"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>Session 1</a>
-                        <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week6/session1_data_wrangling_aggregation.ipynb" target="_blank" class="notebook-btn colab"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 2px;"><path d="M5 12h14M12 5l7 7-7 7"/></svg>Colab</a>
-                        <a href="https://nbviewer.org/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week6/session1_data_wrangling_aggregation.ipynb" target="_blank" class="notebook-btn view"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>View</a>
+                    <a href="lesson-plans/lesson_week6_data_cleaning.html" class="action-btn primary">Start Lesson →</a>
+                    <div class="session-container">
+                        <div class="session-row">
+                            <div class="session-info">
+                                <span class="session-badge">S1</span>
+                                <span class="session-title">Solo Practice</span>
+                            </div>
+                            <div class="icon-toolbar">
+                                <a href="notebook-sessions/week6/session1_data_cleaning_validation.ipynb" download class="icon-btn download" data-tooltip="Download .ipynb file">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                                </a>
+                                <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week6/session1_data_cleaning_validation.ipynb" target="_blank" class="icon-btn colab" data-tooltip="Run in Google Colab">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                                </a>
+                                <a href="https://nbviewer.org/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week6/session1_data_cleaning_validation.ipynb" target="_blank" class="icon-btn preview" data-tooltip="Preview Notebook">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="session-row">
+                            <div class="session-info">
+                                <span class="session-badge group">S2</span>
+                                <span class="session-title">Group Session</span>
+                            </div>
+                            <div class="icon-toolbar">
+                                <a href="notebook-sessions/week6/session2_data_cleaning_validation_group.ipynb" download class="icon-btn download" data-tooltip="Download .ipynb file">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                                </a>
+                                <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week6/session2_data_cleaning_validation_group.ipynb" target="_blank" class="icon-btn colab" data-tooltip="Run in Google Colab">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                    <div style="display: flex; gap: 0.5rem;">
-                        <a href="notebook-sessions/week6/session2_data_wrangling_aggregation_group.ipynb" download class="notebook-btn"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>Session 2 (Group)</a>
-                        <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week6/session2_data_wrangling_aggregation_group.ipynb" target="_blank" class="notebook-btn colab"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 2px;"><path d="M5 12h14M12 5l7 7-7 7"/></svg>Colab</a>
-                    </div>
-                    <button class="action-btn complete-btn" onclick="markComplete(6)">Mark Complete <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-left: 4px;"><path d="M20 6 9 17l-5-5"/></svg></button>
+                    <button class="action-btn complete-btn" onclick="markComplete(6)">Mark Complete ✓</button>
                 </div>
             </div>
 
             <!-- Week 7 -->
             <div class="week-card" data-week="7">
                 <div class="week-number">Week 7</div>
-                <div class="week-title">Introduction to Data Visualization</div>
+                <div class="week-title">Advanced Data Cleaning</div>
                 <div class="week-topics">
-                    Matplotlib fundamentals • Seaborn • Chart types • Styling • Customization
+                    Regex patterns • String methods • Fuzzy matching • GroupBy transform • Complex cleaning
                 </div>
                 <div class="action-buttons">
-                    <a href="lesson-plans/lesson_week7_apis_scraping.html" class="action-btn primary">Start Lesson →</a>
-                    <div style="display: flex; gap: 0.5rem;">
-                        <a href="notebook-sessions/week7/session1_intro_to_data_visualization.ipynb" download class="notebook-btn"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>Session 1</a>
-                        <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week7/session1_intro_to_data_visualization.ipynb" target="_blank" class="notebook-btn colab"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 2px;"><path d="M5 12h14M12 5l7 7-7 7"/></svg>Colab</a>
-                        <a href="https://nbviewer.org/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week7/session1_intro_to_data_visualization.ipynb" target="_blank" class="notebook-btn view"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>View</a>
+                    <a href="lesson-plans/lesson_week7_advanced_cleaning.html" class="action-btn primary">Start Lesson →</a>
+                    <div class="session-container">
+                        <div class="session-row">
+                            <div class="session-info">
+                                <span class="session-badge">S1</span>
+                                <span class="session-title">Solo Practice</span>
+                            </div>
+                            <div class="icon-toolbar">
+                                <a href="notebook-sessions/week7/session1_advanced_data_cleaning.ipynb" download class="icon-btn download" data-tooltip="Download .ipynb file">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                                </a>
+                                <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week7/session1_advanced_data_cleaning.ipynb" target="_blank" class="icon-btn colab" data-tooltip="Run in Google Colab">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                                </a>
+                                <a href="https://nbviewer.org/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week7/session1_advanced_data_cleaning.ipynb" target="_blank" class="icon-btn preview" data-tooltip="Preview Notebook">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                    <div style="display: flex; gap: 0.5rem;">
-                        <a href="notebook-sessions/week7/session2_intro_to_data_visualization_group.ipynb" download class="notebook-btn"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>Session 2 (Group)</a>
-                        <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week7/session2_intro_to_data_visualization_group.ipynb" target="_blank" class="notebook-btn colab"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 2px;"><path d="M5 12h14M12 5l7 7-7 7"/></svg>Colab</a>
-                    </div>
-                    <button class="action-btn complete-btn" onclick="markComplete(7)">Mark Complete <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-left: 4px;"><path d="M20 6 9 17l-5-5"/></svg></button>
+                    <button class="action-btn complete-btn" onclick="markComplete(7)">Mark Complete ✓</button>
                 </div>
             </div>
 
             <!-- Week 8 -->
             <div class="week-card" data-week="8">
                 <div class="week-number">Week 8</div>
-                <div class="week-title">Introduction to Web Scraping</div>
+                <div class="week-title">Databases & SQL</div>
                 <div class="week-topics">
-                    HTTP requests • BeautifulSoup • HTML parsing • Ethics • Data extraction
+                    SQL fundamentals • Queries • Joins • Database design • Python integration
                 </div>
                 <div class="action-buttons">
-                    <a href="lesson-plans/lesson_week8_advanced_pandas.html" class="action-btn primary">Start Lesson →</a>
-                    <div style="display: flex; gap: 0.5rem;">
-                        <a href="notebook-sessions/week8/session1_intro_to_web_scraping.ipynb" download class="notebook-btn"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>Session 1</a>
-                        <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week8/session1_intro_to_web_scraping.ipynb" target="_blank" class="notebook-btn colab"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 2px;"><path d="M5 12h14M12 5l7 7-7 7"/></svg>Colab</a>
-                        <a href="https://nbviewer.org/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week8/session1_intro_to_web_scraping.ipynb" target="_blank" class="notebook-btn view"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>View</a>
+                    <a href="lesson-plans/lesson_week8_databases_sql.html" class="action-btn primary">Start Lesson →</a>
+                    <div class="session-container">
+                        <div class="session-row">
+                            <div class="session-info">
+                                <span class="session-badge">S1</span>
+                                <span class="session-title">Solo Practice</span>
+                            </div>
+                            <div class="icon-toolbar">
+                                <a href="notebook-sessions/week8/session1_sql_databases.ipynb" download class="icon-btn download" data-tooltip="Download .ipynb file">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                                </a>
+                                <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week8/session1_sql_databases.ipynb" target="_blank" class="icon-btn colab" data-tooltip="Run in Google Colab">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                                </a>
+                                <a href="https://nbviewer.org/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week8/session1_sql_databases.ipynb" target="_blank" class="icon-btn preview" data-tooltip="Preview Notebook">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="session-row">
+                            <div class="session-info">
+                                <span class="session-badge group">S2</span>
+                                <span class="session-title">Group Session</span>
+                            </div>
+                            <div class="icon-toolbar">
+                                <a href="notebook-sessions/week8/session2_sql_databases_group.ipynb" download class="icon-btn download" data-tooltip="Download .ipynb file">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                                </a>
+                                <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week8/session2_sql_databases_group.ipynb" target="_blank" class="icon-btn colab" data-tooltip="Run in Google Colab">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                    <div style="display: flex; gap: 0.5rem;">
-                        <a href="notebook-sessions/week8/session2_intro_to_web_scraping_group.ipynb" download class="notebook-btn"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>Session 2 (Group)</a>
-                        <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week8/session2_intro_to_web_scraping_group.ipynb" target="_blank" class="notebook-btn colab"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 2px;"><path d="M5 12h14M12 5l7 7-7 7"/></svg>Colab</a>
-                    </div>
-                    <button class="action-btn complete-btn" onclick="markComplete(8)">Mark Complete <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-left: 4px;"><path d="M20 6 9 17l-5-5"/></svg></button>
+                    <button class="action-btn complete-btn" onclick="markComplete(8)">Mark Complete ✓</button>
                 </div>
             </div>
 
             <!-- Week 9 -->
             <div class="week-card" data-week="9">
                 <div class="week-number">Week 9</div>
-                <div class="week-title">Introduction to Databases & SQL</div>
+                <div class="week-title">Introduction to Machine Learning</div>
                 <div class="week-topics">
-                    SQL fundamentals • Queries • Joins • Database design • Python integration
+                    Scikit-Learn basics • Regression • Classification • Model evaluation • Predictions
                 </div>
                 <div class="action-buttons">
                     <a href="lesson-plans/lesson_week9_intro_ml.html" class="action-btn primary">Start Lesson →</a>
-                    <div style="display: flex; gap: 0.5rem;">
-                        <a href="notebook-sessions/week9/session1_intro_to_databases_sql.ipynb" download class="notebook-btn"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>Session 1</a>
-                        <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week9/session1_intro_to_databases_sql.ipynb" target="_blank" class="notebook-btn colab"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 2px;"><path d="M5 12h14M12 5l7 7-7 7"/></svg>Colab</a>
-                        <a href="https://nbviewer.org/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week9/session1_intro_to_databases_sql.ipynb" target="_blank" class="notebook-btn view"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>View</a>
+                    <div class="session-container">
+                        <div class="session-row">
+                            <div class="session-info">
+                                <span class="session-badge">S1</span>
+                                <span class="session-title">Solo Practice</span>
+                            </div>
+                            <div class="icon-toolbar">
+                                <a href="notebook-sessions/week9/session1_intro_to_ml.ipynb" download class="icon-btn download" data-tooltip="Download .ipynb file">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                                </a>
+                                <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week9/session1_intro_to_ml.ipynb" target="_blank" class="icon-btn colab" data-tooltip="Run in Google Colab">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                                </a>
+                                <a href="https://nbviewer.org/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week9/session1_intro_to_ml.ipynb" target="_blank" class="icon-btn preview" data-tooltip="Preview Notebook">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="session-row">
+                            <div class="session-info">
+                                <span class="session-badge group">S2</span>
+                                <span class="session-title">Group Session</span>
+                            </div>
+                            <div class="icon-toolbar">
+                                <a href="notebook-sessions/week9/session2_intro_to_ml_group.ipynb" download class="icon-btn download" data-tooltip="Download .ipynb file">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                                </a>
+                                <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week9/session2_intro_to_ml_group.ipynb" target="_blank" class="icon-btn colab" data-tooltip="Run in Google Colab">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                    <div style="display: flex; gap: 0.5rem;">
-                        <a href="notebook-sessions/week9/session2_intro_to_databases_sql_group.ipynb" download class="notebook-btn"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>Session 2 (Group)</a>
-                        <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week9/session2_intro_to_databases_sql_group.ipynb" target="_blank" class="notebook-btn colab"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 2px;"><path d="M5 12h14M12 5l7 7-7 7"/></svg>Colab</a>
-                    </div>
-                    <button class="action-btn complete-btn" onclick="markComplete(9)">Mark Complete <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-left: 4px;"><path d="M20 6 9 17l-5-5"/></svg></button>
+                    <button class="action-btn complete-btn" onclick="markComplete(9)">Mark Complete ✓</button>
                 </div>
             </div>
 
             <!-- Week 10 -->
             <div class="week-card" data-week="10">
                 <div class="week-number">Week 10</div>
-                <div class="week-title">Advanced SQL Integration</div>
+                <div class="week-title">Flask Web Development</div>
                 <div class="week-topics">
-                    Complex queries • Optimization • Transactions • ORM patterns • Production use
+                    Flask basics • Routes • Templates • Forms • REST APIs • Web applications
                 </div>
                 <div class="action-buttons">
                     <a href="lesson-plans/lesson_week10_flask_web.html" class="action-btn primary">Start Lesson →</a>
-                    <div style="display: flex; gap: 0.5rem;">
-                        <a href="notebook-sessions/week10/session1_advanced_sql_integration.ipynb" download class="notebook-btn"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>Session 1</a>
-                        <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week10/session1_advanced_sql_integration.ipynb" target="_blank" class="notebook-btn colab"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 2px;"><path d="M5 12h14M12 5l7 7-7 7"/></svg>Colab</a>
-                        <a href="https://nbviewer.org/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week10/session1_advanced_sql_integration.ipynb" target="_blank" class="notebook-btn view"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>View</a>
+                    <div class="session-container">
+                        <div class="session-row">
+                            <div class="session-info">
+                                <span class="session-badge">S1</span>
+                                <span class="session-title">Solo Practice</span>
+                            </div>
+                            <div class="icon-toolbar">
+                                <a href="notebook-sessions/week10/session1_flask_web.ipynb" download class="icon-btn download" data-tooltip="Download .ipynb file">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                                </a>
+                                <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week10/session1_flask_web.ipynb" target="_blank" class="icon-btn colab" data-tooltip="Run in Google Colab">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                                </a>
+                                <a href="https://nbviewer.org/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week10/session1_flask_web.ipynb" target="_blank" class="icon-btn preview" data-tooltip="Preview Notebook">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="session-row">
+                            <div class="session-info">
+                                <span class="session-badge group">S2</span>
+                                <span class="session-title">Group Session</span>
+                            </div>
+                            <div class="icon-toolbar">
+                                <a href="notebook-sessions/week10/session2_flask_web_group.ipynb" download class="icon-btn download" data-tooltip="Download .ipynb file">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                                </a>
+                                <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week10/session2_flask_web_group.ipynb" target="_blank" class="icon-btn colab" data-tooltip="Run in Google Colab">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                    <div style="display: flex; gap: 0.5rem;">
-                        <a href="notebook-sessions/week10/session2_advanced_sql_integration_group.ipynb" download class="notebook-btn"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>Session 2 (Group)</a>
-                        <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week10/session2_advanced_sql_integration_group.ipynb" target="_blank" class="notebook-btn colab"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 2px;"><path d="M5 12h14M12 5l7 7-7 7"/></svg>Colab</a>
-                    </div>
-                    <button class="action-btn complete-btn" onclick="markComplete(10)">Mark Complete <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-left: 4px;"><path d="M20 6 9 17l-5-5"/></svg></button>
+                    <button class="action-btn complete-btn" onclick="markComplete(10)">Mark Complete ✓</button>
                 </div>
             </div>
 
             <!-- Week 11 -->
             <div class="week-card" data-week="11">
                 <div class="week-number">Week 11</div>
-                <div class="week-title">Advanced Data Visualization</div>
+                <div class="week-title">Deployment & Final Projects</div>
                 <div class="week-topics">
-                    Interactive plots • Plotly • Dashboards • Geographic data • Best practices
+                    Deployment strategies • Cloud hosting • CI/CD • Project showcase • Best practices
                 </div>
                 <div class="action-buttons">
                     <a href="lesson-plans/lesson_week11_deployment.html" class="action-btn primary">Start Lesson →</a>
-                    <div style="display: flex; gap: 0.5rem;">
-                        <a href="notebook-sessions/week11/session1_advanced_data_visualization.ipynb" download class="notebook-btn"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>Session 1</a>
-                        <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week11/session1_advanced_data_visualization.ipynb" target="_blank" class="notebook-btn colab"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 2px;"><path d="M5 12h14M12 5l7 7-7 7"/></svg>Colab</a>
-                        <a href="https://nbviewer.org/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week11/session1_advanced_data_visualization.ipynb" target="_blank" class="notebook-btn view"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>View</a>
+                    <div class="session-container">
+                        <div class="session-row">
+                            <div class="session-info">
+                                <span class="session-badge">S1</span>
+                                <span class="session-title">Solo Practice</span>
+                            </div>
+                            <div class="icon-toolbar">
+                                <a href="notebook-sessions/week11/session1_deployment.ipynb" download class="icon-btn download" data-tooltip="Download .ipynb file">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                                </a>
+                                <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week11/session1_deployment.ipynb" target="_blank" class="icon-btn colab" data-tooltip="Run in Google Colab">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                                </a>
+                                <a href="https://nbviewer.org/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week11/session1_deployment.ipynb" target="_blank" class="icon-btn preview" data-tooltip="Preview Notebook">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="session-row">
+                            <div class="session-info">
+                                <span class="session-badge group">S2</span>
+                                <span class="session-title">Group Session</span>
+                            </div>
+                            <div class="icon-toolbar">
+                                <a href="notebook-sessions/week11/session2_deployment_group.ipynb" download class="icon-btn download" data-tooltip="Download .ipynb file">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                                </a>
+                                <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week11/session2_deployment_group.ipynb" target="_blank" class="icon-btn colab" data-tooltip="Run in Google Colab">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                    <div style="display: flex; gap: 0.5rem;">
-                        <a href="notebook-sessions/week11/session2_advanced_data_visualization_group.ipynb" download class="notebook-btn"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>Session 2 (Group)</a>
-                        <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week11/session2_advanced_data_visualization_group.ipynb" target="_blank" class="notebook-btn colab"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 2px;"><path d="M5 12h14M12 5l7 7-7 7"/></svg>Colab</a>
-                    </div>
-                    <button class="action-btn complete-btn" onclick="markComplete(11)">Mark Complete <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-left: 4px;"><path d="M20 6 9 17l-5-5"/></svg></button>
+                    <button class="action-btn complete-btn" onclick="markComplete(11)">Mark Complete ✓</button>
                 </div>
             </div>
         </div>
 
         <footer class="sd-footer">
-            <div class="sd-credits">
-                Enhanced curriculum for the Returned Citizen community by <a href="https://www.straydog-syndications-llc.com/" target="_blank" rel="noopener">StrayDog Syndications LLC</a>
-            </div>
-            <div class="sd-credits" style="margin-top: 0.25rem;">
-                <a href="https://github.com/StrayDogSyn" target="_blank" rel="noopener">Eric 'Hunter' Petross</a> &amp; 
-                <a href="https://github.com/miasmith81" target="_blank" rel="noopener">Mia 'Mausi' Smith‑Petross</a>
-            </div>
+            <!-- About the Creators (Collapsible) -->
+            <details class="about-creators-collapse" id="about-creators">
+                <summary>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle;"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    About the Creators
+                </summary>
+                <div class="about-content">
+                    <p>
+                        This enhanced curriculum for the Returned Citizen community was created by 
+                        <a href="https://www.straydog-syndications-llc.com/" target="_blank" rel="noopener">StrayDog Syndications LLC</a> — 
+                        <a href="https://github.com/StrayDogSyn" target="_blank" rel="noopener">Eric 'Hunter' Petross</a> &amp; 
+                        <a href="https://github.com/miasmith81" target="_blank" rel="noopener">Mia 'Mausi' Smith‑Petross</a>.
+                    </p>
+                    <p>
+                        Our mission is to bridge the "Digital Cliff" for justice‑impacted learners through accessible, career‑aligned education.
+                    </p>
+                </div>
+            </details>
             
             <div class="sd-affiliates" style="display: flex; justify-content: center; align-items: center; gap: 2.5rem; margin-top: 2.5rem; flex-wrap: wrap;">
                 <!-- StrayDog Syndications -->
@@ -1074,5 +1635,6 @@
         document.documentElement.style.overflowX = 'hidden';
     </script>
     <script src="assets/js/branding.js" defer></script>
+    <script src="assets/js/navbar.js" defer></script>
 </body>
 </html>

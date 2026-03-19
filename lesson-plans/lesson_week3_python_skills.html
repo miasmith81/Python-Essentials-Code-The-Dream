@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&family=Orbitron:wght@700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/navbar.css">
     <style>
         /* ═══════════════════════════════════════════════════════════════════
            CSS CUSTOM PROPERTIES (Variables)
@@ -1089,6 +1090,25 @@
         <h1>▸ Level Up: Python Skills</h1>
         <div class="subtitle">Master OOP, Decorators, Comprehensions & Closures</div>
         <div class="week-badge">📅 Week 3 • Interactive Lesson</div>
+        <!-- Quick Access Toolbar for Presentation Mode -->
+        <div class="quick-access-toolbar" style="display: flex; gap: 0.75rem; justify-content: center; margin-top: 1rem; flex-wrap: wrap;">
+            <a href="../notebook-sessions/week3/session1_more_python_skills.ipynb" download class="quick-btn" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: rgba(0, 240, 255, 0.15); border: 1px solid var(--accent-cyan); border-radius: 8px; color: var(--accent-cyan); text-decoration: none; font-size: 0.85rem; transition: all 0.3s ease;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                Solo Notebook
+            </a>
+            <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week3/session1_more_python_skills.ipynb" target="_blank" class="quick-btn" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: rgba(249, 171, 0, 0.15); border: 1px solid #f9ab00; border-radius: 8px; color: #f9ab00; text-decoration: none; font-size: 0.85rem; transition: all 0.3s ease;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                Run in Colab
+            </a>
+            <a href="../notebook-sessions/week3/session2_more_python_skills_group.ipynb" download class="quick-btn" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: rgba(255, 0, 255, 0.15); border: 1px solid var(--accent-magenta); border-radius: 8px; color: var(--accent-magenta); text-decoration: none; font-size: 0.85rem; transition: all 0.3s ease;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                Group Notebook
+            </a>
+            <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week3/session2_more_python_skills_group.ipynb" target="_blank" class="quick-btn" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: linear-gradient(135deg, rgba(255, 0, 255, 0.15), rgba(249, 171, 0, 0.15)); border: 1px solid; border-image: linear-gradient(135deg, var(--accent-magenta), #f9ab00) 1; border-radius: 8px; color: #ffaaff; text-decoration: none; font-size: 0.85rem; transition: all 0.3s ease;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                Group Colab
+            </a>
+        </div>
     </header>
 
     <div class="container">
@@ -1747,6 +1767,42 @@ class Weapon:
                     </div>
                 </div>
 
+                <!-- Exercise: Bank Account Class -->
+                <div style="background: rgba(0, 255, 65, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-green); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-green); margin-bottom: 1rem; font-size: 1.1rem;">🏋️ Exercise: Bank Account Class</div>
+                    <p><strong>Create a <code>BankAccount</code> class that manages deposits and withdrawals:</strong></p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Initialize with <code>owner</code> (string) and optional <code>balance</code> (default 0)</li>
+                        <li>Create a <code>deposit(amount)</code> method that adds to balance and returns new balance</li>
+                        <li>Create a <code>withdraw(amount)</code> method that subtracts from balance (if sufficient funds) and returns new balance, or prints "Insufficient funds" and returns current balance</li>
+                        <li>Create a <code>get_balance()</code> method that returns the current balance</li>
+                        <li>Add a <code>__repr__</code> method that shows the account info nicely</li>
+                    </ul>
+                    <p style="margin-top: 1rem; color: var(--text-secondary);"><strong>Test your class:</strong></p>
+                    <pre style="background: var(--bg-dark); padding: 1rem; border-radius: 4px; margin-top: 0.5rem;"><code style="color: var(--accent-cyan);">account = BankAccount("Alice", 100)
+print(account.deposit(50))    # Should print 150
+print(account.withdraw(30))   # Should print 120
+print(account.withdraw(200))  # Should print "Insufficient funds" and 120
+print(account)                # Should show nice repr</code></pre>
+                </div>
+
+                <!-- Challenge: Inheritance with Shapes -->
+                <div style="background: rgba(255, 0, 255, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-magenta); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-magenta); margin-bottom: 1rem; font-size: 1.1rem;">🚀 Challenge: Inheritance with Shapes</div>
+                    <p><strong>Build a shape hierarchy using inheritance:</strong></p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Create a base <code>Shape</code> class with a <code>name</code> attribute and an <code>area()</code> method that raises <code>NotImplementedError</code></li>
+                        <li>Create a <code>Rectangle</code> subclass with <code>width</code> and <code>height</code>, override <code>area()</code> to return width × height</li>
+                        <li>Create a <code>Circle</code> subclass with <code>radius</code>, override <code>area()</code> to return π × radius² (use <code>import math</code>)</li>
+                        <li>Add a <code>__repr__</code> to each class showing shape info and area</li>
+                    </ul>
+                    <p style="margin-top: 1rem; color: var(--text-secondary);"><strong>Bonus:</strong> Create a function <code>total_area(shapes)</code> that takes a list of shapes and returns their combined area.</p>
+                    <pre style="background: var(--bg-dark); padding: 1rem; border-radius: 4px; margin-top: 0.5rem;"><code style="color: var(--accent-cyan);">shapes = [Rectangle(4, 5), Circle(3), Rectangle(2, 2)]
+for s in shapes:
+    print(f"{s.name}: {s.area():.2f}")
+print(f"Total: {total_area(shapes):.2f}")</code></pre>
+                </div>
+
                 <!-- Discussion Questions -->
                 <div class="analogy-box">
                     <div class="analogy-title">💬 Group Discussion Questions</div>
@@ -2199,6 +2255,33 @@ def say_hello():
                     </div>
                 </div>
 
+                <!-- Exercise: Timer Decorator -->
+                <div style="background: rgba(0, 255, 65, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-green); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-green); margin-bottom: 1rem; font-size: 1.1rem;">🏋️ Exercise: Timer Decorator</div>
+                    <p><strong>Create a <code>@timer</code> decorator that measures function execution time:</strong></p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Import <code>time</code> at the top of your code</li>
+                        <li>Record the start time before calling the wrapped function using <code>time.perf_counter()</code></li>
+                        <li>Call the original function and store its result</li>
+                        <li>Record the end time after the function completes</li>
+                        <li>Print the function name and elapsed time in milliseconds</li>
+                        <li>Return the original function's result</li>
+                        <li>Use <code>@functools.wraps(func)</code> to preserve function metadata</li>
+                    </ul>
+                    <p style="margin-top: 1rem; color: var(--text-secondary);"><strong>Test your decorator:</strong></p>
+                    <pre style="background: var(--bg-dark); padding: 1rem; border-radius: 4px; margin-top: 0.5rem;"><code style="color: var(--accent-cyan);">import time
+import functools
+
+@timer
+def slow_function():
+    time.sleep(0.5)  # Simulate slow work
+    return "Done!"
+
+result = slow_function()
+# Should print something like: "slow_function took 500.12 ms"
+print(result)  # Should print: "Done!"</code></pre>
+                </div>
+
                 <!-- Discussion Questions -->
                 <div class="analogy-box">
                     <div class="analogy-title">💬 Group Discussion Questions</div>
@@ -2477,6 +2560,31 @@ print(upper_names)"></textarea>
                     <div class="playground-hint">
                         <strong>Hint:</strong> Use <code>{name: name.upper() for name in names if len(name) > 3}</code>
                     </div>
+                </div>
+
+                <!-- Exercise: Data Filtering -->
+                <div style="background: rgba(0, 255, 65, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-green); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-green); margin-bottom: 1rem; font-size: 1.1rem;">🏋️ Exercise: Data Filtering with Comprehensions</div>
+                    <p><strong>Use list comprehensions to filter and transform the following data:</strong></p>
+                    <pre style="background: var(--bg-dark); padding: 1rem; border-radius: 4px; margin: 1rem 0;"><code style="color: var(--accent-cyan);">students = [
+    {"name": "Alice", "grade": 85, "subject": "Math"},
+    {"name": "Bob", "grade": 72, "subject": "Science"},
+    {"name": "Charlie", "grade": 90, "subject": "Math"},
+    {"name": "Diana", "grade": 68, "subject": "History"},
+    {"name": "Eve", "grade": 95, "subject": "Math"},
+]</code></pre>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Create a list of names of students with grades >= 80: <code>["Alice", "Charlie", "Eve"]</code></li>
+                        <li>Create a list of Math students' names: <code>["Alice", "Charlie", "Eve"]</code></li>
+                        <li>Create a dict mapping names to grades for passing students (grade >= 70): <code>{"Alice": 85, "Bob": 72, ...}</code></li>
+                        <li>Create a list of (name, grade) tuples sorted by grade descending</li>
+                        <li><strong>Bonus:</strong> Calculate the average grade using a generator expression</li>
+                    </ul>
+                    <p style="margin-top: 1rem; color: var(--text-secondary);"><strong>Starter code:</strong></p>
+                    <pre style="background: var(--bg-dark); padding: 1rem; border-radius: 4px; margin-top: 0.5rem;"><code style="color: var(--accent-cyan);">honor_roll = [s["name"] for s in students if ___]
+math_students = [___ for s in students if ___]
+passing_grades = {___: ___ for s in students if ___}
+average = sum(___ for s in students) / len(students)</code></pre>
                 </div>
 
                 <!-- Discussion Questions -->
@@ -2759,6 +2867,33 @@ def make_averager():
                     <div class="playground-hint">
                         <strong>Hint:</strong> Use <code>nonlocal total, count</code> inside <code>add_number</code>. Update both, then return <code>total / count</code>.
                     </div>
+                </div>
+
+                <!-- Challenge: Counter Factory -->
+                <div style="background: rgba(255, 0, 255, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-magenta); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-magenta); margin-bottom: 1rem; font-size: 1.1rem;">🚀 Challenge: Counter Factory</div>
+                    <p><strong>Create a closure that generates customizable counter functions:</strong></p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Create <code>make_counter(start=0, step=1)</code> that returns a counter function</li>
+                        <li>Each call to the returned function should increment by <code>step</code> and return the current count</li>
+                        <li>The counter should start at <code>start</code></li>
+                        <li>Multiple counters should be independent of each other</li>
+                    </ul>
+                    <p style="margin-top: 1rem; color: var(--text-secondary);"><strong>Test your counter factory:</strong></p>
+                    <pre style="background: var(--bg-dark); padding: 1rem; border-radius: 4px; margin-top: 0.5rem;"><code style="color: var(--accent-cyan);">counter_a = make_counter()           # starts at 0, step 1
+counter_b = make_counter(start=10, step=5)  # starts at 10, step 5
+
+print(counter_a())  # 1
+print(counter_a())  # 2
+print(counter_b())  # 15
+print(counter_b())  # 20
+print(counter_a())  # 3 (independent!)</code></pre>
+                    <p style="margin-top: 1rem; color: var(--text-secondary);"><strong>Bonus challenges:</strong></p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Add a <code>reset()</code> function that resets to the start value</li>
+                        <li>Add a <code>get_count()</code> function that returns current count without incrementing</li>
+                        <li>Return a dict of functions: <code>{"next": ..., "reset": ..., "get": ...}</code></li>
+                    </ul>
                 </div>
 
                 <!-- Discussion Questions -->
@@ -3149,6 +3284,7 @@ counter = make_counter()
         console.log('📖 Use arrow keys (← →) to navigate between sections.');
     </script>
 
-    </body>
+        <script src="../assets/js/navbar.js" defer></script>
+</body>
 </html>
 

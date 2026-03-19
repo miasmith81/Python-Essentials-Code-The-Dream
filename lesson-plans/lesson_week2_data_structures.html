@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&family=Orbitron:wght@700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/navbar.css">
     <style>
         :root {
             --bg-dark: #0a0e27;
@@ -500,6 +501,25 @@
         <h1>🗂️ Data Structures & File Handling</h1>
         <p class="subtitle">Master Python's Core Data Types and I/O Operations</p>
         <span class="week-badge">WEEK 2</span>
+        <!-- Quick Access Toolbar for Presentation Mode -->
+        <div class="quick-access-toolbar" style="display: flex; gap: 0.75rem; justify-content: center; margin-top: 1rem; flex-wrap: wrap;">
+            <a href="../notebook-sessions/week2/session1_data_structures.ipynb" download class="quick-btn" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: rgba(0, 240, 255, 0.15); border: 1px solid var(--accent-cyan); border-radius: 8px; color: var(--accent-cyan); text-decoration: none; font-size: 0.85rem; transition: all 0.3s ease;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                Solo Notebook
+            </a>
+            <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week2/session1_data_structures.ipynb" target="_blank" class="quick-btn" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: rgba(249, 171, 0, 0.15); border: 1px solid #f9ab00; border-radius: 8px; color: #f9ab00; text-decoration: none; font-size: 0.85rem; transition: all 0.3s ease;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                Run in Colab
+            </a>
+            <a href="../notebook-sessions/week2/session2_data_structures_group.ipynb" download class="quick-btn" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: rgba(255, 0, 255, 0.15); border: 1px solid var(--accent-magenta); border-radius: 8px; color: var(--accent-magenta); text-decoration: none; font-size: 0.85rem; transition: all 0.3s ease;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                Group Notebook
+            </a>
+            <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week2/session2_data_structures_group.ipynb" target="_blank" class="quick-btn" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: linear-gradient(135deg, rgba(255, 0, 255, 0.15), rgba(249, 171, 0, 0.15)); border: 1px solid; border-image: linear-gradient(135deg, var(--accent-magenta), #f9ab00) 1; border-radius: 8px; color: #ffaaff; text-decoration: none; font-size: 0.85rem; transition: all 0.3s ease;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                Group Colab
+            </a>
+        </div>
     </header>
 
     <div class="container">
@@ -642,6 +662,33 @@ removed = fruits.pop()     <span class="comment"># Remove and return last item</
                     <p>Open <code>notebook-sessions/week2/session1_data_structures.ipynb</code> and implement the to‑do list manager with your own tasks.</p>
                 </div>
 
+                <div style="background: rgba(0, 255, 65, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-green); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-green); margin-bottom: 1rem; font-size: 1.1rem;">🏋️ Exercise: Shopping Cart</div>
+                    <p><strong>Build a shopping cart system:</strong></p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Create an empty cart list</li>
+                        <li>Add 5 items using <code>.append()</code></li>
+                        <li>Insert a "priority" item at index 0</li>
+                        <li>Remove 2 items using <code>.remove()</code> and <code>.pop()</code></li>
+                        <li>Print the final cart and its length</li>
+                    </ul>
+                    <p style="margin-top: 1rem;"><strong>Bonus:</strong> Store items as (name, price) tuples and calculate total!</p>
+                </div>
+
+                <div style="background: rgba(255, 0, 255, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-magenta); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-magenta); margin-bottom: 1rem; font-size: 1.1rem;">🌟 Challenge: Grade Book Statistics</div>
+                    <p><strong>Create a grade tracking system:</strong></p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Store grades: <code>[85, 92, 78, 95, 88, 76, 91]</code></li>
+                        <li>Calculate: average, highest, lowest grades</li>
+                        <li>Count passing grades (>= 70)</li>
+                        <li>Create letter grades list (A/B/C/D/F)</li>
+                    </ul>
+<pre style="background: var(--bg-dark); padding: 1rem; border-radius: 4px; margin-top: 1rem;"><code><span class="comment"># Hint: Use list comprehensions!</span>
+passing = [g <span class="keyword">for</span> g <span class="keyword">in</span> grades <span class="keyword">if</span> g >= <span class="number">70</span>]
+</code></pre>
+                </div>
+
                 <div class="explanation-box">
                     <div class="explanation-title">� List Indexing: Zero-Based and Negative</div>
                     <p><strong>Zero-based indexing:</strong> The first item is at index <code>0</code>, the second at <code>1</code>, etc. This is standard in most programming languages.</p>
@@ -761,6 +808,36 @@ removed = person.pop(<span class="string">'city'</span>)     <span class="commen
                 <div class="explanation-box info" data-notebook="week2-session1">
                     <div class="explanation-title">📓 Practice in Notebook</div>
                     <p>Open <code>notebook-sessions/week2/session1_data_structures.ipynb</code> and implement the contact book with at least 5 entries.</p>
+                </div>
+
+                <div style="background: rgba(0, 255, 65, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-green); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-green); margin-bottom: 1rem; font-size: 1.1rem;">🏋️ Exercise: Student Database</div>
+                    <p><strong>Build a student records system:</strong></p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Create a dictionary with student IDs as keys</li>
+                        <li>Each value should be another dictionary with name, grade, and major</li>
+                        <li>Add 3 students, update one grade, and safely lookup a non-existent ID</li>
+                    </ul>
+<pre style="background: var(--bg-dark); padding: 1rem; border-radius: 4px; margin-top: 1rem;"><code>students = {
+    <span class="number">101</span>: {<span class="string">'name'</span>: <span class="string">'Alice'</span>, <span class="string">'grade'</span>: <span class="number">92</span>, <span class="string">'major'</span>: <span class="string">'CS'</span>},
+    <span class="comment"># Add more students...</span>
+}
+</code></pre>
+                </div>
+
+                <div style="background: rgba(255, 0, 255, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-magenta); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-magenta); margin-bottom: 1rem; font-size: 1.1rem;">🌟 Challenge: Word Frequency Counter</div>
+                    <p><strong>Count word occurrences in a sentence:</strong></p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Take a sentence and split it into words</li>
+                        <li>Count how many times each word appears</li>
+                        <li>Find the most common word</li>
+                    </ul>
+<pre style="background: var(--bg-dark); padding: 1rem; border-radius: 4px; margin-top: 1rem;"><code>text = <span class="string">"the quick brown fox jumps over the lazy dog the fox"</span>
+word_count = {}
+<span class="keyword">for</span> word <span class="keyword">in</span> text.split():
+    word_count[word] = word_count.get(word, <span class="number">0</span>) + <span class="number">1</span>
+</code></pre>
                 </div>
 
                 <div class="explanation-box">
@@ -1309,6 +1386,34 @@ config = load_config(<span class="string">'config.json'</span>, {<span class="st
                     <p><strong>✓ Mind the newline parameter:</strong> Use <code>newline=''</code> when opening CSV files in write mode to avoid blank lines.</p>
                 </div>
 
+                <div style="background: rgba(0, 255, 65, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-green); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-green); margin-bottom: 1rem; font-size: 1.1rem;">🏋️ Exercise: Journal Logger</div>
+                    <p><strong>Create a simple journal application:</strong></p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Create a function <code>add_entry(message)</code> that appends a timestamped entry to journal.txt</li>
+                        <li>Create a function <code>read_journal()</code> that displays all entries</li>
+                        <li>Format: <code>[2024-03-15 14:30:00] Your message here</code></li>
+                        <li>Handle the case where the journal file doesn't exist yet</li>
+                    </ul>
+                </div>
+
+                <div style="background: rgba(255, 0, 255, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-magenta); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-magenta); margin-bottom: 1rem; font-size: 1.1rem;">🌟 Challenge: CSV Data Processor</div>
+                    <p><strong>Build a sales report processor:</strong></p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Create a CSV file with columns: date, product, quantity, price</li>
+                        <li>Read the CSV and calculate total revenue (quantity × price)</li>
+                        <li>Find the best-selling product by quantity</li>
+                        <li>Write a summary report to a new CSV file</li>
+                    </ul>
+<pre style="background: var(--bg-dark); padding: 1rem; border-radius: 4px; margin-top: 1rem;"><code><span class="comment"># Sample data structure</span>
+sales = [
+    {<span class="string">'date'</span>: <span class="string">'2024-01-15'</span>, <span class="string">'product'</span>: <span class="string">'Widget'</span>, <span class="string">'qty'</span>: <span class="number">10</span>, <span class="string">'price'</span>: <span class="number">9.99</span>},
+    <span class="comment"># Add more rows...</span>
+]
+</code></pre>
+                </div>
+
                 <div class="explanation-box warning">
                     <div class="explanation-title">⚠️ Common File Handling Mistakes</div>
                     <p><strong>Forgetting to close files:</strong> Without <code>with</code>, you must manually call <code>file.close()</code>. Easy to forget!</p>
@@ -1786,5 +1891,6 @@ set1 - set2                       <span class="comment"># Difference</span>
             btn.disabled = true;
         }
     </script>
+    <script src="../assets/js/navbar.js" defer></script>
 </body>
 </html>

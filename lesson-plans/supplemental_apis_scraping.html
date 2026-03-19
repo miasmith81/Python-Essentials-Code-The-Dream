@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&family=Orbitron:wght@700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/navbar.css">
     <style>
         /* ═══════════════════════════════════════════════════════════════════
            CSS CUSTOM PROPERTIES (Variables) - CONSISTENT WITH PREVIOUS WEEKS
@@ -464,6 +465,45 @@ url = <span class="string">'https://jsonplaceholder.typicode.com/posts/1'</span>
                     </div>
                 </div>
 
+                <div style="background: rgba(0, 255, 65, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-green); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-green); margin-bottom: 1rem; font-size: 1.1rem;">🏋️ Exercise: API Explorer</div>
+                    <p><strong>Description:</strong> Make GET requests to JSONPlaceholder, a free fake API for testing.</p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Use <code>requests.get()</code> to fetch data from <code>https://jsonplaceholder.typicode.com/posts</code></li>
+                        <li>Print the first 3 posts with their titles and body text</li>
+                        <li>Fetch a single user from <code>/users/1</code> and display their name, email, and company</li>
+                        <li>Use <code>raise_for_status()</code> to handle potential errors</li>
+                        <li>Add a timeout of 5 seconds to your requests</li>
+                    </ul>
+                    <p style="margin-top: 1rem; color: var(--accent-cyan);"><strong>Bonus:</strong> Use query parameters to filter posts by userId: <code>params={'userId': 1}</code></p>
+                </div>
+
+                <div style="background: rgba(0, 255, 65, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-green); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-green); margin-bottom: 1rem; font-size: 1.1rem;">🏋️ Exercise: Weather Data Parser</div>
+                    <p><strong>Description:</strong> Parse nested JSON responses from a weather-like API structure.</p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Create a sample nested JSON structure simulating weather data with <code>location</code>, <code>current</code>, and <code>forecast</code> keys</li>
+                        <li>Extract the current temperature and weather condition from the nested structure</li>
+                        <li>Loop through a 5-day forecast array and print each day's high and low temperatures</li>
+                        <li>Handle missing keys gracefully using <code>.get()</code> with default values</li>
+                        <li>Convert the parsed data into a Pandas DataFrame</li>
+                    </ul>
+                    <p style="margin-top: 1rem; color: var(--accent-cyan);"><strong>Bonus:</strong> Use <code>json.dumps(data, indent=2)</code> to pretty-print JSON for debugging.</p>
+                </div>
+
+                <div style="background: rgba(0, 255, 65, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-green); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-green); margin-bottom: 1rem; font-size: 1.1rem;">🏋️ Exercise: GitHub API</div>
+                    <p><strong>Description:</strong> Work with authenticated API requests using the GitHub API.</p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Create a personal access token on GitHub (Settings → Developer Settings → Tokens)</li>
+                        <li>Store the token in an environment variable (<code>os.getenv('GITHUB_TOKEN')</code>)</li>
+                        <li>Make an authenticated request to <code>https://api.github.com/user</code> using the <code>Authorization</code> header</li>
+                        <li>Fetch your public repositories and display their names and star counts</li>
+                        <li>Handle 401 (unauthorized) and 403 (rate limit) errors appropriately</li>
+                    </ul>
+                    <p style="margin-top: 1rem; color: var(--accent-cyan);"><strong>Bonus:</strong> Check remaining rate limits using <code>response.headers['X-RateLimit-Remaining']</code>.</p>
+                </div>
+
                 <div class="warning-box">
                     <div class="warning-title">⚠️ Common Pitfalls: APIs</div>
                     <ul>
@@ -543,6 +583,26 @@ link = soup.find(<span class="string">'a'</span>)[<span class="string">'href'</s
 <span class="keyword">print</span>(<span class="string">f"Title: {title}"</span>)
 <span class="keyword">print</span>(<span class="string">f"Headline: {headline}"</span>)
 </code></pre>
+                </div>
+
+                <div style="background: rgba(255, 0, 255, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-magenta); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-magenta); margin-bottom: 1rem; font-size: 1.1rem;">🚀 Challenge: News Headlines Scraper</div>
+                    <p><strong>Description:</strong> Build a BeautifulSoup scraper to extract headlines from a practice news site.</p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Target <code>https://quotes.toscrape.com</code> (a safe practice scraping site)</li>
+                        <li>Extract all quotes, their authors, and associated tags from the homepage</li>
+                        <li>Use <code>find_all()</code> to locate all quote containers</li>
+                        <li>Handle missing tags gracefully (check for <code>None</code> before accessing <code>.text</code>)</li>
+                        <li>Store results in a list of dictionaries with keys: <code>quote</code>, <code>author</code>, <code>tags</code></li>
+                        <li>Export the scraped data to a CSV file using Pandas</li>
+                    </ul>
+                    <p style="margin-top: 1rem; color: var(--accent-yellow);"><strong>Advanced Challenge:</strong></p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Implement pagination by finding and following the "Next" button link</li>
+                        <li>Scrape all 10 pages of quotes</li>
+                        <li>Add <code>time.sleep(1)</code> between page requests to be polite</li>
+                        <li>Create a function <code>scrape_page(url)</code> that returns a list of quotes from a single page</li>
+                    </ul>
                 </div>
 
                 <div class="warning-box">
@@ -630,6 +690,39 @@ urls = [<span class="string">'http://site.com/page1'</span>, <span class="string
     <span class="keyword">except</span> Exception <span class="keyword">as</span> e:
         <span class="keyword">print</span>(e)
 </code></pre>
+                </div>
+
+                <div style="background: rgba(0, 255, 65, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-green); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-green); margin-bottom: 1rem; font-size: 1.1rem;">🏋️ Exercise: Robust API Client</div>
+                    <p><strong>Description:</strong> Build a production-ready API client that handles errors, timeouts, and rate limits gracefully.</p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Create a function <code>fetch_with_retry(url, max_retries=3)</code> that retries failed requests</li>
+                        <li>Implement exponential backoff: wait 1s, 2s, 4s between retries</li>
+                        <li>Handle specific HTTP status codes:
+                            <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                                <li><code>429 Too Many Requests</code>: Wait and retry based on <code>Retry-After</code> header</li>
+                                <li><code>500-503 Server Errors</code>: Retry with backoff</li>
+                                <li><code>401/403 Auth Errors</code>: Log error and don't retry</li>
+                            </ul>
+                        </li>
+                        <li>Add timeout handling with <code>timeout=10</code> seconds</li>
+                        <li>Log all attempts and failures for debugging</li>
+                    </ul>
+                    <p style="margin-top: 1rem; color: var(--accent-cyan);"><strong>Bonus:</strong> Use the <code>tenacity</code> library for advanced retry logic with decorators.</p>
+                </div>
+
+                <div style="background: rgba(255, 0, 255, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-magenta); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-magenta); margin-bottom: 1rem; font-size: 1.1rem;">🚀 Challenge: Rate-Limited Data Pipeline</div>
+                    <p><strong>Description:</strong> Create a complete data pipeline that respects API rate limits.</p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Build a pipeline that fetches 100 posts from JSONPlaceholder API</li>
+                        <li>Implement a rate limiter: maximum 10 requests per minute</li>
+                        <li>Use <code>requests.Session()</code> for connection pooling</li>
+                        <li>Add logging to track request timing and any errors</li>
+                        <li>Save progress to a checkpoint file so you can resume if interrupted</li>
+                        <li>Export final results to both JSON and CSV formats</li>
+                    </ul>
+                    <p style="margin-top: 1rem; color: var(--accent-yellow);"><strong>Advanced:</strong> Use <code>asyncio</code> with <code>aiohttp</code> for concurrent requests while still respecting rate limits.</p>
                 </div>
 
                 <div class="warning-box">
@@ -843,5 +936,6 @@ href = el[<span class="string">'href'</span>]           <span class="comment"># 
         console.log('🌐 Week 7: APIs & Scraping Loaded!');
     </script>
 
-    </body>
+        <script src="../assets/js/navbar.js" defer></script>
+</body>
 </html>

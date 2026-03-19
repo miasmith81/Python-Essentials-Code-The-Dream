@@ -83,11 +83,12 @@ We're proud to collaborate with organizations that share our commitment to creat
 Each week features a **beautifully designed, interactive HTML lesson** with:
 
 - **Retro Gaming Aesthetic** - Dark theme with cyberpunk-inspired design  
+- **Glassmorphic Navbar** - Sticky navigation with frosted glass effect and dropdown menus  
 - **Live Progress Tracking** - Visual XP bar and topic completion markers  
 - **Syntax-Highlighted Code** - Color-coded examples with skill level badges  
 - **Progressive Examples** - From bad practice → novice → intermediate → best practice  
 - **Responsive Design** - Works seamlessly on desktop, tablet, and mobile  
-- **Smart Navigation** - Sidebar with instant topic jumping  
+- **Smart Navigation** - Global navbar + sidebar with instant topic jumping  
 - **Educational Boxes** - Tips, warnings, explanations, and best practices  
 
 **Access Lessons**: Open any `.html` file in the `lesson-plans/` directory in your web browser.
@@ -199,58 +200,60 @@ jupyter notebook
 ## 📁 Repository Structure
 
 ```
-CTD/
-├── lesson-plans/                    # Interactive HTML lessons (NEW!)
+Python-Essentials-Code-The-Dream/
+├── index.html                       # Main curriculum hub with progress tracking
+│
+├── lesson-plans/                    # Interactive HTML lessons
 │   ├── lesson_week1_intro_python.html
-│   ├── lesson_week2_data_structures.html  ← NEW: Complete with all sections
-│   ├── lesson_week3_python_skills.html    ← RENAMED for consistency
+│   ├── lesson_week2_data_structures.html
+│   ├── lesson_week3_python_skills.html
 │   ├── lesson_week4_data_engineering.html
-│   ├── lesson_week5_data_visualization.html
-│   ├── lesson_week6_sql_databases.html
-│   ├── lesson_week7_apis_scraping.html
-│   ├── lesson_week8_advanced_pandas.html
+│   ├── lesson_week5_data_wrangling.html
+│   ├── lesson_week6_data_cleaning.html
+│   ├── lesson_week7_advanced_cleaning.html
+│   ├── lesson_week8_databases_sql.html
 │   ├── lesson_week9_intro_ml.html
 │   ├── lesson_week10_flask_web.html
-│   └── lesson_week11_deployment.html
+│   ├── lesson_week11_deployment.html
+│   └── supplemental_*.html          # 4 supplemental topic lessons
+│
+├── notebook-sessions/               # Jupyter notebooks organized by week
+│   ├── week1/ ... week11/           # Session notebooks + group exercises
+│   └── week*/week*_data/            # Supporting data files
 │
 ├── python-essentials-v2/            # Core curriculum materials
-│   ├── lessons/                     # Markdown lesson content
-│   │   ├── 01IntroToPython.md
-│   │   ├── 02DataStructuresAndFileHandling.md
-│   │   └── ...
-│   │
+│   ├── lessons/                     # Markdown lesson content (11 weeks)
 │   ├── assignments/                 # Weekly homework with test suites
-│   │   ├── 01IntroToPython.md
-│   │   ├── 02DataStructuresAndFileHandling.md
-│   │   └── ...
-│   │
-│   ├── sessions/                    # Jupyter notebooks for live sessions
-│   │   ├── week1/
-│   │   │   ├── session1_intro_to_python.ipynb
-│   │   │   └── session2_intro_to_python_group.ipynb
-│   │   └── ...
-│   │
-│   ├── instructor-materials/        # Teaching guides and solutions
-│   │   ├── week1_instructor.md
-│   │   └── ...
-│   │
 │   ├── instructor_guides/           # Detailed facilitation notes
-│   │   ├── week1_instructor_guide.md
-│   │   └── ...
-│   │
-│   └── mentor-guidebook/            # 1:1 mentorship resources
-│       ├── assignment-solution-examples/
-│       ├── group-lesson-guide/
-│       └── README.md
+│   ├── instructor-materials/        # Teaching guides and solutions
+│   ├── mentor-guidebook/            # 1:1 mentorship resources
+│   └── learning-objectives/         # Weekly learning goals
 │
-├── .gitignore                       # Python project ignore rules
-├── fix_notebooks.py                 # Notebook maintenance utility
-├── validate_notebooks.py            # Notebook validation script
-├── test.py                          # Testing utilities
-├── assets/                          # Shared styles, scripts, and brand assets
-│   ├── css/branding.css             # Branding styles (non-conflicting classes)
-│   ├── js/branding.js               # Branding module (footer, favicon, A/B)
+├── assets/                          # Shared styles, scripts, and branding
+│   ├── css/
+│   │   ├── curriculum.css           # Base theme and components
+│   │   ├── branding.css             # StrayDog branding styles
+│   │   └── navbar.css               # Glassmorphic sticky navbar
+│   ├── js/
+│   │   ├── navigation.js            # Section navigation
+│   │   ├── progress.js              # Reading progress indicator
+│   │   ├── code-runner.js           # Interactive code examples
+│   │   ├── branding.js              # Branding module
+│   │   └── navbar.js                # Global navigation component
 │   └── brands/                      # StrayDog logos and favicon
+│
+├── scripts/                         # Maintenance and automation scripts
+│   ├── fix_notebooks.py             # Notebook maintenance utility
+│   ├── validate_notebooks.py        # Notebook validation
+│   └── apply_branding_to_lessons.py # Branding automation
+│
+├── docs/                            # Project documentation
+│   ├── START_HERE.md                # Quick start guide
+│   ├── AGENTS_SYSTEM_GUIDE.md       # AI agent workflow guide
+│   └── *.md                         # Additional guides and summaries
+│
+├── CONTRIBUTING.md                  # Contribution guidelines
+├── LICENSE                          # MIT License
 └── README.md                        # This file
 ```
 
@@ -511,17 +514,5 @@ Specially enhanced for the **Returned Citizen community** and **[Code the Dream]
 *In collaboration with like-minded affiliates*
 
 [⬆ Back to Top](#-python-essentials---interactive-curriculum)
-
-</div>
-
-<div align="center">
-
-**Enhanced curriculum for the Returned Citizen community by StrayDog Syndications LLC**
-
-*Especially for Code the Dream students*
-
-**Bridging the Digital Cliff through accessible, career-aligned education**
-
-[⬆ Back to Top](#-python-essentials---interactive-curriculum-for-code-the-dream)
 
 </div>

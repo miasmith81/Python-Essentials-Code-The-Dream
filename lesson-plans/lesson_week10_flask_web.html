@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&family=Orbitron:wght@700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/navbar.css">
     <style>
         /* ═══════════════════════════════════════════════════════════════════
            CSS CUSTOM PROPERTIES (Variables) - CONSISTENT THEME
@@ -235,6 +236,25 @@
         <h1>🌶️ Flask Web Development</h1>
         <p class="subtitle">Building Modern Web Apps with Python</p>
         <span class="week-badge">WEEK 10</span>
+        <!-- Quick Access Toolbar for Presentation Mode -->
+        <div class="quick-access-toolbar" style="display: flex; gap: 0.75rem; justify-content: center; margin-top: 1rem; flex-wrap: wrap;">
+            <a href="../notebook-sessions/week10/session1_flask_web.ipynb" download class="quick-btn" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: rgba(0, 240, 255, 0.15); border: 1px solid var(--accent-cyan); border-radius: 8px; color: var(--accent-cyan); text-decoration: none; font-size: 0.85rem; transition: all 0.3s ease;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                Solo Notebook
+            </a>
+            <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week10/session1_flask_web.ipynb" target="_blank" class="quick-btn" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: rgba(249, 171, 0, 0.15); border: 1px solid #f9ab00; border-radius: 8px; color: #f9ab00; text-decoration: none; font-size: 0.85rem; transition: all 0.3s ease;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                Run in Colab
+            </a>
+            <a href="../notebook-sessions/week10/session2_flask_web_group.ipynb" download class="quick-btn" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: rgba(0, 255, 65, 0.15); border: 1px solid var(--accent-green); border-radius: 8px; color: var(--accent-green); text-decoration: none; font-size: 0.85rem; transition: all 0.3s ease;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                Group Notebook
+            </a>
+            <a href="https://colab.research.google.com/github/StrayDogSyn/Python-Essentials-Code-The-Dream/blob/main/notebook-sessions/week10/session2_flask_web_group.ipynb" target="_blank" class="quick-btn" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: rgba(255, 0, 255, 0.15); border: 1px solid var(--accent-magenta); border-radius: 8px; color: var(--accent-magenta); text-decoration: none; font-size: 0.85rem; transition: all 0.3s ease;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                Group Colab
+            </a>
+        </div>
     </header>
 
     <div class="container">
@@ -418,6 +438,35 @@ app = Flask(__name__)
                     </div>
                 </div>
 
+                <!-- EXERCISE: Multi-Page Website -->
+                <div style="background: rgba(0, 255, 65, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-green); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-green); margin-bottom: 1rem; font-size: 1.1rem;">🏋️ Exercise: Multi-Page Website</div>
+                    <p><strong>Description:</strong> Create a Flask application with multiple interconnected pages.</p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Create a route for the <strong>Home page</strong> (<code>/</code>) that displays a welcome message</li>
+                        <li>Create a route for the <strong>About page</strong> (<code>/about</code>) with information about your site</li>
+                        <li>Create a route for the <strong>Contact page</strong> (<code>/contact</code>) with contact details</li>
+                        <li>Add navigation links between all pages</li>
+                        <li>Use type converters for a <strong>User Profile page</strong> (<code>/user/&lt;int:user_id&gt;</code>)</li>
+                        <li><strong>Bonus:</strong> Add a dynamic <code>/products/&lt;category&gt;</code> route that displays different products based on category</li>
+                    </ul>
+                    <div style="background: var(--bg-dark); padding: 1rem; border-radius: 4px; margin-top: 1rem;">
+<pre><code><span class="comment"># Starter Code</span>
+<span class="keyword">from</span> flask <span class="keyword">import</span> Flask
+
+app = Flask(__name__)
+
+@app.route(<span class="string">'/'</span>)
+<span class="keyword">def</span> <span class="function">home</span>():
+    <span class="keyword">return</span> <span class="string">"Welcome to my website!"</span>
+
+<span class="comment"># TODO: Add /about, /contact, /user/<int:user_id> routes</span>
+
+<span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:
+    app.run(debug=<span class="keyword">True</span>)</code></pre>
+                    </div>
+                </div>
+
                 <button class="nav-btn complete-btn" data-topic="routes">Mark Topic Complete ✓</button>
                 <div class="nav-buttons">
                     <button class="nav-btn prev" onclick="navigateToSection('intro')">◀ Prev: Intro</button>
@@ -468,6 +517,78 @@ app = Flask(__name__)
 </code></pre>
                 </div>
 
+                <!-- EXERCISE: Dynamic Blog -->
+                <div style="background: rgba(0, 255, 65, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-green); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-green); margin-bottom: 1rem; font-size: 1.1rem;">🏋️ Exercise: Dynamic Blog</div>
+                    <p><strong>Description:</strong> Build a blog page using Jinja2 templates with loops and conditionals.</p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Create a <code>templates/blog.html</code> template</li>
+                        <li>Use a <strong>for loop</strong> (<code>{% for post in posts %}</code>) to display multiple blog posts</li>
+                        <li>Use <strong>conditionals</strong> (<code>{% if post.featured %}</code>) to highlight featured posts</li>
+                        <li>Display post title, author, date, and content using <code>{{ variable }}</code> syntax</li>
+                        <li>Use template <strong>inheritance</strong> with a <code>base.html</code> layout</li>
+                        <li><strong>Bonus:</strong> Add a filter (<code>{{ post.content | truncate(100) }}</code>) to show post previews</li>
+                    </ul>
+                    <div style="background: var(--bg-dark); padding: 1rem; border-radius: 4px; margin-top: 1rem;">
+<pre><code><span class="comment">&lt;!-- templates/blog.html --&gt;</span>
+<span class="comment">{% extends 'base.html' %}</span>
+
+<span class="comment">{% block content %}</span>
+&lt;h1&gt;Blog Posts&lt;/h1&gt;
+
+<span class="comment">{% for post in posts %}</span>
+    &lt;article class="<span class="comment">{% if post.featured %}</span>featured<span class="comment">{% endif %}</span>"&gt;
+        &lt;h2&gt;{{ post.title }}&lt;/h2&gt;
+        &lt;p&gt;By {{ post.author }} on {{ post.date }}&lt;/p&gt;
+        &lt;p&gt;{{ post.content | truncate(150) }}&lt;/p&gt;
+    &lt;/article&gt;
+<span class="comment">{% else %}</span>
+    &lt;p&gt;No posts available.&lt;/p&gt;
+<span class="comment">{% endfor %}</span>
+<span class="comment">{% endblock %}</span></code></pre>
+                    </div>
+                </div>
+
+                <!-- EXERCISE: User Registration Form -->
+                <div style="background: rgba(0, 255, 65, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-green); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-green); margin-bottom: 1rem; font-size: 1.1rem;">🏋️ Exercise: User Registration</div>
+                    <p><strong>Description:</strong> Build a user registration form with server-side validation.</p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Create an HTML form with fields: <strong>username</strong>, <strong>email</strong>, <strong>password</strong>, <strong>confirm password</strong></li>
+                        <li>Handle both <code>GET</code> (display form) and <code>POST</code> (process form) methods</li>
+                        <li>Validate that username is at least 3 characters</li>
+                        <li>Validate email format using basic checks or regex</li>
+                        <li>Ensure password and confirm password match</li>
+                        <li>Display error messages on the form if validation fails</li>
+                        <li><strong>Bonus:</strong> Add CSRF protection using Flask-WTF</li>
+                    </ul>
+                    <div style="background: var(--bg-dark); padding: 1rem; border-radius: 4px; margin-top: 1rem;">
+<pre><code><span class="keyword">from</span> flask <span class="keyword">import</span> Flask, render_template, request, flash, redirect
+
+app = Flask(__name__)
+app.secret_key = <span class="string">'your-secret-key'</span>
+
+@app.route(<span class="string">'/register'</span>, methods=[<span class="string">'GET'</span>, <span class="string">'POST'</span>])
+<span class="keyword">def</span> <span class="function">register</span>():
+    <span class="keyword">if</span> request.method == <span class="string">'POST'</span>:
+        username = request.form[<span class="string">'username'</span>]
+        email = request.form[<span class="string">'email'</span>]
+        password = request.form[<span class="string">'password'</span>]
+        confirm = request.form[<span class="string">'confirm'</span>]
+        
+        <span class="comment"># TODO: Add validation logic</span>
+        <span class="keyword">if</span> len(username) < <span class="number">3</span>:
+            flash(<span class="string">'Username must be at least 3 characters'</span>, <span class="string">'error'</span>)
+        <span class="keyword">elif</span> password != confirm:
+            flash(<span class="string">'Passwords do not match'</span>, <span class="string">'error'</span>)
+        <span class="keyword">else</span>:
+            flash(<span class="string">'Registration successful!'</span>, <span class="string">'success'</span>)
+            <span class="keyword">return</span> redirect(<span class="string">'/login'</span>)
+    
+    <span class="keyword">return</span> render_template(<span class="string">'register.html'</span>)</code></pre>
+                    </div>
+                </div>
+
                 <button class="nav-btn complete-btn" data-topic="templates">Mark Topic Complete ✓</button>
                 <div class="nav-buttons">
                     <button class="nav-btn prev" onclick="navigateToSection('routes')">◀ Prev: Routes</button>
@@ -499,6 +620,49 @@ app = Flask(__name__)
     data = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]
     <span class="keyword">return</span> jsonify({<span class="string">'status'</span>: <span class="string">'ok'</span>, <span class="string">'data'</span>: data})
 </code></pre>
+                </div>
+
+                <!-- CHALLENGE: REST API -->
+                <div style="background: rgba(255, 0, 255, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-magenta); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-magenta); margin-bottom: 1rem; font-size: 1.1rem;">🚀 Challenge: REST API</div>
+                    <p><strong>Description:</strong> Create a complete RESTful API for managing a resource (e.g., books, tasks, or products).</p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li><strong>GET /api/items</strong> - Return a list of all items as JSON</li>
+                        <li><strong>GET /api/items/&lt;int:id&gt;</strong> - Return a single item by ID (404 if not found)</li>
+                        <li><strong>POST /api/items</strong> - Create a new item from JSON body, return 201 status</li>
+                        <li><strong>PUT /api/items/&lt;int:id&gt;</strong> - Update an existing item completely</li>
+                        <li><strong>PATCH /api/items/&lt;int:id&gt;</strong> - Partially update an item</li>
+                        <li><strong>DELETE /api/items/&lt;int:id&gt;</strong> - Delete an item, return 204 No Content</li>
+                        <li>Use proper HTTP status codes (200, 201, 204, 400, 404)</li>
+                        <li><strong>Bonus:</strong> Add pagination for the GET all endpoint</li>
+                    </ul>
+                    <div style="background: var(--bg-dark); padding: 1rem; border-radius: 4px; margin-top: 1rem;">
+<pre><code><span class="keyword">from</span> flask <span class="keyword">import</span> Flask, jsonify, request, abort
+
+app = Flask(__name__)
+
+<span class="comment"># In-memory storage</span>
+items = [
+    {<span class="string">'id'</span>: <span class="number">1</span>, <span class="string">'name'</span>: <span class="string">'Item One'</span>, <span class="string">'price'</span>: <span class="number">19.99</span>},
+    {<span class="string">'id'</span>: <span class="number">2</span>, <span class="string">'name'</span>: <span class="string">'Item Two'</span>, <span class="string">'price'</span>: <span class="number">29.99</span>},
+]
+next_id = <span class="number">3</span>
+
+<span class="comment"># GET all items</span>
+@app.route(<span class="string">'/api/items'</span>, methods=[<span class="string">'GET'</span>])
+<span class="keyword">def</span> <span class="function">get_items</span>():
+    <span class="keyword">return</span> jsonify({<span class="string">'items'</span>: items})
+
+<span class="comment"># GET single item</span>
+@app.route(<span class="string">'/api/items/&lt;int:item_id&gt;'</span>, methods=[<span class="string">'GET'</span>])
+<span class="keyword">def</span> <span class="function">get_item</span>(item_id):
+    item = next((i <span class="keyword">for</span> i <span class="keyword">in</span> items <span class="keyword">if</span> i[<span class="string">'id'</span>] == item_id), <span class="keyword">None</span>)
+    <span class="keyword">if</span> item <span class="keyword">is</span> <span class="keyword">None</span>:
+        abort(<span class="number">404</span>)
+    <span class="keyword">return</span> jsonify(item)
+
+<span class="comment"># TODO: Implement POST, PUT, PATCH, DELETE</span></code></pre>
+                    </div>
                 </div>
 
                 <button class="nav-btn complete-btn" data-topic="api">Mark Topic Complete ✓</button>
@@ -557,6 +721,59 @@ app = Flask(__name__)
 <span class="comment"># All routes in auth_bp will be prefixed with /auth</span>
 app.register_blueprint(auth_bp, url_prefix=<span class="string">'/auth'</span>)
 </code></pre>
+                </div>
+
+                <!-- EXERCISE: Flask-SQLAlchemy CRUD -->
+                <div style="background: rgba(0, 255, 65, 0.1); padding: 1.5rem; border-left: 4px solid var(--accent-green); margin: 2rem 0; border-radius: 8px;">
+                    <div style="font-weight: 700; color: var(--accent-green); margin-bottom: 1rem; font-size: 1.1rem;">🏋️ Exercise: Flask-SQLAlchemy CRUD</div>
+                    <p><strong>Description:</strong> Connect your Flask app to a SQLite database and implement CRUD operations.</p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Install Flask-SQLAlchemy: <code>pip install flask-sqlalchemy</code></li>
+                        <li>Configure SQLite database connection in your app</li>
+                        <li>Create a <strong>Model</strong> class (e.g., <code>Task</code> or <code>User</code>) with columns</li>
+                        <li>Implement <strong>Create</strong>: Add new records to the database</li>
+                        <li>Implement <strong>Read</strong>: Query and display all records</li>
+                        <li>Implement <strong>Update</strong>: Modify existing records</li>
+                        <li>Implement <strong>Delete</strong>: Remove records from the database</li>
+                        <li><strong>Bonus:</strong> Add a search/filter feature using query parameters</li>
+                    </ul>
+                    <div style="background: var(--bg-dark); padding: 1rem; border-radius: 4px; margin-top: 1rem;">
+<pre><code><span class="keyword">from</span> flask <span class="keyword">import</span> Flask
+<span class="keyword">from</span> flask_sqlalchemy <span class="keyword">import</span> SQLAlchemy
+
+app = Flask(__name__)
+app.config[<span class="string">'SQLALCHEMY_DATABASE_URI'</span>] = <span class="string">'sqlite:///tasks.db'</span>
+db = SQLAlchemy(app)
+
+<span class="comment"># Define a Model</span>
+<span class="keyword">class</span> <span class="class-name">Task</span>(db.Model):
+    id = db.Column(db.Integer, primary_key=<span class="keyword">True</span>)
+    title = db.Column(db.String(<span class="number">100</span>), nullable=<span class="keyword">False</span>)
+    completed = db.Column(db.Boolean, default=<span class="keyword">False</span>)
+    
+    <span class="keyword">def</span> <span class="function">to_dict</span>(self):
+        <span class="keyword">return</span> {<span class="string">'id'</span>: self.id, <span class="string">'title'</span>: self.title, <span class="string">'completed'</span>: self.completed}
+
+<span class="comment"># Create tables</span>
+<span class="keyword">with</span> app.app_context():
+    db.create_all()
+
+<span class="comment"># CRUD Operations</span>
+@app.route(<span class="string">'/tasks'</span>, methods=[<span class="string">'GET'</span>])
+<span class="keyword">def</span> <span class="function">get_tasks</span>():
+    tasks = Task.query.all()
+    <span class="keyword">return</span> jsonify([task.to_dict() <span class="keyword">for</span> task <span class="keyword">in</span> tasks])
+
+@app.route(<span class="string">'/tasks'</span>, methods=[<span class="string">'POST'</span>])
+<span class="keyword">def</span> <span class="function">create_task</span>():
+    data = request.get_json()
+    task = Task(title=data[<span class="string">'title'</span>])
+    db.session.add(task)
+    db.session.commit()
+    <span class="keyword">return</span> jsonify(task.to_dict()), <span class="number">201</span>
+
+<span class="comment"># TODO: Implement GET by ID, PUT/PATCH, DELETE</span></code></pre>
+                    </div>
                 </div>
 
                 <button class="nav-btn complete-btn" data-topic="structure">Mark Topic Complete ✓</button>
@@ -734,5 +951,6 @@ json = request.get_json()      <span class="comment"># JSON body</span>
         console.log('🌶️ Week 10: Flask Loaded!');
     </script>
 
-    </body>
+        <script src="../assets/js/navbar.js" defer></script>
+</body>
 </html>
